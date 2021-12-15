@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { updateAppointment } from '../../../actions/appointment'
 import { addTransaction } from '../../../actions/financials'
 
@@ -18,7 +18,6 @@ const AppointmentDetails = ({appointments, userState, user}) => {
     const [remex, setRemex] = useState(appointments?.remex ? (appointments?.remex) : (''))
     const [treatmentPlan, setTreatmentPlan] = useState(appointments?.treatmentPlan ? (appointments?.treatmentPlan) : (''))
     const [paymentType, setPaymentType] = useState(appointments?.paymentType ? (appointments?.paymentType) : (''))
-    const [paid, setPaid] = useState(false)
     const [price, setPrice] = useState(appointments?.price ? (appointments?.price) : (''))
     const [paymentFee, setPaymentFee] = useState(null)
     const [date, setDate] = useState(appointments?.date ? (appointments?.date) : (''))
@@ -38,7 +37,10 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         },
         remex,
         treatmentPlan,
-        price
+        price,
+        date,
+        duration,
+        time
     }
 
     const handleChange = (e) => {
@@ -75,19 +77,6 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         ]
     }
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault()
-    //     if (paymentType !== '') {
-    //         dispatch(addAppointment(params.id, formData))
-    //         // dispatch(addTransaction(user.result._id, financialData))
-    //     } else {
-    //         console.log('no payment fee')
-    //     }
-
-    //     history.push(`/rmt/dashboard/patientprofile/${params.id}`)
-    //     clear()
-    // }
-
     const clear = () => {
         setPaymentType('')
         setFindings('')
@@ -117,7 +106,9 @@ const AppointmentDetails = ({appointments, userState, user}) => {
             </div>
         ) : (
         <div>
-            <h3>{userState?.firstName} {userState?.lastName}</h3>
+            <Link style={{color: 'black'}} to={`/rmt/dashboard/patientprofile/${userState?._id}`} >
+                <h3>{userState?.firstName} {userState?.lastName}</h3>
+            </Link>
             <table className="ui table">
                 <thead>
                     <tr>
@@ -161,14 +152,6 @@ const AppointmentDetails = ({appointments, userState, user}) => {
                                 <option value='debit'>Debit</option>
                                 <option value='cash/etransfer'>Cash/e-transfer</option>
                             </select>
-                            {appointments?.paymentType === '' || 'unpaid' ? (
-                                <div>
-                                    <input type='checkbox' defaultValue={paid} onChange={(e)=>setPaid(e.target.checked)} />
-                                    <label style={{marginLeft: '10px'}}>payment received?</label>
-                                </div>
-                            ) : (
-                                <div></div>
-                            )}
                         </td>
                     </tr>
                 </tbody>

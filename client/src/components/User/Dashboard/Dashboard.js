@@ -4,18 +4,19 @@ import { Link } from 'react-router-dom'
 import { getAppointments } from '../../../actions/appointment'
 import ConfirmAppointment from '../Appointments/ConfirmAppointment'
 
-const Dashboard = ({user}) => {
+const Dashboard = ({user, setUser}) => {
 
     const dispatch = useDispatch()
 
     const [updateState, setUpdateState] = useState(null)
 
+    const appointments = useSelector((state)=>state?.usersReducer?.appointment)
+
     useEffect(() => {
         //get appointment data
         dispatch(getAppointments(user?.result._id))
+        // setUser()
     }, [dispatch, updateState])
-
-    const appointments = useSelector((state)=>state?.usersReducer?.appointment)
 
     return (
         <>

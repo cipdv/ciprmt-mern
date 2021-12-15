@@ -112,6 +112,8 @@ const Auth = () => {
                                     <label>Email</label>
                                     <input name="email" label="Email" type="email" value={values.email} onChange={handleChange} />
                                     {errors?.email && <p className="auth-error">{errors?.email}</p>}
+                                    {/* <input type="checkbox" name="emailReceiptOptIn" value={values.emailReceiptOptIn} onChange={handleChange} />
+                                    <label>Check here to receive your RMT receipts via email</label> */}
                                 </div>
                                 <div>
                                     <label>Password</label>

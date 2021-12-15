@@ -11,14 +11,14 @@ const useForm = (validate) => {
 
     //states
     const [isRegister, setIsRegister] = useState(true)
-    const [goodToGo, setGoodToGo] = useState(false)
 
     const [ values, setValues ] = useState({
         firstName: '', 
         lastName: '', 
         email: '', 
         password: '', 
-        confirmPassword: ''
+        confirmPassword: '',
+        // emailReceiptOptIn: false
     })
 
     const [ errors, setErrors ] = useState({})
@@ -32,7 +32,7 @@ const useForm = (validate) => {
         const { name, value } = e.target
         setValues({
             ...values,
-            [name]: value
+            [name]: value,
         })
     }
 

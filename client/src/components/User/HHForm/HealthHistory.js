@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import HHForm from './HHForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../../actions/healthHistory'
+import RFHHHForm from './RFHHHForm'
 
 const HealthHistory = ({user}) => {
 
@@ -23,7 +24,8 @@ const HealthHistory = ({user}) => {
                 </div>
             ) : (
             <div className="container">
-                <HHForm user={user} userState={userState}/>    
+                {/* <HHForm user={user} userState={userState}/> */}
+                <RFHHHForm userState={userState} />   
             </div>
             )       
         )

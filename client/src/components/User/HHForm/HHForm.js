@@ -4,6 +4,7 @@ import { submitHH } from '../../../actions/healthHistory'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
 import SignatureCanvas from 'react-signature-canvas'
+import HHFormValidation from './HHFormValidation'
 
 
 const HHForm = ({user, userState }) => {
@@ -67,6 +68,9 @@ const HHForm = ({user, userState }) => {
     const [privacyPolicy, setPrivacyPolicy] = useState(false)
     const [signatureConsent, setSignatureConsent] = useState(false)
     const [signature, setSignature] = useState('')
+
+    //errors
+    const [ errors, setErrors ] = useState({})
 
     let sigPad = useRef({})
     // let data = ''
@@ -207,14 +211,24 @@ const HHForm = ({user, userState }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if(user) {
-            dispatch(submitHH(formData))
-            clear() 
-            history.push('/dashboard')
-        }
-        else {
-            clear() 
-            history.push('/dashboard')
+        
+        console.log('form data', formData)
+        console.log('phone number', phoneNumber)
+        HHFormValidation(formData)
+        console.log('errors', errors)
+
+        if(Object.keys(errors).length === 0) {
+            if(user) {
+                console.log('no errors')
+                dispatch(submitHH(formData))
+                clear() 
+                history.push('/dashboard')
+            }
+            else {
+                console.log('there were errors')
+                // clear() 
+                // history.push('/dashboard')
+            }  
         }   
     }
 
@@ -499,7 +513,7 @@ const HHForm = ({user, userState }) => {
                     <>
                         <div>
                             <h4>Signature</h4>
-                            <SignatureCanvas ref={sigPad}  penColor='black' canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} />
+                            <SignatureCanvas ref={sigPad} onEnd={saveSignature}  penColor='black' canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} />
                             <button onClick={clearSignature}>Clear</button>
                             <button onClick={saveSignature}>Save</button>
                         </div>

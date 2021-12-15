@@ -9,6 +9,9 @@ const AppointmentReceipt = ({user}) => {
 
     const appointment = appointmentArray.find(({_id}) => _id === params.id)
 
+    const apptId = appointment._id
+    const receiptNumber = apptId.toUpperCase()
+
     return (
         <div>
             <p style={{textAlign: 'center'}}>
@@ -48,7 +51,7 @@ const AppointmentReceipt = ({user}) => {
                         </tr>
                         <tr>
                             <th>Receipt number:</th>
-                            <td>{appointment._id}</td>
+                            <td>{receiptNumber}</td>
                         </tr>
                     </thead>
                 </table>

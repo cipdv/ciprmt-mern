@@ -1,8 +1,12 @@
 import express from 'express'
+import sgMail from '@sendgrid/mail'
+import dotenv from 'dotenv'
 
 import User from '../models/user.js'
 
 const router = express.Router()
+dotenv.config()
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 export const createAppointment = async (req, res)=> {
     User.findById(req.userId, function(err, result) {
@@ -51,9 +55,93 @@ export const getAppointment = async (req, res) => {
 //update appointment form
 export const updateAppointment = async (req, res) => {
   const { userid, appointmentid } = req.params
-  const { findings, remex, treatmentPlan, price, paymentType } = req.body
+  const { findings, remex, treatmentPlan, price, paymentType, date, duration, time } = req.body
   const { generalTreatment, specificTreatment } = req.body.treatment
   const { subjectiveResults, objectiveResults } = req.body.results
+
+  const user = await User.findById(userid)
+  const appointment = user.appointments.id(appointmentid)
+  const receiptNumber = appointmentid.toUpperCase()
+
+  try {
+    if (appointment?.paymentType === undefined && paymentType !== undefined && paymentType !== 'unpaid' 
+    // && user?.emailReceiptOptIn === true
+    ) {
+      const msg = {
+        to: `${user?.email}`, // Change to your recipient
+        from: 'cip@cip.gay', // Change to your verified sender
+        subject: `Cip de Vries, RMT Receipt for ${date}`,
+        text: `Official Receipt`,
+        html: `
+          <h4>Cip de Vries, RMT</h4>
+          <p>
+            268 Shuter Street, Toronto ON, M5A 1W3
+            <br>416-258-1230
+          </p> 
+          <p>
+            Registration Number: U035
+            <br>HST number: 845 918 200 RT0001
+          </p>
+          <h4>Official Receipt</h4>
+          <p>
+            Date of treatment: ${date}
+            <br>Time of treatment: ${time}
+            <br>Duration: ${duration} minutes
+            <br>Payment amount: $${price}
+            <br>Payment received from: ${user.firstName} ${user.lastName}
+            <br>Receipt number: ${receiptNumber}
+          </p>
+        `,
+      }
+
+    sgMail
+    .send(msg)
+    .then(() => {
+        console.log('Email sent')
+    })
+    .catch((error) => {
+        console.error(error)
+    }) 
+    } else if (appointment?.paymentType === 'unpaid' && paymentType !== undefined && paymentType !== 'unpaid' ) {
+      const msg = {
+        to: `${user.email}`, // Change to your recipient
+        from: 'cip@cip.gay', // Change to your verified sender
+        subject: `Cip de Vries, RMT Receipt for ${date}`,
+        text: `Official Receipt`,
+        html: `
+          <h4>Cip de Vries, RMT</h4>
+          <p>
+            268 Shuter Street, Toronto ON, M5A 1W3
+            <br>416-258-1230
+          </p> 
+          <p>
+            Registration Number: U035
+            <br>HST number: 845 918 200 RT0001
+          </p>
+          <h4>Official Receipt</h4>
+          <p>
+            Date of treatment: ${date}
+            <br>Time of treatment: ${time}
+            <br>Duration: ${duration} minutes
+            <br>Payment amount: $${price}
+            <br>Payment received from: ${user?.firstName} ${user?.lastName}
+            <br>Receipt number: ${appointmentid}
+          </p>
+        `,
+      }
+
+    sgMail
+    .send(msg)
+    .then(() => {
+        console.log('Email sent')
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
 
   try {
     const updatedAppointment = await User.findByIdAndUpdate(userid,
@@ -73,6 +161,7 @@ export const updateAppointment = async (req, res) => {
           new:true,
           arrayFilters: [{ 'i._id': appointmentid }],
         })
+        
         res.status(200).json(updatedAppointment)
       } catch (error) {
         console.log(error.message)
@@ -80,6 +169,7 @@ export const updateAppointment = async (req, res) => {
 }
 
 export const addAppointment = async (req, res) => {
+
   User.findById(req.params.id, function(err, result) {
     if (!err) {
       if (!result){
@@ -87,6 +177,29 @@ export const addAppointment = async (req, res) => {
       }
       else{
         result.appointments.unshift(req.body);
+
+        //send email confirmation to patient
+        const msg = {
+          to: `${result.email}`, // Change to your recipient
+          from: 'cip@cip.gay', // Change to your verified sender
+          subject: `Please confirm your appointment with Cip de Vries, RMT`,
+          text: `Please login to your account at www.ciprmt.com to confirm your appointment`,
+          html: `
+            <p>
+              Please <a href="http://localhost:3000/auth">login to your account</a> to provide some details and to confirm your appointment on ${req.body.date} at ${req.body.time}.
+            </p>
+          `,
+        }
+  
+      sgMail
+      .send(msg)
+      .then(() => {
+          console.log('Email sent')
+      })
+      .catch((error) => {
+          console.error(error)
+      }) 
+
         result.markModified('appointment'); 
         result.save(function(saveerr, saveresult) {
           if (!saveerr) {
@@ -105,7 +218,7 @@ export const addAppointment = async (req, res) => {
 export const confirmAppointment = async (req, res) => {
 
   const { userid, appointmentid } = req.params
-  const { reasonForMassage } = req.body
+  const { reasonForMassage, name, apptDate, apptTime } = req.body
   const { treatmentConsent, glutes, chest, abdomen, innerThighs, areasToAvoid } = req.body.consents
 
   try {
@@ -124,6 +237,36 @@ export const confirmAppointment = async (req, res) => {
         new:true,
         arrayFilters: [{ 'i._id': appointmentid }],
       })
+
+      const msg = {
+        to: 'cip@cip.gay', // Change to your recipient
+        from: 'cip@cip.gay', // Change to your verified sender
+        subject: `Confirmed: ${name} on ${apptDate} at ${apptTime} `,
+        text: `${name} has confirmed their appointment on ${apptDate} at ${apptTime}`,
+        html: `
+          <p>${name} has confirmed their appointment on ${apptDate} at ${apptTime}</p>
+          <p>Their reason for massage is: ${reasonForMassage}</p> 
+          <p>Consents given:</p>
+          <ul>
+            <li>Glutes: ${glutes}</li>
+            <li>Chest: ${chest}</li>
+            <li>Abdomen: ${abdomen}</li>
+            <li>Inner Thighs: ${innerThighs}</li>
+            <li><strong>Treatment: ${treatmentConsent}</strong></li>
+          </ul>
+          <p>Areas to avoid: ${areasToAvoid}</p>
+        `,
+      }
+
+    sgMail
+    .send(msg)
+    .then(() => {
+        console.log('Email sent')
+    })
+    .catch((error) => {
+        console.error(error)
+    }) 
+
     res.status(200).json(updatedAppointment)
   } catch (error) {
     console.log(error.message)

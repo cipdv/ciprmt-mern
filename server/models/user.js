@@ -64,7 +64,7 @@ const HHSchema = mongoose.Schema({
         areasToAvoid: String,
     },
     privacyPolicy: {type: Boolean, required: [true, 'privacy policy left unchecked']},
-    signature: String
+    // signature: String
 })
 
 const appointmentSchema = mongoose.Schema({
@@ -102,10 +102,12 @@ const userSchema = mongoose.Schema({
     firstName: {type: String, required: [true, 'no first name']},
     lastName: {type: String, required: [true, 'no last name']},
     email: {type: String, required: [true, 'no email']},
+    emailReceiptOptIn: {type: Boolean},
     password: {type: String, required: [true, 'no password']},
     userType: {type: String},
     healthHistory: [HHSchema],
-    appointments: [appointmentSchema]
+    appointments: [appointmentSchema],
+    signature: String
 })
 
 export default mongoose.model('User', userSchema) 

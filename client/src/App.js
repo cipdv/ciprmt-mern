@@ -17,6 +17,7 @@ import AddAppointment from './components/RMT/RMTDashboard/AddAppointment'
 import AppointmentList from './components/RMT/RMTDashboard/AppointmentList'
 import Financials from './components/RMT/RMTDashboard/FinancialStatements.js/Financials'
 import MonthlyStatement from './components/RMT/RMTDashboard/FinancialStatements.js/MonthlyStatement'
+import RFHHHForm from './components/User/HHForm/RFHHHForm'
 
 const App = () => {
 
@@ -31,9 +32,9 @@ const App = () => {
                     <Route path="/" exact render={() => user?.result?.userType === 'patient' ?  (<Dashboard user={user} />) : (<Redirect to="/welcome" />)} />
                     <Route path="/welcome" exact component={Home} />
                     <Route path="/auth" exact render={() => !user ? (<Auth />) : (<Redirect to="/dashboard" />)} />
-                    <Route path="/healthhistory" exact render={() => user ? (<HealthHistory user={user} />) : (<Redirect to="/auth" />)} />
+                    <Route path="/healthhistory" exact render={() => user ?  (<HealthHistory user={user} />) : (<Redirect to="/auth" />)} />
                     <Route path="/healthhistory/update" exact render={() => user ? (<HealthHistory user={user} />) : (<Redirect to="/auth" />)} />
-                    <Route path="/dashboard" exact render={() => user?.result?.userType === 'patient' ? (<Dashboard user={user} />) : (<Redirect to="/auth" />)} />
+                    <Route path="/dashboard" exact render={() => user?.result?.userType === 'patient' ? (<Dashboard user={user} setUser={setUser} />) : (<Redirect to="/auth" />)} />
                     <Route path="/bookappointment" exact render={()=> user?.result?.userType === 'patient' ? (<AppointmentForm />) : (<Redirect to="/auth" />) } />
                     <Route path="/dashboard/receipts" exact render={()=> user?.result?.userType === 'patient' ? (<Appointments user={user} />) : (<Redirect to="/auth" />) } />
                     <Route path="/dashboard/appointment/:id" exact render={()=> user?.result?.userType === 'patient' ? (<AppointmentReceipt user={user} />) : (<Redirect to="/auth" />) } />
@@ -45,6 +46,7 @@ const App = () => {
                     <Route path="/rmt/dashboard/patientprofile/:id/addappointment" exact render={()=> user?.result?.userType === 'rmt' ? (<AddAppointment user={user} />) : (<Redirect to="/rmt/auth" />)} />
                     <Route path="/rmt/financialstatements" exact render={()=> user?.result?.userType === 'rmt' ? (<Financials />) : (<Redirect to="rmt/auth" />)} />
                     <Route path="/rmt/financialstatements/month" exact render={()=> user?.result?.userType === 'rmt' ? (<MonthlyStatement />) : (<Redirect to="rmt/auth" />)} />
+                    <Route path="/formtest" exact component={RFHHHForm} />
                 </Switch>
             </BrowserRouter>
         </div>       

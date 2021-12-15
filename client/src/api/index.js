@@ -24,6 +24,7 @@ export const submitHH = (formData) => API.put('/healthhistory', formData)
 export const getAllUsers = () => API.get('/healthhistory')
 export const getUser = (userId) => API.post(`/healthhistory/${userId}`, userId)
 export const searchUsers = (searchQuery) => API.get(`/healthhistory/search?searchQuery=${searchQuery}`)
+export const updateUser = (userId, signature) => API.put(`/healthhistory/${userId}/update`, signature)
 
 export const submitAppointmentForm = (formData) => API.post('/appointments', formData)
 export const getAppointments = (userId) => API.get(`/appointments/${userId}`)

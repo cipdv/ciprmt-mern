@@ -1,11 +1,13 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import sgMail from '@sendgrid/mail'
 
 import User from '../models/user.js'
 
 //configs
 dotenv.config()
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 //REGISTER a user
 export const register = async (req, res) => {
@@ -28,6 +30,29 @@ export const register = async (req, res) => {
         //assign token
         const token = jwt.sign({email: result.email, id: result._id, userType: result.userType}, jwtSecret, {expiresIn: '1h'})
         //return user with token
+
+        //send email to RMT to let them know a new user has registered
+        const msg = {
+            to: 'cip.devries@gmail.com', // Change to your recipient
+            from: 'cip@cip.gay', // Change to your verified sender
+            subject: `A new patient has registered`,
+            text: `${firstName} ${lastName} has registered as a new user.`,
+            html: `
+              <p>${firstName} ${lastName} has registered as a new user.</p>
+              <p>Email: ${email}</p>
+              <a href="http://localhost:3000/rmt/auth">Login to see their profile</a>
+            `,
+          }
+    
+        sgMail
+        .send(msg)
+        .then(() => {
+            console.log('Email sent')
+        })
+        .catch((error) => {
+            console.error(error)
+        }) 
+
         res.status(200).json({ result, token })
     } catch (error) {
         res.status(500).json({ message: `something went wrong`})

@@ -83,4 +83,15 @@ export const getUserBySearch = async (req, res) => {
   }
 }
 
+//UPDATE A USER (ADD A SIGNATURE)
+export const updateUser = async (req, res) => {
+  const { id: _id} = req.params
+  try {
+    const result = await User.findByIdAndUpdate(_id, req.body, {new: true})
+    res.status(200).json(result)
+  } catch (error) {
+    res.status(400).json({message: error.message})
+  }
+}
+
 export default router

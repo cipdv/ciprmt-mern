@@ -6,7 +6,7 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
 
     const dispatch = useDispatch()
 
-    const { _id } = user?.result
+    const { _id, firstName, lastName } = user?.result
 
     const today = new Date()
     
@@ -17,6 +17,11 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
     const [abdomen, setAbdomen] = useState(false)
     const [innerThighs, setInnerThighs] = useState(false)
     const [areasToAvoid, setAreasToAvoid] = useState('')
+    const [apptDate, setApptDate] = useState('')
+    const [apptTime, setApptTime] = useState('')
+
+    const [reasonForMassageError, setReasonForMassageError] = useState('')
+
 
     const formData = {
         reasonForMassage,
@@ -27,14 +32,27 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
             abdomen,
             innerThighs,
             areasToAvoid
-        }
+        },
+        name: `${firstName} ${lastName}`,
+        apptDate,
+        apptTime
     }
 
-    const handleSubmit = (e, appointmentId) => {
+    const setDateAndTimeAndConsent = (appointmentDate, appointmentTime) => {
+        setTreatmentConsent(true)
+        setApptDate(appointmentDate)
+        setApptTime(appointmentTime)
+    }
+
+    const handleSubmit = (e, appointmentId, appointmentDate) => {
         e.preventDefault()
+        setApptDate(appointmentDate)
+        if (reasonForMassage === '') {
+            setReasonForMassageError('Please indicate what you would like to focus on for this massage appointment')
+        } else {
+            dispatch(confirmAppointment(_id, appointmentId, formData))
+        }
         //update appointment with the appointment id
-        dispatch(confirmAppointment(_id, appointmentId, formData))
-        setUpdateState('something')
         clear()
     }
 
@@ -45,6 +63,7 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
         setAbdomen(false)
         setInnerThighs(false)
         setAreasToAvoid(false)
+        setApptDate('')
     }
 
     return (
@@ -70,11 +89,12 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
                                         </tr>
                                     </tbody>
                                 </table>
-                                <form className="ui form" onSubmit={(e)=>handleSubmit(e, appointment?._id)} >
+                                <form className="ui form" onSubmit={(e)=>handleSubmit(e, appointment?._id, appointment?.date)} >
                                     <div className="ui fields">
                                         <div className="ui field">
                                             <label>Reason for booking massage:</label>
                                             <input type="text" value={reasonForMassage} onChange={(e)=>setReasonForMassage(e.target.value)}/>
+                                            <p style={{color: 'red'}}>{reasonForMassageError}</p>
                                         </div>
                                         <div className="ui field">
                                             <h5>I give consent to massage the following areas:</h5>
@@ -94,7 +114,7 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
                                             <input type="text" value={areasToAvoid} onChange={(e)=>setAreasToAvoid(e.target.value)} />
                                         </div>
                                     </div>
-                                    <button type="submit" onClick={()=>setTreatmentConsent(true)} className="ui button">Confirm Appointment</button>
+                                    <button type="submit" onClick={()=>setDateAndTimeAndConsent(appointment?.date, appointment?.time)} className="ui button">Confirm Appointment</button>
                                 </form>                                
                             </div>
                             ) : (                              
