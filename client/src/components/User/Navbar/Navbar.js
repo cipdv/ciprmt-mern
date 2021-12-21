@@ -66,7 +66,6 @@ const Navbar = ({user, setUser}) => {
             <div className="item right">
                 {user ? (
                     <div>
-                        <h3>{user?.result?.firstName} {user?.result?.lastName}</h3>
                         <button className="ui button" onClick={handleLogout}>Logout</button>
                     </div>
                 ) : (

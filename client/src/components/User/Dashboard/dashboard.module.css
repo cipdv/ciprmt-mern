@@ -1,0 +1,17 @@
+.container {
+    display: grid;
+    justify-content: center;
+    padding: 2em;
+}
+
+.btn {
+    background-color: #8fbc8fd0;
+    border: none;
+    color: white;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+.btn:hover {
+    background-color: #8fbc8f65;
+}

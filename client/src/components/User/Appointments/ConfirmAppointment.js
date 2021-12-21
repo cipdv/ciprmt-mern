@@ -1,38 +1,45 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { confirmAppointment } from '../../../actions/appointment'
+import { useForm } from 'react-hook-form'
+import styles from './confirmAppointment.module.css'
+
 
 const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
 
     const dispatch = useDispatch()
 
     const { _id, firstName, lastName } = user?.result
+    const { register, handleSubmit, control, formState: { errors } } = useForm()
+
 
     const today = new Date()
     
-    const [reasonForMassage, setReasonForMassage] = useState('')
+    // const [reasonForMassage, setReasonForMassage] = useState('')
     const [treatmentConsent, setTreatmentConsent] = useState(false)
-    const [glutes, setGlutes] = useState(false)
-    const [chest, setChest] = useState(false)
-    const [abdomen, setAbdomen] = useState(false)
-    const [innerThighs, setInnerThighs] = useState(false)
-    const [areasToAvoid, setAreasToAvoid] = useState('')
+    // const [glutes, setGlutes] = useState(false)
+    // const [chest, setChest] = useState(false)
+    // const [abdomen, setAbdomen] = useState(false)
+    // const [innerThighs, setInnerThighs] = useState(false)
+    // const [areasToAvoid, setAreasToAvoid] = useState('')
     const [apptDate, setApptDate] = useState('')
     const [apptTime, setApptTime] = useState('')
 
-    const [reasonForMassageError, setReasonForMassageError] = useState('')
+    // const [reasonForMassageError, setReasonForMassageError] = useState('')
 
 
     const formData = {
-        reasonForMassage,
+        // reasonForMassage,
         consents: {
-            treatmentConsent,
-            glutes,
-            chest,
-            abdomen,
-            innerThighs,
-            areasToAvoid
+            treatmentConsent
+
         },
+        //     glutes,
+        //     chest,
+        //     abdomen,
+        //     innerThighs,
+        //     areasToAvoid
+        // },
         name: `${firstName} ${lastName}`,
         apptDate,
         apptTime
@@ -44,36 +51,34 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
         setApptTime(appointmentTime)
     }
 
-    const handleSubmit = (e, appointmentId, appointmentDate) => {
-        e.preventDefault()
-        setApptDate(appointmentDate)
-        if (reasonForMassage === '') {
-            setReasonForMassageError('Please indicate what you would like to focus on for this massage appointment')
-        } else {
-            dispatch(confirmAppointment(_id, appointmentId, formData))
-        }
+    const onSubmit = (data, appointmentId) => {
+        console.log(data)
+        dispatch(confirmAppointment(_id, appointmentId, formData))
         //update appointment with the appointment id
         clear()
     }
 
     const clear = () => {
-        setReasonForMassage('')
-        setGlutes(false)
-        setChest(false)
-        setAbdomen(false)
-        setInnerThighs(false)
-        setAreasToAvoid(false)
-        setApptDate('')
+        // setReasonForMassage('')
+        // setGlutes(false)
+        // setChest(false)
+        // setAbdomen(false)
+        // setInnerThighs(false)
+        // setAreasToAvoid(false)
+        // setApptDate('')
     }
 
     return (
         appointments?.length > 0 ? (
-            <div style={{marginTop: '3em'}}>
-                <h4>Upcoming Appointments</h4>
+            <div className={styles.container}>
+                <h4>You have an upcoming appointment</h4>
                     {appointments && appointments?.map((appointment) => (
                         new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent !== true ? (                  
                             <div style={{marginBottom: '3em'}} key={appointment._id} >
-                                <table className="ui table">
+                                <p>
+                                    Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
+                                </p>
+                                {/* <table className="ui table">
                                     <thead>
                                         <tr>
                                             <th>Date</th>
@@ -88,30 +93,30 @@ const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
                                             <td>{appointment?.duration}</td>
                                         </tr>
                                     </tbody>
-                                </table>
-                                <form className="ui form" onSubmit={(e)=>handleSubmit(e, appointment?._id, appointment?.date)} >
+                                </table> */}
+                                <form className="ui form" onSubmit={()=>handleSubmit(appointment?._id)} >
                                     <div className="ui fields">
                                         <div className="ui field">
                                             <label>Reason for booking massage:</label>
-                                            <input type="text" value={reasonForMassage} onChange={(e)=>setReasonForMassage(e.target.value)}/>
-                                            <p style={{color: 'red'}}>{reasonForMassageError}</p>
+                                            <input type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" />
+                                            {errors?.reasonForMassage && <p style={{color: 'red'}}>Please indicate why you'd like to book a massage</p>}
                                         </div>
                                         <div className="ui field">
                                             <h5>I give consent to massage the following areas:</h5>
                                             <div>
-                                                <input type="checkbox" value={glutes} onChange={(e)=>setGlutes(e.target.checked)} />
+                                                <input type="checkbox" {...register('consents.glutes')} name="glutes" />
                                                 <label>Glutes</label>
-                                                <input type="checkbox" value={abdomen} onChange={(e)=>setAbdomen(e.target.checked)} />
+                                                <input type="checkbox" {...register('consents.abdomen')} name="abdomen" />
                                                 <label>Abdomen</label>
-                                                <input type="checkbox" value={chest} onChange={(e)=>setChest(e.target.checked)} />
+                                                <input type="checkbox" {...register('consents.chest')} name="chest" />
                                                 <label>Chest</label>
-                                                <input type="checkbox" value={innerThighs} onChange={(e)=>setInnerThighs(e.target.checked)} />
+                                                <input type="checkbox" {...register('consents.innerThighs')} name="innerThighs" />
                                                 <label>Inner thighs</label>
                                             </div>
                                         </div>
                                         <div className="ui field">
                                             <label>Are there any other areas you would not like to be massaged?</label>
-                                            <input type="text" value={areasToAvoid} onChange={(e)=>setAreasToAvoid(e.target.value)} />
+                                            <input type="text" {...register('consents.areasToAvoid')} name="areasToAvoid" />
                                         </div>
                                     </div>
                                     <button type="submit" onClick={()=>setDateAndTimeAndConsent(appointment?.date, appointment?.time)} className="ui button">Confirm Appointment</button>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getAppointments } from '../../../actions/appointment'
 import ConfirmAppointment from '../Appointments/ConfirmAppointment'
+import styles from './dashboard.module.css'
 
 const Dashboard = ({user, setUser}) => {
 
@@ -20,17 +21,17 @@ const Dashboard = ({user, setUser}) => {
 
     return (
         <>
-            <div>
-                <h3>Welcome {user?.result?.firstName}! :D</h3>
+            <div className={styles.container}>
+                <h1>Hi {user?.result?.firstName}</h1>
                      
                 {/* <Link to='/bookappointment'>
                     <button className="ui button" style={{backgroundColor: '#adad85'}}>Book an appointment</button>
                 </Link>                   */}
                 <Link to="/healthhistory/update" >
-                    <button className="ui button" style={{backgroundColor: '#adad85'}}>Update Health History</button>
+                    <button className={styles.btn} >Update Health History</button>
                 </Link>
                 <Link to="/dashboard/receipts">
-                    <button className="ui button" style={{backgroundColor: '#adad85'}}>View Appointment Receipts</button>
+                    <button className={styles.btn} >View Appointment Receipts</button>
                 </Link>
                 {appointments?.length > 0 ? (
                     <ConfirmAppointment user={user} appointments={appointments} setUpdateState={setUpdateState} />                  

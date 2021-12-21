@@ -1,0 +1,39 @@
+.intro {
+    width: 25rem
+}
+
+.container {
+    display: grid; 
+    justify-content: center; 
+    text-align: center; 
+    padding: 40px 25px;
+}
+
+.headerbumpup {
+    margin-top: -10px;
+}
+
+.introparagraph {
+    padding: 40px 25px;
+}
+
+.profilepic {
+    margin: -90px auto 30px;
+    width: 15rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0;
+}
+
+.bookmassagebtn {
+    background-color: #8fbc8fd0;
+    border: none;
+    color: white;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+.bookmassagebtn:hover {
+    background-color: #8fbc8f65;
+}
+
