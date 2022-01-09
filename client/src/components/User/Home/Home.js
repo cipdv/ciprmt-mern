@@ -10,11 +10,11 @@ const Home = () => {
                 <div className={homestyles.intro}>
                     <img
                         src={ciplegacy}
-                        alt="Tammy Stevens"
+                        alt="Cip de Vries, RMT"
                         className={homestyles.profilepic}
                     />
-                    <h3>Hi, I'm Cip</h3>
-                    <h3 style={{marginTop: '-10px'}}>I'm a Massage Therapist</h3>
+                    <h3 style={{marginTop: '10px'}}>Hi, I'm Cip</h3>
+                    <h3 style={{marginTop: '-20px'}}>I'm a Massage Therapist</h3>
                     <p>
                     I'm very passionate about health and well-being. I love taking care of my body with exercise, healthy foods, and spending time with those I care about. My favourite activities include volleyball, rock climbing, swimming, skating, and just being outdoors with nature. 
                     </p>

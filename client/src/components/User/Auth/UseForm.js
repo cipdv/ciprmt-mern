@@ -42,9 +42,13 @@ const useForm = (validate) => {
         
         if (isRegister) {       
                 dispatch(register(values, history)) 
+                history.push('/')
             } else {
                 dispatch(login(values, history))
-            }   
+                history.push('/')
+            }
+            
+        
     }
 
     // useEffect(

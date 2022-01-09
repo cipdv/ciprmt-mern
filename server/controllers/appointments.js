@@ -218,8 +218,40 @@ export const addAppointment = async (req, res) => {
 export const confirmAppointment = async (req, res) => {
 
   const { userid, appointmentid } = req.params
-  const { reasonForMassage, name, apptDate, apptTime } = req.body
-  const { treatmentConsent, glutes, chest, abdomen, innerThighs, areasToAvoid } = req.body.consents
+  const { name, apptDate, apptTime } = req.body.otherData
+  const { treatmentConsent, glutes, chest, abdomen, innerThighs } = req.body.otherData.consents
+  const { reasonForMassage, additionalNotes } = req.body.data
+  const { areasToAvoid } = req.body.data.consents
+  const { vaccinated, noSymptoms, notIsolating } = req.body.data.covid
+  
+  let gluteConsent = ''
+  let chestConsent = ''
+  let abdomenConsent = ''
+  let innerThighsConsent = ''
+
+  if (glutes !== '' && glutes !== undefined) {
+     gluteConsent = 'yes'
+  } else {
+     gluteConsent = 'no'
+  }
+
+  if (chest !== '' && chest !==  undefined) {
+    chestConsent = 'yes'
+ } else {
+    chestConsent = 'no'
+ }
+
+ if (abdomen !== '' && abdomen !== undefined) {
+  abdomenConsent = 'yes'
+} else {
+  abdomenConsent = 'no'
+}
+
+if (innerThighs !== '' && innerThighs !== undefined) {
+  innerThighsConsent = 'yes'
+} else {
+  innerThighsConsent = 'no'
+}
 
   try {
     const updatedAppointment = await User.findByIdAndUpdate(userid, 
@@ -232,6 +264,10 @@ export const confirmAppointment = async (req, res) => {
           "appointments.$[i].consents.innerThighs": innerThighs,
           "appointments.$[i].consents.areasToAvoid": areasToAvoid,
           "appointments.$[i].consents.treatmentConsent": treatmentConsent,
+          "appointments.$[i].additionalNotes": additionalNotes,
+          "appointments.$[i].covid.vaccinated": vaccinated,
+          "appointments.$[i].covid.noSymptoms": noSymptoms,
+          "appointments.$[i].covid.notIsolating": notIsolating
         }
       },{
         new:true,
@@ -248,10 +284,10 @@ export const confirmAppointment = async (req, res) => {
           <p>Their reason for massage is: ${reasonForMassage}</p> 
           <p>Consents given:</p>
           <ul>
-            <li>Glutes: ${glutes}</li>
-            <li>Chest: ${chest}</li>
-            <li>Abdomen: ${abdomen}</li>
-            <li>Inner Thighs: ${innerThighs}</li>
+            <li>Glutes: ${gluteConsent}</li>
+            <li>Chest: ${chestConsent}</li>
+            <li>Abdomen: ${abdomenConsent}</li>
+            <li>Inner Thighs: ${innerThighsConsent}</li>
             <li><strong>Treatment: ${treatmentConsent}</strong></li>
           </ul>
           <p>Areas to avoid: ${areasToAvoid}</p>

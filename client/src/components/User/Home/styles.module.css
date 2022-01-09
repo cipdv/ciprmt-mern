@@ -18,7 +18,7 @@
 }
 
 .profilepic {
-    margin: -90px auto 30px;
+    margin: -10px;
     width: 15rem;
     border-radius: 50%;
     object-fit: cover;
@@ -26,7 +26,7 @@
 }
 
 .bookmassagebtn {
-    background-color: #8fbc8fd0;
+    background-color: #32ac327c;
     border: none;
     color: white;
     margin-top: 20px;
@@ -34,6 +34,29 @@
     border-radius: 0.3em;
 }
 .bookmassagebtn:hover {
-    background-color: #8fbc8f65;
+    background-color: #4cbb4c17;
+    color: #32ac327c
 }
 
+.box {
+    display: grid;
+    color: rgb(255, 253, 245);
+    justify-content: center;
+    border:2px solid #d7c8f0;
+    border-radius: 10px;
+    background-color: rgb(33, 48, 39);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    max-width: 50rem;
+    margin-right: 2rem;
+}
+
+.section {
+    margin-top: 1.5rem;
+}
+
+.li {
+    margin-left: 1rem;
+    padding-top: 1rem;
+}

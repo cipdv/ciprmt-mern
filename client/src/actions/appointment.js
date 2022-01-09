@@ -50,9 +50,9 @@ export const addAppointment = (userId, formData) => async (dispatch) => {
 }
 
 //user confirm appointment
-export const confirmAppointment = (userId, appointmentId, formData) => async (dispatch) => {
+export const confirmAppointment = (_id, reqBody) => async (dispatch) => {
     try {
-        const {data} = await api.confirmAppointment(userId, appointmentId, formData)
+        const {data} = await api.confirmAppointment(_id, reqBody)
         dispatch({ type: UPDATE_APPOINTMENT, payload: data })
     } catch (error) {
         console.log(error.message)

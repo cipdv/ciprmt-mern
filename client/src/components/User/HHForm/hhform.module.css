@@ -1,48 +1,5 @@
-.container {
+body {
     display: grid;
-    justify-content: center;
-    margin-top: 2em;
-}
-
-.nextappointment {
-    margin-bottom: 2rem;
-}
-
-.upcomingappointments {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.form {
-    margin: 2rem 2rem;
-}
-
-.box {
-    display: grid;
-    color: rgb(255, 253, 245);
-    justify-content: center;
-    border:2px solid #d7c8f0;
-    border-radius: 10px;
-    background-color: rgb(33, 48, 39);
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    padding: 1rem
-}
-
-.box2 {
-    display: grid;
-    color: rgb(255, 253, 245);
-    justify-content: center;
-    border:2px solid #d7c8f0;
-    border-radius: 10px;
-    background-color: rgb(18, 27, 24);
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    padding: 1rem
-}
-
-td {
-    margin-left: 1rem;
 }
 
 form {
@@ -78,36 +35,40 @@ option {
     outline:0;
 }
 
-.btn {
-    background-color: #8fbc8f65;
-    border: none;
-    color: white;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 10px 20px;
-    border-radius: 0.3em;
-}
-.btn:hover {
-    background-color: #8fbc8fd0;
+
+
+.section {
+    margin-top: 3rem;
 }
 
-label {
-    color: rgb(255, 253, 245);
+
+.inlinediv {
+    display: inline-block ;
+    column-count: 2;
+    column-width: 45%;
+    column-gap: 5%;
 }
 
-.initial {
-    padding-right: 0.5rem;
-    width: 10rem;
-    margin-left: 2rem;
+.inlineforminput {
+    display: grid;
+    column-span: 1;
+    width: 100%
 }
 
-.clear {
-    float: right;
-    font-size: 0.8rem
+.error {
+    background-color: rosybrown;
+    color:rgb(255, 253, 245);
+    border: 1px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .container {
-    display:   grid;
+    display:   inline-block;
     position: relative;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -118,10 +79,7 @@ label {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    justify-content: left;
-    
   }
-
 
 .container input {
 position: absolute;
@@ -186,22 +144,29 @@ width: 0;
     transform: rotate(45deg);
   }
 
-  .container p {
-     text-align: left;
-  }
-
-  .covidsection {
-    margin-top: 3rem;
+label,input{
+    display: inline-block;
+    vertical-align: middle;
 }
 
-.error {
-    background-color: rosybrown;
-    color:rgb(255, 253, 245);
-    border: 1px;
-    border-radius: 10px;
-    padding: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+.link {
+    color: rgb(255, 253, 245);
+    font-size: 16px;
+}
+
+.btn {
+    background-color: #8fbc8f65;
+    border: none;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+.btn:hover {
+    background-color: #8fbc8fd0;
+}
+
+h2 {
+    margin-bottom: 0;
 }

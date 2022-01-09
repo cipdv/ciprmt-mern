@@ -1,19 +1,55 @@
 import React from 'react'
 import { useParams } from 'react-router'
+import styles from './confirmAppointment.module.css'
+import axios from 'axios'
+import { saveAs } from 'file-saver'
 
-const AppointmentReceipt = ({user}) => {
+const AppointmentReceipt = () => {
 
     const params = useParams()
 
-    const appointmentArray = user.result.appointments
+    const user = JSON.parse(localStorage.getItem('profile'))
 
-    const appointment = appointmentArray.find(({_id}) => _id === params.id)
+    const appointmentArray = user?.result?.appointments
 
-    const apptId = appointment._id
-    const receiptNumber = apptId.toUpperCase()
+    const appointment = appointmentArray.find(({_id}) => _id === params?.id)
+
+    const apptId = appointment?._id
+    const receiptNumber = apptId?.toUpperCase()
+
+    const data = {
+        date: appointment?.date,
+        time: appointment?.time,
+        duration: appointment?.duration,
+        price: appointment?.price,
+        firstName: appointment?.firstName,
+        lastName: appointment?.lastName,
+        receiptNumber
+    }
+
+    // const createPDF = () => {
+
+    //     // fetch('/createpdf', {
+    //     //     method: "POST",
+    //     //     body: JSON.stringify(data)
+    //     // }).then((res)=>{
+    //     //     res.arrayBuffer().then((res)=>{
+    //     //         var blob = new Blob([res], {type: "application/pdf"})
+    //     //         saveAs(blob, 'receipt.pdf')
+    //     //     })
+    //     // })
+
+    //     axios.post('/createpdf', data)
+    //         .then(()=> axios.get('fetchpdf', {responseType: 'blob'}))
+    //         .then((res)=>{
+    //             const pdfBlob = new Blob([res.data], {type: 'application/pdf' })
+
+    //             saveAs(pdfBlob, 'receipt.pdf')
+    //         })
+    // }
 
     return (
-        <div>
+        <div className={styles.container}>
             <p style={{textAlign: 'center'}}>
                 <h4>Cip de Vries, RMT</h4>
                 268 Shuter Street, Toronto ON, M5A 1W3
@@ -25,7 +61,7 @@ const AppointmentReceipt = ({user}) => {
             <br />
                 HST number: 845 918 200 RT0001
             </p>
-            <h5 style={{textAlign: 'center'}}>Official Receipt</h5>
+            <h5 style={{textAlign: 'center'}}>Appointment Details</h5>
             <div style={{display: 'flex',  justifyContent:'center', textAlign: 'left'}}>
                 <table>
                     <thead>
@@ -56,6 +92,7 @@ const AppointmentReceipt = ({user}) => {
                     </thead>
                 </table>
             </div>
+            {/* <button onClick={createPDF}>Download PDF</button>  */}
         </div>
     )
 }

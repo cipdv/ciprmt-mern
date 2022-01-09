@@ -1,0 +1,41 @@
+.table {
+    color: rgb(255, 253, 245);
+    padding: 0.7rem;
+    font-family: 'Mukta', sans-serif;
+    font-weight:500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 18px;
+    background-color: rgb(18, 27, 24);
+    border:2px solid #d7c8f0;
+    transition: all 0.3s;
+    margin-bottom: 0.3.rem;
+    width:100%;
+    outline:0;
+}
+
+.table .header {
+    background-color: rgb(33, 48, 39);
+    color: rgb(255, 253, 245);
+}
+
+td {
+    text-align: center;
+}
+
+.btn {
+    background-color: #8fbc8f65;
+    border: none;
+    color: white;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+.btn:hover {
+    background-color: #8fbc8fd0;
+}
+
+.loading {
+    color: rgb(255, 253, 245)
+}

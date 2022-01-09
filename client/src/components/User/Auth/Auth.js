@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { register, login } from '../../../actions/auth'
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import useForm from './UseForm'
 import validate from './validate'
 import styles from './auth.module.css'
@@ -94,7 +94,7 @@ const Auth = () => {
 
     return (
         <div className={styles.main}>
-            <form className="ui form" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     {
                         isRegister ? (
@@ -104,26 +104,29 @@ const Auth = () => {
                                 <p>
                                     By registering, you will be able to access your receipts, confirm appointments, and manage your health history file.
                                 </p>
+                                <p>
+                                    All information provided will be encrypted and sent through a secure network in accordance with my <Link to="/privacypolicy">privacy policy</Link>.
+                                </p>
                                     <label>First name</label>
-                                    <input name="firstName" label="First name" type="text" value={values.firstName} onChange={handleChange} />
-                                    {errors?.firstName && <p className={styles.autherror}>{errors?.firstName}</p>}
+                                    <input className={styles.forminput} name="firstName" label="First name" type="text" value={values.firstName} onChange={handleChange} />
+                                    {errors?.firstName && <p className={styles.error}>{errors?.firstName}</p>}
                                     <label>Last name</label>
-                                    <input name="lastName" label="Last name" type="text" value={values.lastName} onChange={handleChange} />
-                                    {errors?.lastName && <p className={styles.autherror}>{errors?.lastName}</p>}
+                                    <input className={styles.forminput} name="lastName" label="Last name" type="text" value={values.lastName} onChange={handleChange} />
+                                    {errors?.lastName && <p className={styles.error}>{errors?.lastName}</p>}
                                 
                                     <label>Email</label>
-                                    <input name="email" label="Email" type="email" value={values.email} onChange={handleChange} />
-                                    {errors?.email && <p className={styles.autherror}>{errors?.email}</p>}
+                                    <input className={styles.forminput} name="email" label="Email" type="email" value={values.email} onChange={handleChange} />
+                                    {errors?.email && <p className={styles.error}>{errors?.email}</p>}
                                     {/* <input type="checkbox" name="emailReceiptOptIn" value={values.emailReceiptOptIn} onChange={handleChange} />
                                     <label>Check here to receive your RMT receipts via email</label> */}
                                 
                                     <label>Password</label>
-                                    <input name="password" label="Password" type="password" value={values.password} onChange={handleChange} />
-                                    {errors?.password && <p className={styles.autherror}>{errors?.password}</p>}
+                                    <input className={styles.forminput} name="password" label="Password" type="password" value={values.password} onChange={handleChange} />
+                                    {errors?.password && <p className={styles.error}>{errors?.password}</p>}
                                 
                                     <label>Confirm Password</label>
-                                    <input name="confirmPassword" label="Confirm Password" value={values.confirmPassword} type="password" onChange={handleChange} />
-                                    {errors?.confirmPassword && <p className={styles.autherror}>{errors?.confirmPassword}</p>}
+                                    <input className={styles.forminput} name="confirmPassword" label="Confirm Password" value={values.confirmPassword} type="password" onChange={handleChange} />
+                                    {errors?.confirmPassword && <p className={styles.error}>{errors?.confirmPassword}</p>}
                                 </div>          
                                 <button type="submit" className={styles.btn}>Register</button>
                             </>
@@ -131,18 +134,18 @@ const Auth = () => {
                             <div className={styles.form}>
                                 <h3>Login</h3>
                                 <label>Email</label>
-                                <input name="email" type="text" label="Email" value={values.email} onChange={handleChange} />
+                                <input className={styles.forminput} name="email" type="text" label="Email" value={values.email} onChange={handleChange} />
+                                {errors?.email && <p className={styles.error}>{errors?.email}</p>}
                                 <label>Password</label>
-                                {errors?.email && <p className={styles.autherror}>{errors?.email}</p>}
-                                <input name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
-                                {errors?.password && <p className={styles.autherror}>{errors?.password}</p>}
+                                <input className={styles.forminput} name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
+                                {errors?.password && <p className={styles.error}>{errors?.password}</p>}
                                 <button type="submit" className={styles.btn}>Login</button>
                             </div>
                         )
                     }
                 <div onClick={switchMode}>
                     {
-                        isRegister ? 'Already have an account? Click here to login' : 'First time booking a massage? Click here to register'
+                        isRegister ? (<div>Already have an account? <button className={styles.btn2}>Login</button></div>) : (<div>First time booking a massage? <button className={styles.btn2}>Register here</button></div>)
                     }
                 </div>
                 </div>   

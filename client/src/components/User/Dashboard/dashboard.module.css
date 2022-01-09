@@ -1,13 +1,20 @@
+body {
+    width: 100%;
+    color: rgb(255, 253, 245);
+}
+
 .container {
     display: grid;
+    max-width: 50rem;
     justify-content: center;
-    padding: 2em;
+    padding: 1em;
+    margin: 2rem 2rem;
 }
 
 .btn {
     background-color: #8fbc8fd0;
     border: none;
-    color: white;
+    color: rgb(255, 253, 245);
     margin-top: 20px;
     padding: 10px 20px;
     border-radius: 0.3em;
@@ -15,3 +22,4 @@
 .btn:hover {
     background-color: #8fbc8f65;
 }
+

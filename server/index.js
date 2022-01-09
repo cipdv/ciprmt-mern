@@ -5,7 +5,9 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import sgMail from '@sendgrid/mail'
+import pdf from 'html-pdf'
 
+import {pdfFile} from './documents/index.js'
 
 //import routes
 import HHRoutes from './routes/healthHistory.js'
@@ -31,6 +33,34 @@ app.use('/financials', financialRoutes)
 
 app.get('/', (req, res)=>{
     res.send('Cip de Vries, RMT')
+})
+
+//post route to generate pdf and fetching data
+app.post('/createpdf', (req, res)=>{
+    console.log(req.body)
+    pdf.create(pdfFile(req.body), {}).toFile('receipt.pdf', (err)=>{
+        if(err) {
+            res.send(Promise.reject())
+        }
+        res.send(Promise.resolve())
+    })
+})
+
+
+
+
+// app.post('/createpdf', (req, res)=>{
+//     console.log(req.body)
+//     pdf.create(pdfFile(req.body)).toBuffer(function(err, buffer){
+//         if(err) return res.send(err);
+//         res.type('pdf');
+//         res.end(buffer, 'binary')
+//     })
+// })
+
+//get route to send pdf to client
+app.get('/fetchpdf', (req, res)=>{
+    res.sendFile(`${__dirname}/receipt.pdf`)
 })
 
 app.get('/sendgrid', (req, res)=> {

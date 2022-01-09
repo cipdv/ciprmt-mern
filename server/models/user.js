@@ -89,11 +89,17 @@ const appointmentSchema = mongoose.Schema({
     treatmentPlan: String,
     consents: {
         treatmentConsent: Boolean,
-        glutes: Boolean,
-        chest: Boolean,
-        abdomen: Boolean,
-        innerThighs: Boolean,
+        glutes: String,
+        chest: String,
+        abdomen: String,
+        innerThighs: String,
         areasToAvoid: String
+    },
+    additionalNotes: String,
+    covid: {
+        vaccinated: Boolean,
+        noSymptoms: Boolean,
+        notIsolating: Boolean
     }
 })
 

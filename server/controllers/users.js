@@ -54,6 +54,7 @@ export const register = async (req, res) => {
         }) 
 
         res.status(200).json({ result, token })
+        console.log(result)
     } catch (error) {
         res.status(500).json({ message: `something went wrong`})
         console.log(error)

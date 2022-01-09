@@ -1,178 +1,205 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { confirmAppointment } from '../../../actions/appointment'
 import { useForm } from 'react-hook-form'
 import styles from './confirmAppointment.module.css'
+import SignatureCanvas from 'react-signature-canvas'
+import { useHistory, Link } from 'react-router-dom'
 
-
-const ConfirmAppointment = ({user, appointments, setUpdateState}) => {
-
-    const dispatch = useDispatch()
+const ConfirmAppointment = ({user, appointments}) => {
 
     const { _id, firstName, lastName } = user?.result
+
+    const dispatch = useDispatch()
+    const history = useHistory()
+    
+    let gluteSig = useRef({})
+    let abdomenSig = useRef({})
+    let thighSig = useRef({})
+    let chestSig = useRef({})
+
     const { register, handleSubmit, control, formState: { errors } } = useForm()
-
-
+    
     const today = new Date()
     
-    // const [reasonForMassage, setReasonForMassage] = useState('')
     const [treatmentConsent, setTreatmentConsent] = useState(false)
-    // const [glutes, setGlutes] = useState(false)
-    // const [chest, setChest] = useState(false)
-    // const [abdomen, setAbdomen] = useState(false)
-    // const [innerThighs, setInnerThighs] = useState(false)
+    const [glutes, setGlutes] = useState('')
+    const [chest, setChest] = useState('')
+    const [abdomen, setAbdomen] = useState('')
+    const [innerThighs, setInnerThighs] = useState('')
     // const [areasToAvoid, setAreasToAvoid] = useState('')
     const [apptDate, setApptDate] = useState('')
     const [apptTime, setApptTime] = useState('')
+    const [apptId, setApptId] = useState('')
 
-    // const [reasonForMassageError, setReasonForMassageError] = useState('')
-
-
-    const formData = {
-        // reasonForMassage,
+    const otherData = {
         consents: {
-            treatmentConsent
-
+            treatmentConsent,
+            glutes,
+            chest,
+            abdomen,
+            innerThighs,
         },
-        //     glutes,
-        //     chest,
-        //     abdomen,
-        //     innerThighs,
-        //     areasToAvoid
-        // },
         name: `${firstName} ${lastName}`,
         apptDate,
-        apptTime
+        apptTime,
+        apptId
     }
 
-    const setDateAndTimeAndConsent = (appointmentDate, appointmentTime) => {
+    const abdomenPng = () => {
+        setAbdomen(abdomenSig.current.toDataURL())
+    }
+
+    const innerThighsPng = () => {
+        setInnerThighs(thighSig.current.toDataURL())
+    }
+
+    const glutesPng = () => {
+        setGlutes(gluteSig.current.toDataURL())
+    }
+
+    const chestPng = () => {
+        setChest(chestSig.current.toDataURL())
+    }
+
+    const clearGlutes = (e) => {
+        e.preventDefault()
+        setGlutes(gluteSig.current.clear())
+    }
+
+    const clearAbdomen = (e) => {
+        e.preventDefault()
+        setAbdomen(abdomenSig.current.clear())
+    }
+
+    const clearChest = (e) => {
+        e.preventDefault()
+        setChest(chestSig.current.clear())
+    }
+
+    const clearInnerThighs = (e) => {
+        e.preventDefault()
+        setInnerThighs(thighSig.current.clear())
+    }
+
+    const setDateAndTimeAndConsent = (appointmentDate, appointmentTime, appointmentId) => {
         setTreatmentConsent(true)
         setApptDate(appointmentDate)
         setApptTime(appointmentTime)
+        setApptId(appointmentId)
     }
 
-    const onSubmit = (data, appointmentId) => {
-        console.log(data)
-        dispatch(confirmAppointment(_id, appointmentId, formData))
-        //update appointment with the appointment id
-        clear()
+    const onSubmit = (data) => {
+
+        const reqBody = {
+            data,
+            otherData
+        }
+
+        dispatch(confirmAppointment(_id, reqBody))
+        history.push('/')
     }
 
-    const clear = () => {
-        // setReasonForMassage('')
-        // setGlutes(false)
-        // setChest(false)
-        // setAbdomen(false)
-        // setInnerThighs(false)
-        // setAreasToAvoid(false)
-        // setApptDate('')
-    }
-
-    return (
-        appointments?.length > 0 ? (
-            <div className={styles.container}>
-                <h4>You have an upcoming appointment</h4>
-                    {appointments && appointments?.map((appointment) => (
-                        new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent !== true ? (                  
-                            <div style={{marginBottom: '3em'}} key={appointment._id} >
-                                <p>
-                                    Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
-                                </p>
-                                {/* <table className="ui table">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Time</th>
-                                            <th>Duration</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{appointment?.date}</td>
-                                            <td>{appointment?.time}</td>
-                                            <td>{appointment?.duration}</td>
-                                        </tr>
-                                    </tbody>
-                                </table> */}
-                                <form className="ui form" onSubmit={()=>handleSubmit(appointment?._id)} >
-                                    <div className="ui fields">
-                                        <div className="ui field">
-                                            <label>Reason for booking massage:</label>
-                                            <input type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" />
-                                            {errors?.reasonForMassage && <p style={{color: 'red'}}>Please indicate why you'd like to book a massage</p>}
+    if (appointments?.length > 0) {
+        return (
+            <div className={styles.box} >           
+                {appointments && appointments?.map((appointment) => (
+                    new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent !== true ? (                  
+                        <div className={styles.box} key={appointment._id} >
+                            <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>
+                            <div>
+                            <form onSubmit={handleSubmit(onSubmit)}  >
+                                <div>
+                                    <div>
+                                        <label>Reason for booking massage:</label>
+                                            <input className={styles.forminput} type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" placeholder='eg. relaxation, lower back pain, general wellbeing.' />
+                                            {errors?.reasonForMassage && <p className={styles.error}>Please indicate why you'd like to book a massage</p>}
+                                    </div>
+                                    <div>
+                                        <label>Please indicate with your initials which of the following areas you give consent at this time to assess and massage:</label>
+                                        <div>
+                                            <p style={{fontSize: '13px'}}>*Your comfort and safety during your massage are my top priority. Consenting through this form to assess and massage the following areas during this appointment does not preculde you from revoking your consent before or during the massage. Please feel welcome to express this at any time during the massage. Your comfort is essential to a successful massage therapy session. <Link>Click here to learn more about these areas, what assessment/treatment entails, and why this information is being asked.</Link></p>
                                         </div>
-                                        <div className="ui field">
-                                            <h5>I give consent to massage the following areas:</h5>
-                                            <div>
-                                                <input type="checkbox" {...register('consents.glutes')} name="glutes" />
-                                                <label>Glutes</label>
-                                                <input type="checkbox" {...register('consents.abdomen')} name="abdomen" />
-                                                <label>Abdomen</label>
-                                                <input type="checkbox" {...register('consents.chest')} name="chest" />
-                                                <label>Chest</label>
-                                                <input type="checkbox" {...register('consents.innerThighs')} name="innerThighs" />
-                                                <label>Inner thighs</label>
+                                        <div>
+                                            <div className={styles.initial}>
+                                                <label>Glutes <i class="material-icons-outlined" className={styles.clear} onClick={clearGlutes}>clear</i></label>
+                                                
+                                                <div >
+                                                <SignatureCanvas ref={gluteSig} onEnd={glutesPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
+                                                </div>
+                                            </div>
+                                            <div className={styles.initial}>
+                                                <label>Chest<i class="material-icons-outlined" style={{float: 'right', fontSize: '0.8rem'}} onClick={clearChest}>clear</i></label>
+                                                <SignatureCanvas ref={chestSig} onEnd={chestPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
+                                            </div>
+                                            <div className={styles.initial}>
+                                                <label>Abdomen<i class="material-icons-outlined" style={{float: 'right', fontSize: '0.8rem'}} onClick={clearAbdomen}>clear</i></label>
+                                                <SignatureCanvas ref={abdomenSig} onEnd={abdomenPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
+                                            </div>
+                                            <div className={styles.initial}>
+                                                <label>Inner Thighs<i class="material-icons-outlined" style={{float: 'right', fontSize: '0.8rem'}} onClick={clearInnerThighs}>clear</i></label>
+                                                <SignatureCanvas ref={thighSig} onEnd={innerThighsPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
                                             </div>
                                         </div>
-                                        <div className="ui field">
-                                            <label>Are there any other areas you would not like to be massaged?</label>
-                                            <input type="text" {...register('consents.areasToAvoid')} name="areasToAvoid" />
+                                        
+                                    </div>
+                                    <div>
+                                        <label>Are there any other areas you do not want to have massaged during this session?</label>
+                                        <input className={styles.forminput} type="text" {...register('consents.areasToAvoid')} name="consents.areasToAvoid" placeholder='eg. face, feet, hands'/>
+                                    </div>
+                                    <div>
+                                        <label>If there's any other information you'd like me to know before the massage, include it here:</label>
+                                        <input className={styles.forminput} type="text" {...register('additionalNotes')} name="additionalNotes" placeholder='eg. recent injuries or surgeries' />
+                                    </div>
+                                </div>
+                                <div className={styles.covidsection}>
+                                    <h2>Covid-19 Risk Assessment</h2>
+                                    <div>
+                                        <label>Please respond to the following:</label>
+                                        <div style={{marginLeft: '2rem'}}>
+                                            <label className={styles.container}>I have received my second or third dose of the covid-19 vaccine more than 14 days ago.
+                                                <input name="covid.vaccinated" type="checkbox" id="vaccinated" {...register('covid.vaccinated')} />
+                                                <span className={styles.checkmark}></span>
+                                            </label>
+                                            <label className={styles.container}>I do not have any of the following symptoms: fever, new onset of cough, worsening chronic cough, shortness of breath, decrease or loss of sense of taste or smell, chills, headaches, unexplained fatigue, malaise, or muscle aches.
+                                                <input name="covid.noSymptoms" type="checkbox" id="noSymptoms" {...register('covid.noSymptoms')} />
+                                                <span className={styles.checkmark}></span>
+                                            </label>
+                                            <label className={styles.container}>I have not tested positive for covid-19 in the past 10 days, and have not been in close contact with anyone who has tested positive for covid-19 in the past 10 days, and have not been told that I should be self-isolating.
+                                                <input name="covid.notIsolating" type="checkbox" id="notIsolating" {...register('covid.notIsolating')} />
+                                                <span className={styles.checkmark}></span>
+                                            </label>
                                         </div>
                                     </div>
-                                    <button type="submit" onClick={()=>setDateAndTimeAndConsent(appointment?.date, appointment?.time)} className="ui button">Confirm Appointment</button>
-                                </form>                                
+                                </div>
+                                <div>
+                                    <button className={styles.btn} style={{marginTop: '20px'}} type="submit" onClick={()=>setDateAndTimeAndConsent(appointment?.date, appointment?.time, appointment?._id)}>Confirm Appointment</button>
+                                </div>
+                            </form>
+                            </div>                                
+                        </div>
+                        ) : new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent === true ? 
+                        (                              
+                            <div className={styles.box2} key={appointment._id}>
+                                <h3>
+                                    You have an upcoming appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
+                                </h3>
                             </div>
-                            ) : (                              
-                                <div></div>
-                            )
-                        ))}                 
-            </div>
-        ) : (
-            <div style={{marginTop: '3em'}}>
-                <h5>No upcoming appointments</h5>
+                        ) : new Date(appointment?.date) <= today ? (
+                            <div></div>
+                        ) : (
+                            <div></div>
+                        )
+                    ))}                 
             </div>
         )
-        
-    )
+    } else {
+        return (
+            <div>
+                You have no upcoming appointments booked at the moment.
+            </div>
+        )
+    }
 }
 
-
 export default ConfirmAppointment
-
-
-//Not sure if this is being used for anything....but let's find out...
-
-// import React from 'react'
-// import { useHistory } from 'react-router-dom'
-
-// const AppointmentTable = ({appointment}) => {
-
-//     const history = useHistory()
-
-//     const selectAppointment = (id) => {
-//         history.push(`/dashboard/appointment/${id}`)
-//     }
-
-//     return (
-//         <div>
-//             <table className="ui selectable celled table">
-//                 <thead>
-//                     <tr>
-//                         <th>Date</th>
-//                         <th>Duration</th>
-//                         <th>Price</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     <tr key={appointment?._id} onClick={()=>selectAppointment(appointment?._id)}>
-//                         <td>{appointment?.date}</td>
-//                         <td>{appointment?.duration}</td>
-//                         <td>{appointment?.duration === 60 ? ('$90') : ('unpaid')}</td>
-//                     </tr>
-//                 </tbody>
-//             </table>
-//         </div>
-//     )
-// }
-
-// export default AppointmentTable

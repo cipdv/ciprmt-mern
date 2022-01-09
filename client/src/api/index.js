@@ -31,7 +31,7 @@ export const getAppointments = (userId) => API.get(`/appointments/${userId}`)
 export const getAppointment = (userId) => API.post(`/appointments/${userId}`, userId)
 export const updateAppointment = (userId, appointmentId, formData) => API.patch(`/appointments/${userId}/${appointmentId}`, formData)
 export const addAppointment = (userId, formData) => API.post(`/appointments/${userId}/add`, formData)
-export const confirmAppointment = (userId, appointmentId, formData) => API.patch(`/appointments/confirm/${userId}/${appointmentId}`, formData)
+export const confirmAppointment = (userId, reqBody) => API.patch(`/appointments/confirm/${userId}/${reqBody.otherData.apptId}`, reqBody)
 
 export const RMTRegister = (formData) => API.post('/rmt/register', formData)
 export const RMTLogin = (formData) => API.post('/rmt/login', formData)

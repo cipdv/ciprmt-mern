@@ -3,6 +3,7 @@ import HHForm from './HHForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../../actions/healthHistory'
 import RFHHHForm from './RFHHHForm'
+import styles from './hhform.module.css'
 
 const HealthHistory = ({user}) => {
 
@@ -15,20 +16,20 @@ const HealthHistory = ({user}) => {
         }
     }, [dispatch, user])
 
-    const userState = useSelector((state)=>state?.usersReducer?.user?.data)
+    // const userState = useSelector((state)=>state?.usersReducer?.user?.data)
 
     return (
-            !userState ? (
-                <div>
-                    Loading...
-                </div>
-            ) : (
-            <div className="container">
+            // !userState ? (
+            //     <div>
+            //         Loading...
+            //     </div>
+            // ) : (
+            <div>
                 {/* <HHForm user={user} userState={userState}/> */}
-                <RFHHHForm userState={userState} />   
+                <RFHHHForm />   
             </div>
             )       
-        )
+        
 }
 
 export default HealthHistory

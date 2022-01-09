@@ -1,46 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { getAppointments } from '../../../actions/appointment'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import ConfirmAppointment from '../Appointments/ConfirmAppointment'
+import HealthHistory from '../HHForm/HealthHistory'
 import styles from './dashboard.module.css'
 
-const Dashboard = ({user, setUser}) => {
+const Dashboard = ({user}) => {
 
-    const dispatch = useDispatch()
-
-    const [updateState, setUpdateState] = useState(null)
-
-    const appointments = useSelector((state)=>state?.usersReducer?.appointment)
-
-    useEffect(() => {
-        //get appointment data
-        dispatch(getAppointments(user?.result._id))
-        // setUser()
-    }, [dispatch, updateState])
+    const currentUser = useSelector((state)=>state?.authReducer?.authData)
+    const appointments = useSelector((state)=>state?.authReducer?.authData?.result?.appointments)
+    const healthHistory = useSelector((state)=>state?.authReducer?.authData?.result?.healthHistory)
 
     return (
-        <>
             <div className={styles.container}>
                 <h1>Hi {user?.result?.firstName}</h1>
-                     
-                {/* <Link to='/bookappointment'>
-                    <button className="ui button" style={{backgroundColor: '#adad85'}}>Book an appointment</button>
-                </Link>                   */}
-                <Link to="/healthhistory/update" >
-                    <button className={styles.btn} >Update Health History</button>
-                </Link>
-                <Link to="/dashboard/receipts">
-                    <button className={styles.btn} >View Appointment Receipts</button>
-                </Link>
                 {appointments?.length > 0 ? (
-                    <ConfirmAppointment user={user} appointments={appointments} setUpdateState={setUpdateState} />                  
+                    <ConfirmAppointment user={user} appointments={appointments} />
+                ) : appointments?.length === 0 && healthHistory?.length > 0 ? (
+                    <div>You have no upcoming appointments scheduled yet.</div>
+                ) : appointments?.length === 0 && healthHistory?.length === 0 ? (
+                    <div>
+                        <h3>Thanks for registering.</h3>
+                        <p>The next step is to complete your health history file:</p>
+                        {/* <Link to="/healthhistory">
+                            <button style={{marginTop: '0.5rem'}} className={styles.btn}>Click here</button>
+                        </Link> */}
+                        <HealthHistory currentUser={currentUser} />
+                    </div>
                 ) : (
-                    <div></div>
-                )
-                }
-            </div>                      
-        </>
+                    <div>Loading...you may need to refresh the page.</div>
+                )}                               
+            </div>
     )
 }
 

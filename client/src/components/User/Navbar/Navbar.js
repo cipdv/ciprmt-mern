@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import './styles.css'
+import styles from './styles.module.css'
 import decode from 'jwt-decode'
 import SearchProfiles from '../../RMT/RMTDashboard/SearchProfiles'
 
@@ -15,6 +15,22 @@ const Navbar = ({user, setUser}) => {
         dispatch({ type: 'LOGOUT' })
         setUser(null)
         history.push('/')  
+    }
+
+    const toDashboard = () => {
+        history.push('/dashboard')
+    }
+
+    const toUpdate = () => {
+        history.push('/healthhistory/update')
+    }
+
+    const toReceipts = () => {
+        history.push('/dashboard/receipts')
+    }
+
+    const toLogin = () => {
+        history.push('/auth')
     }
 
     useEffect(()=>{
@@ -33,7 +49,8 @@ const Navbar = ({user, setUser}) => {
 
     return (
         user?.result?.userType === 'rmt' ? (
-            <nav className="ui inverted menu" style={{backgroundColor: '#a7a0a9'}} >   
+            // <nav className="ui inverted menu" >   
+            <nav className={styles.navbar}>
             <div className="item left">
                 {user ? (
                     <div>
@@ -59,22 +76,47 @@ const Navbar = ({user, setUser}) => {
             </div>
         </nav>
         ) : (
-        <nav className="ui inverted menu" style={{backgroundColor: '#8FBC8F'}}>
-            <Link to={`/`}>
-                <h3 className="item">Cip de Vries, RMT</h3>
-            </Link>
-            <div className="item right">
+            <nav className={styles.navbar}>             
                 {user ? (
-                    <div>
-                        <button className="ui button" onClick={handleLogout}>Logout</button>
-                    </div>
+                    <ul>
+                        <li className={styles.logo}>
+                            <Link style={{color: 'white'}} to={'/'}>
+                                Cip de Vries, RMT
+                            </Link>
+                        </li>
+                        <li className={styles.menuitem} style={{color: 'white'}} onClick={toDashboard}>
+                            {/* <Link to={'/dashboard'}> */}
+                                Dashboard
+                            {/* </Link> */}
+                        </li>
+                        <li className={styles.menuitem} style={{color: 'white'}} onClick={toUpdate}>
+                            {/* <Link to={'/healthhistory/update'}> */}
+                                Update Health History
+                            {/* </Link> */}
+                        </li>
+                        <li className={styles.menuitem} style={{color: 'white'}} onClick={toReceipts}>
+                            {/* <Link to={'/dashboard/receipts'}> */}
+                                View Appointment Receipts
+                            {/* </Link> */}
+                        </li>
+                        <li className={styles.menuitem} style={{float: 'right'}} onClick={handleLogout}>
+                            Logout
+                        </li>
+                    </ul>
                 ) : (
-                    <Link to="/auth">
-                        <button className="ui button">Login</button>
-                    </Link>
+                    <ul>
+                        <li className={styles.logo}>
+                            <Link style={{color: 'white'}} to={`/`}>
+                                Cip de Vries, RMT
+                            </Link>
+                        </li>
+                        <li className={styles.menuitem} style={{float: 'right'}} onClick={toLogin}>
+                            Login
+                        </li>    
+                    </ul>
+                    
                 )}
-            </div>
-        </nav>
+            </nav>
         )
     )
 }
