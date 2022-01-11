@@ -89,15 +89,16 @@ const ConfirmAppointment = ({user, appointments}) => {
         setApptId(appointmentId)
     }
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
 
         const reqBody = {
             data,
             otherData
         }
 
-        dispatch(confirmAppointment(_id, reqBody))
+        await dispatch(confirmAppointment(_id, reqBody))
         history.push('/')
+        window.location.reload(false)
     }
 
     if (appointments?.length > 0) {
@@ -118,27 +119,27 @@ const ConfirmAppointment = ({user, appointments}) => {
                                     <div>
                                         <label>Please indicate with your initials which of the following areas you give consent at this time to assess and massage:</label>
                                         <div>
-                                            <p style={{fontSize: '13px'}}>*Your comfort and safety during your massage are my top priority. Consenting through this form to assess and massage the following areas during this appointment does not preculde you from revoking your consent before or during the massage. Please feel welcome to express this at any time during the massage. Your comfort is essential to a successful massage therapy session. <Link>Click here to learn more about these areas, what assessment/treatment entails, and why this information is being asked.</Link></p>
+                                            <p style={{fontSize: '13px'}}>*Your comfort and safety during your massage are my top priority. Consenting through this form to assess and massage the following areas during this appointment does not preculde you from revoking your consent before or during the massage. Please feel welcome to express this at any time during the massage. Your comfort is essential to a successful massage therapy session. <Link target="_blank" to="/dashboard/consentinfo">Click here to learn more about these areas, what assessment/treatment entails, and why this information is being asked.</Link></p>
                                         </div>
                                         <div>
                                             <div className={styles.initial}>
-                                                <label>Glutes <i class="material-icons-outlined" className={styles.clear} onClick={clearGlutes}>clear</i></label>
-                                                
-                                                <div >
-                                                <SignatureCanvas ref={gluteSig} onEnd={glutesPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
-                                                </div>
+                                                <label>Glutes </label>
+                                                <SignatureCanvas ref={gluteSig} onEnd={glutesPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
+                                                <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearGlutes}>clear</i>                                            </div>
+                                            <div className={styles.initial}>
+                                                <label>Chest</label>
+                                                <SignatureCanvas ref={chestSig} onEnd={chestPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
+                                                <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearChest}>clear</i>
                                             </div>
                                             <div className={styles.initial}>
-                                                <label>Chest<i class="material-icons-outlined" style={{float: 'right', fontSize: '0.8rem'}} onClick={clearChest}>clear</i></label>
-                                                <SignatureCanvas ref={chestSig} onEnd={chestPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
+                                                <label>Abdomen</label>
+                                                <SignatureCanvas ref={abdomenSig} onEnd={abdomenPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
+                                                <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearAbdomen}>clear</i>
                                             </div>
                                             <div className={styles.initial}>
-                                                <label>Abdomen<i class="material-icons-outlined" style={{float: 'right', fontSize: '0.8rem'}} onClick={clearAbdomen}>clear</i></label>
-                                                <SignatureCanvas ref={abdomenSig} onEnd={abdomenPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
-                                            </div>
-                                            <div className={styles.initial}>
-                                                <label>Inner Thighs<i class="material-icons-outlined" style={{float: 'right', fontSize: '0.8rem'}} onClick={clearInnerThighs}>clear</i></label>
-                                                <SignatureCanvas ref={thighSig} onEnd={innerThighsPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 200, height: 60, className: 'sigCanvas'}} />
+                                                <label>Inner Thighs</label>                                      
+                                                <SignatureCanvas ref={thighSig} onEnd={innerThighsPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
+                                                <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearInnerThighs}>clear</i>
                                             </div>
                                         </div>
                                         

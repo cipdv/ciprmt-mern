@@ -3,6 +3,8 @@ import { useParams } from 'react-router'
 import styles from './confirmAppointment.module.css'
 import axios from 'axios'
 import { saveAs } from 'file-saver'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { PDFReceipt } from './PDFReceipt'
 
 const AppointmentReceipt = () => {
 
@@ -16,6 +18,9 @@ const AppointmentReceipt = () => {
 
     const apptId = appointment?._id
     const receiptNumber = apptId?.toUpperCase()
+
+    console.log('user', user)
+    console.log('appt', appointment)
 
     const data = {
         date: appointment?.date,
@@ -49,7 +54,8 @@ const AppointmentReceipt = () => {
     // }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.box}>
+        <div >
             <p style={{textAlign: 'center'}}>
                 <h4>Cip de Vries, RMT</h4>
                 268 Shuter Street, Toronto ON, M5A 1W3
@@ -62,7 +68,7 @@ const AppointmentReceipt = () => {
                 HST number: 845 918 200 RT0001
             </p>
             <h5 style={{textAlign: 'center'}}>Appointment Details</h5>
-            <div style={{display: 'flex',  justifyContent:'center', textAlign: 'left'}}>
+            <div style={{display: 'grid',  justifyContent:'center', textAlign: 'left'}}>
                 <table>
                     <thead>
                         <tr>
@@ -92,7 +98,12 @@ const AppointmentReceipt = () => {
                     </thead>
                 </table>
             </div>
-            {/* <button onClick={createPDF}>Download PDF</button>  */}
+            <div>
+                <PDFDownloadLink document={<PDFReceipt appointment={appointment} user={user} />} fileName={appointment?.date}>
+                    {({loading}) => loading ? <div>Loading...</div> : <button className={styles.btn}>Download PDF</button>}
+                </PDFDownloadLink>
+            </div>
+        </div>
         </div>
     )
 }

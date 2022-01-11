@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import styles from './styles.module.css'
+import './styles.css'
 import decode from 'jwt-decode'
 import SearchProfiles from '../../RMT/RMTDashboard/SearchProfiles'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 const Navbar = ({user, setUser}) => {
+
+    const [open, setOpen] = useState(false)
 
     const location = useLocation()
     const dispatch = useDispatch()
@@ -39,8 +42,7 @@ const Navbar = ({user, setUser}) => {
         if(token) {
             const decodedToken = decode(token)
 
-            if (decodedToken.exp *1000 < new Date().getTime()) handleLogout()
-            
+            if (decodedToken.exp *1000 < new Date().getTime()) handleLogout()       
         }
 
         setUser(JSON.parse(localStorage.getItem('profile')))
@@ -50,7 +52,7 @@ const Navbar = ({user, setUser}) => {
     return (
         user?.result?.userType === 'rmt' ? (
             // <nav className="ui inverted menu" >   
-            <nav className={styles.navbar}>
+            <nav className="navbar">
             <div className="item left">
                 {user ? (
                     <div>
@@ -76,47 +78,68 @@ const Navbar = ({user, setUser}) => {
             </div>
         </nav>
         ) : (
-            <nav className={styles.navbar}>             
-                {user ? (
-                    <ul>
-                        <li className={styles.logo}>
-                            <Link style={{color: 'white'}} to={'/'}>
-                                Cip de Vries, RMT
-                            </Link>
-                        </li>
-                        <li className={styles.menuitem} style={{color: 'white'}} onClick={toDashboard}>
-                            {/* <Link to={'/dashboard'}> */}
-                                Dashboard
-                            {/* </Link> */}
-                        </li>
-                        <li className={styles.menuitem} style={{color: 'white'}} onClick={toUpdate}>
-                            {/* <Link to={'/healthhistory/update'}> */}
-                                Update Health History
-                            {/* </Link> */}
-                        </li>
-                        <li className={styles.menuitem} style={{color: 'white'}} onClick={toReceipts}>
-                            {/* <Link to={'/dashboard/receipts'}> */}
-                                View Appointment Receipts
-                            {/* </Link> */}
-                        </li>
-                        <li className={styles.menuitem} style={{float: 'right'}} onClick={handleLogout}>
-                            Logout
-                        </li>
-                    </ul>
+            
+            // <div className='ui menu'>
+            //     <Link className='item' to={'/'}>
+            //         Cip de Vries, RMT
+            //     </Link>
+            //     <Link className='item' to={'/'}>
+            //         Dashboard
+            //     </Link>
+            //     <Link className='item' to={'/healthhistory/update'}>
+            //         Update Health History
+            //     </Link>
+            //     <Link className='item' to={'/dashboard/receipts'}>
+            //         Appointment Receipts
+            //     </Link>
+            //     <div className='right menu'>
+            //         <a className='item' onClick={handleLogout}>Logout</a>
+            //     </div>
+            // </div>
+                         
+                user ? (
+                    <nav className="navbar">
+                        <Link className="nav-logo" to={'/'} onClick={() => setOpen(false)}>
+                            Cip de Vries, RMT
+                        </Link>
+                        <ul className={open ? "nav-links active" : "nav-links"}>
+                            <li className="nav-item">
+                                <Link to={'/dashboard'} className="nav-link" onClick={() => setOpen(false)}>                                                     
+                                    Dashboard                                                   
+                                </Link> 
+                            </li>   
+                            <li className="nav-item">                     
+                                <Link to={'/healthhistory/update'} className="nav-link" onClick={() => setOpen(false)}>
+                                    Update Health History
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={'/dashboard/receipts'} className="nav-link" onClick={() => setOpen(false)}>
+                                    Appointment Receipts                              
+                                </Link>
+                            </li>
+                            <li className="nav-item" onClick={() => setOpen(false)}>
+                                <a className='nav-link' onClick={handleLogout}>Logout</a>
+                            </li>
+                            
+                        </ul>
+                        <div onClick={() => setOpen(!open)} className="nav-icon">
+                            {open ? <FiX /> : <FiMenu />}
+                        </div>
+                    </nav>              
                 ) : (
-                    <ul>
-                        <li className={styles.logo}>
-                            <Link style={{color: 'white'}} to={`/`}>
-                                Cip de Vries, RMT
-                            </Link>
-                        </li>
-                        <li className={styles.menuitem} style={{float: 'right'}} onClick={toLogin}>
+                <nav className='navbar'>
+                    <Link to={`/`} className='nav-logo'>
+                        Cip de Vries, RMT
+                    </Link>
+                    <ul>                 
+                        <li className='login' onClick={toLogin}>
                             Login
                         </li>    
                     </ul>
-                    
-                )}
-            </nav>
+                </nav>
+                )
+            
         )
     )
 }

@@ -8,7 +8,7 @@ import styles from './hhform.module.css'
 
 const RFHHHForm = () => {
 
-    const userState = useSelector((state)=>state?.authReducer?.authData?.result)
+    const userState = useSelector((state)=>state?.usersReducer?.user?.data)
 
     const { register, handleSubmit, control, formState: { errors } } = useForm()
     const dispatch = useDispatch()
@@ -17,10 +17,11 @@ const RFHHHForm = () => {
     const healthHistory = userState?.healthHistory[0]
     const userId = userState?._id
 
-    const onSubmit = (data) => {
-        dispatch(submitHH(data))
-        dispatch(updateUser(userId))
-        history.push(`/dashboard`)
+    const onSubmit = async (data) => {
+        await dispatch(submitHH(data))
+        await dispatch(updateUser(userId))
+        history.push('/')
+        window.location.reload(false)
     }
     
 
@@ -28,8 +29,8 @@ const RFHHHForm = () => {
         !userState ? (
             <div>Loading . . .</div>
         ) : (
-        <div className={styles.environment}>
-            <form onSubmit={handleSubmit(onSubmit)} >
+        <div >
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)} >
                 <div className={styles.section}>
                     <h2>Personal information:</h2>
                     <div>
@@ -321,7 +322,7 @@ const RFHHHForm = () => {
                 <div className={styles.section}>
                     <h2>Privacy Policy</h2>
                     <div style={{marginLeft: '1.5rem', marginTop: '1rem'}}> 
-                        <Link className={styles.link} to="/privacypolicy">Click here to read the privacy policy</Link>
+                        <Link className={styles.link} target="_blank" to="/privacypolicy">Click here to read the privacy policy</Link>
                         <label className={styles.container}>By clicking here you are indicating that you have read the privacy policy
                             <input defaultChecked={healthHistory?.privacyPolicy} name="privacyPolicy" type="checkbox" id="privacyPolicy" {...register('privacyPolicy', {required: true})} />
                             <span className={styles.checkmark}></span>

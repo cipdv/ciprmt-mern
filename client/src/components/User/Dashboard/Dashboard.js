@@ -1,14 +1,21 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import ConfirmAppointment from '../Appointments/ConfirmAppointment'
 import HealthHistory from '../HHForm/HealthHistory'
 import styles from './dashboard.module.css'
+import { getUser } from '../../../actions/healthHistory'
 
 const Dashboard = ({user}) => {
 
-    const currentUser = useSelector((state)=>state?.authReducer?.authData)
-    const appointments = useSelector((state)=>state?.authReducer?.authData?.result?.appointments)
-    const healthHistory = useSelector((state)=>state?.authReducer?.authData?.result?.healthHistory)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getUser(user?.result._id)) 
+    }, [dispatch])
+
+    const currentUser = useSelector((state)=>state?.usersReducer)
+    const appointments = useSelector((state)=>state?.usersReducer?.user?.data?.appointments)
+    const healthHistory = useSelector((state)=>state?.usersReducer?.user?.data?.healthHistory)
 
     return (
             <div className={styles.container}>
@@ -16,9 +23,9 @@ const Dashboard = ({user}) => {
                 {appointments?.length > 0 ? (
                     <ConfirmAppointment user={user} appointments={appointments} />
                 ) : appointments?.length === 0 && healthHistory?.length > 0 ? (
-                    <div>You have no upcoming appointments scheduled yet.</div>
+                    <div className={styles.box}>You have no upcoming appointments scheduled yet. <br />Text Cip at 416-258-1230 to schedule a massage.</div>
                 ) : appointments?.length === 0 && healthHistory?.length === 0 ? (
-                    <div>
+                    <div className={styles.box}>
                         <h3>Thanks for registering.</h3>
                         <p>The next step is to complete your health history file:</p>
                         {/* <Link to="/healthhistory">

@@ -5,7 +5,6 @@ body {
 
 .container {
     display: grid;
-    max-width: 50rem;
     justify-content: center;
     padding: 1em;
     margin: 2rem 2rem;
@@ -23,3 +22,14 @@ body {
     background-color: #8fbc8f65;
 }
 
+.box {
+    display: grid;
+    color: rgb(255, 253, 245);
+    justify-content: center;
+    border:2px solid #d7c8f0;
+    border-radius: 10px;
+    background-color: rgb(33, 48, 39);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 1rem
+}

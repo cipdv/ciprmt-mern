@@ -105,7 +105,7 @@ const Auth = () => {
                                     By registering, you will be able to access your receipts, confirm appointments, and manage your health history file.
                                 </p>
                                 <p>
-                                    All information provided will be encrypted and sent through a secure network in accordance with my <Link to="/privacypolicy">privacy policy</Link>.
+                                    All information provided will be encrypted and sent through a secure network in accordance with my <Link target="_blank" to="/privacypolicy">privacy policy</Link>.
                                 </p>
                                     <label>First name</label>
                                     <input className={styles.forminput} name="firstName" label="First name" type="text" value={values.firstName} onChange={handleChange} />

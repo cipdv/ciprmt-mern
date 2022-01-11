@@ -1,3 +1,9 @@
+.container {
+    display: grid;
+    justify-content: center;
+    margin-top: 2em;
+}
+
 .table {
     color: rgb(255, 253, 245);
     padding: 0.7rem;
@@ -21,6 +27,17 @@
 
 td {
     text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.tr:hover {
+    background-color: #8fbc8f65;
+    cursor: pointer;
+}
+
+th {
+    padding: 1rem;
 }
 
 .btn {
@@ -29,7 +46,7 @@ td {
     color: white;
     margin-top: 0;
     margin-bottom: 0;
-    padding: 10px 20px;
+    padding: 0.8rem 0.8rem;
     border-radius: 0.3em;
 }
 .btn:hover {
