@@ -15,6 +15,8 @@ import userRoutes from './routes/users.js'
 import appointmentRoutes from './routes/appointments.js'
 import RMTRoutes from './routes/rmt.js'
 import financialRoutes from './routes/financials.js'
+import EALRoutes from './routes/electronicAuditLog.js'
+import maintenanceLog from './routes/maintenanceLog.js'
 
 //configs
 const app = express()
@@ -30,6 +32,8 @@ app.use('/user', userRoutes)
 app.use('/appointments', appointmentRoutes)
 app.use('/rmt', RMTRoutes )
 app.use('/financials', financialRoutes)
+app.use('/electronicauditlog', EALRoutes)
+app.use('/maintenancelog', maintenanceLog)
 
 app.get('/', (req, res)=>{
     res.send('Cip de Vries, RMT')

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { RMTRegister, RMTLogin } from '../../../actions/auth'
 import { useHistory } from 'react-router-dom'
+import styles from './rmtauth.module.css'
 
 const RMTAuth = () => {
     const dispatch = useDispatch()
@@ -57,7 +58,7 @@ const RMTAuth = () => {
                     {
                         isRegister ? (
                             <>
-                                <div>
+                                {/* <div>
                                 <h3>Register as a RMT:</h3>
                                     <label>First name</label>
                                     <input name="firstName" label="First name" type="text" value={firstName} onChange={(e)=>setFirstName(e.target.value)} />
@@ -83,24 +84,24 @@ const RMTAuth = () => {
                                     <label>Confirm Password</label>
                                     <input name="confirmPassword" label="Confirm Password" value={confirmPassword} type="password" onChange={(e)=>setConfirmPassword(e.target.value)} />
                                 </div>          
-                                <button type="submit" className="ui button ">Register</button>
+                                <button type="submit" className={styles.btn}>Register</button> */}
                             </>
                         ) : (
-                            <div>
+                            <div className={styles.form}>
                                 <h3>RMT Login</h3>
                                 <label>Email</label>
-                                <input name="email" type="text" label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+                                <input className={styles.forminput} name="email" type="text" label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
                                 <label>Password</label>
-                                <input name="password" type="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
-                                <button type="submit" className="ui button">Login</button>
+                                <input className={styles.forminput} name="password" type="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+                                <button type="submit" className={styles.btn}>Login</button>
                             </div>
                         )
                     }
-                <div onClick={switchMode}>
+                {/* <div onClick={switchMode}>
                     {
                         isRegister ? 'Already have an account? Login here' : 'First time booking a massage? Click here to register'
                     }
-                </div>
+                </div> */}
                 </div>   
             </form>
         </div>

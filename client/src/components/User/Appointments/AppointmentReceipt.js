@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useParams } from 'react-router'
 import styles from './confirmAppointment.module.css'
 import axios from 'axios'
@@ -6,11 +6,20 @@ import { saveAs } from 'file-saver'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { PDFReceipt } from './PDFReceipt'
 
-const AppointmentReceipt = () => {
+const AppointmentReceipt = ({user}) => {
+
+    useEffect(()=>{
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: 'appointment details (date, duration, time, price)',
+            actionPerformed: 'viewed',
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+    }, [])
 
     const params = useParams()
 
-    const user = JSON.parse(localStorage.getItem('profile'))
+    // const user = JSON.parse(localStorage.getItem('profile'))
 
     const appointmentArray = user?.result?.appointments
 
@@ -18,9 +27,6 @@ const AppointmentReceipt = () => {
 
     const apptId = appointment?._id
     const receiptNumber = apptId?.toUpperCase()
-
-    console.log('user', user)
-    console.log('appt', appointment)
 
     const data = {
         date: appointment?.date,
@@ -52,6 +58,16 @@ const AppointmentReceipt = () => {
     //             saveAs(pdfBlob, 'receipt.pdf')
     //         })
     // }
+    
+    const addDownloadPDFToEAL = () => {
+        console.log('dfasfda')
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: 'appointment details (date, duration, time, price)',
+            actionPerformed: 'PDF downloaded',
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+    }
 
     return (
         <div className={styles.box}>
@@ -100,7 +116,7 @@ const AppointmentReceipt = () => {
             </div>
             <div>
                 <PDFDownloadLink document={<PDFReceipt appointment={appointment} user={user} />} fileName={appointment?.date}>
-                    {({loading}) => loading ? <div>Loading...</div> : <button className={styles.btn}>Download PDF</button>}
+                    {({loading}) => loading ? <div>Loading...</div> : <button onClick={addDownloadPDFToEAL} className={styles.btn}>Download PDF</button>}
                 </PDFDownloadLink>
             </div>
         </div>

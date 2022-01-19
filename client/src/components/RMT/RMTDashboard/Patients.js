@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
+import styles from './rmtdashboard.module.css'
 
 const Patients = () => {
 
@@ -13,9 +14,9 @@ const Patients = () => {
 
     return (
         patients?.length !== 0 ? (
-            <table className="ui celled selectable compact table">
+            <table>
                 <thead>
-                    <tr>
+                    <tr className={styles.row}>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -23,13 +24,13 @@ const Patients = () => {
                 </thead>
                 <tbody>
                     {patients && patients.map((patient)=>(
-                        <tr key={patient?._id} onClick={()=>selectPatient(patient?._id)}>
-                            <td>{patient?.firstName}</td>
-                            <td>{patient?.email}</td>
+                        <tr key={patient?._id} onClick={()=>selectPatient(patient?._id)} className={styles.tablerow}>
+                            <td className={styles.tablerow}>{patient?.firstName} {patient?.lastName}</td>
+                            <td className={styles.tablerow}>{patient?.email}</td>
                             {!patient?.healthHistory[0] ? (
-                                <td>No phone number</td>
+                                <td className={styles.tablerow}>No phone number</td>
                             ) : (
-                                <td>{patient?.healthHistory[0]?.phoneNumber}</td>
+                                <td className={styles.tablerow}>{patient?.healthHistory[0]?.phoneNumber}</td>
                             )}
                         </tr>
                     ))}

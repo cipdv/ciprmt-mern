@@ -64,6 +64,18 @@ ul {
     font-size: 1.2rem;
 }
 
+.navbar-rmt {
+    height: 4rem;
+    background-color: rgb(33, 48, 39);
+    width: 100%;
+    color: rgb(255, 253, 245);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+}
+
 .nav-logo {
   float: left;
   color: rgb(255, 253, 245);
@@ -124,6 +136,23 @@ ul {
     color: rgb(255, 253, 245);
 }
 
+.nav-rmt-link {
+    float: left;
+  display: block;
+  color: rgb(255, 253, 245);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-rmt-link:hover {
+    cursor: pointer;
+    color: rgb(255, 253, 245);
+    border:rgb(255, 253, 245) 1.5px solid;
+    border-radius: 5px;
+}
+
 .nav-icon {
     display: none;
     font-size: 2rem;
@@ -132,6 +161,10 @@ ul {
 
 @media only screen and (max-width: 500px) {
     .navbar {
+        position: relative;
+    }
+
+    .navbar-rmt {
         position: relative;
     }
 

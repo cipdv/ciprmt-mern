@@ -26,7 +26,7 @@ const HealthHistory = ({user}) => {
             // ) : (
             <div>
                 {/* <HHForm user={user} userState={userState}/> */}
-                <RFHHHForm />   
+                <RFHHHForm user={user} />   
             </div>
             )       
         

@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory, Link } from 'react-router-dom'
 import { updateAppointment } from '../../../actions/appointment'
 import { addTransaction } from '../../../actions/financials'
+import styles from './rmtdashboard.module.css'
+import axios from 'axios'
+import FileBase from 'react-file-base64';
 
 
 const AppointmentDetails = ({appointments, userState, user}) => {
@@ -10,19 +13,34 @@ const AppointmentDetails = ({appointments, userState, user}) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const [findings, setFindings] = useState(appointments?.findings ? (appointments?.findings) : (''))
-    const [generalTreatment, setGeneralTreatment] = useState(appointments?.treatment?.generalTreatment ? (appointments?.treatment?.generalTreatment) : (''))
-    const [specificTreatment, setSpecificTreatment] = useState(appointments?.treatment?.specificTreatment ? (appointments?.treatment?.specificTreatment) : (''))
-    const [subjectiveResults, setSubjectiveResults] = useState(appointments?.results?.subjectiveResults ? (appointments?.results?.subjectiveResults) : (''))
-    const [objectiveResults, setObjectiveResults] = useState(appointments?.results?.objectiveResults ? (appointments?.results?.objectiveResults) : (''))
-    const [remex, setRemex] = useState(appointments?.remex ? (appointments?.remex) : (''))
-    const [treatmentPlan, setTreatmentPlan] = useState(appointments?.treatmentPlan ? (appointments?.treatmentPlan) : (''))
-    const [paymentType, setPaymentType] = useState(appointments?.paymentType ? (appointments?.paymentType) : (''))
-    const [price, setPrice] = useState(appointments?.price ? (appointments?.price) : (''))
+    useEffect(()=>{
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: `appointment details`,
+            actionPerformed: 'viewed',
+            accessedBy: {
+            firstName: user?.result?.firstName,
+            lastName: user?.result?.lastName
+        } ,
+            whoseInfo: userState?._id
+        })
+    }, [])
+
+    const [findings, setFindings] = useState(appointments?.findings)
+    const [generalTreatment, setGeneralTreatment] = useState(appointments?.treatment?.generalTreatment)
+    const [specificTreatment, setSpecificTreatment] = useState(appointments?.treatment?.specificTreatment)
+    const [subjectiveResults, setSubjectiveResults] = useState(appointments?.results?.subjectiveResults)
+    const [objectiveResults, setObjectiveResults] = useState(appointments?.results?.objectiveResults)
+    const [remex, setRemex] = useState(appointments?.remex)
+    const [treatmentPlan, setTreatmentPlan] = useState(appointments?.treatmentPlan)
+    const [paymentType, setPaymentType] = useState(appointments?.paymentType)
+    const [price, setPrice] = useState(appointments?.price)
     const [paymentFee, setPaymentFee] = useState(null)
-    const [date, setDate] = useState(appointments?.date ? (appointments?.date) : (''))
-    const [time, setTime] = useState(appointments?.time ? (appointments?.time) : (''))
-    const [duration, setDuration] = useState(appointments?.duration ? (appointments?.duration) : (''))
+    const [date, setDate] = useState(appointments?.date)
+    const [time, setTime] = useState(appointments?.time)
+    const [duration, setDuration] = useState(appointments?.duration)
+    const [referToHCP, setReferToHCP] = useState(appointments?.referToHCP)
+    const [notes, setNotes] = useState(appointments?.notes)
+    const [documentationFile1, setDocumentationFile1] = useState(appointments?.documentation?.file1)
 
     const formData = {
         paymentType,
@@ -40,7 +58,12 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         price,
         date,
         duration,
-        time
+        time,
+        referToHCP,
+        notes,
+        documentation: {
+            file1: documentationFile1
+        }
     }
 
     const handleChange = (e) => {
@@ -87,6 +110,9 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         setRemex('')
         setTreatmentPlan('')
         setPrice('')
+        setReferToHCP('')
+        setNotes('')
+        setDocumentationFile1('')
     }
 
     const handleSubmit = (e) => {
@@ -95,6 +121,13 @@ const AppointmentDetails = ({appointments, userState, user}) => {
             dispatch(updateAppointment(userState?._id, appointments?._id, formData))
             dispatch(addTransaction(user.result._id, financialData))
         }
+        //electronic audit log
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: `appointment details`,
+            actionPerformed: 'appointment details modified and income transaction added to financial statement',
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: userState?._id
+        })
         history.push(`/rmt/dashboard/patientprofile/${userState?._id}`)
         clear()  
     }
@@ -106,10 +139,10 @@ const AppointmentDetails = ({appointments, userState, user}) => {
             </div>
         ) : (
         <div>
-            <Link style={{color: 'black'}} to={`/rmt/dashboard/patientprofile/${userState?._id}`} >
+            <Link to={`/rmt/dashboard/patientprofile/${userState?._id}`} >
                 <h3>{userState?.firstName} {userState?.lastName}</h3>
             </Link>
-            <table className="ui table">
+            <table className={styles.table}>
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -156,7 +189,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
                     </tr>
                 </tbody>
             </table>
-            <table className="ui table">
+            <table className={styles.table}>
                 <thead>
                     <tr>
                         <th>Reason for massage</th>
@@ -168,7 +201,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
                     </tr>
                 </tbody>
             </table>
-            <table className="ui table">
+            <table className={styles.table}>
                 <thead>
                     <tr>
                         <th>Consents given</th>
@@ -182,6 +215,8 @@ const AppointmentDetails = ({appointments, userState, user}) => {
                                 <div>No consent data</div>
                             ) : (
                                 <div className="ui list">
+                                    {appointments?.consents?.treatmentConsent === true ? <div className="ui item" >Treatment consent given</div> : <div></div>}
+                                    {appointments?.consents?.glutes === true ? <div className="ui item" >Glutes</div> : <div></div>}
                                     {appointments?.consents?.glutes === true ? <div className="ui item" >Glutes</div> : <div></div>}
                                     {appointments?.consents?.chest === true ? <div className="ui item" >Chest</div> : <div></div>}
                                     {appointments?.consents?.innerThighs === true ? <div className="ui item" >Inner thighs</div> : <div></div>}
@@ -205,36 +240,51 @@ const AppointmentDetails = ({appointments, userState, user}) => {
                     </tr>
                 </tbody>
             </table>
-            <form className="ui form" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label>Findings</label>
-                    <input type="text" value={findings} onChange={(e)=>setFindings(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={findings} onChange={(e)=>setFindings(e.target.value)} />
                 </div>
                 <div>
                     <label>Specific Treatment</label>
-                    <input type="text" value={specificTreatment} onChange={(e)=>setSpecificTreatment(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={specificTreatment} onChange={(e)=>setSpecificTreatment(e.target.value)} />
                 </div>
                 <div>
                     <label>General Treatment</label>
-                    <input type="text" value={generalTreatment} onChange={(e)=>setGeneralTreatment(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={generalTreatment} onChange={(e)=>setGeneralTreatment(e.target.value)} />
                 </div>
                 <div>
                     <label>Subjective Results</label>
-                    <input type="text" value={subjectiveResults} onChange={(e)=>setSubjectiveResults(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={subjectiveResults} onChange={(e)=>setSubjectiveResults(e.target.value)} />
                 </div>
                 <div>
                     <label>Objective Results</label>
-                    <input type="text" value={objectiveResults} onChange={(e)=>setObjectiveResults(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={objectiveResults} onChange={(e)=>setObjectiveResults(e.target.value)} />
                 </div>
                 <div>
                     <label>Remex</label>
-                    <input type="text" value={remex} onChange={(e)=>setRemex(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={remex} onChange={(e)=>setRemex(e.target.value)} />
                 </div>
                 <div>
                     <label>Treatment Plan</label>
-                    <input type="text" value={treatmentPlan} onChange={(e)=>setTreatmentPlan(e.target.value)} />
+                    <input className={styles.forminput} type="text" value={treatmentPlan} onChange={(e)=>setTreatmentPlan(e.target.value)} />
                 </div>
-                <button type="submit" className="ui pink button" style={{marginTop: '10px', marginBottom: '20px'}}>Update</button>
+                <div>
+                    <label>Referral to other Health Care Practitioner</label>
+                    <input className={styles.forminput} type="text" value={referToHCP} onChange={(e)=>setReferToHCP(e.target.value)} />
+                </div>
+                <div>
+                    <label>Notes</label>
+                    <input className={styles.forminput} type="text" value={notes} onChange={(e)=>setNotes(e.target.value)} placeholder='Include PPE used, and if consent to any areas was revoked before/during the massage'/>
+                </div>
+                <div>
+                    <label>Documents</label>
+                    <FileBase type="file" multiple={false} onDone={({ base64 }) => setDocumentationFile1(base64)} />
+                    <div>
+                        {appointments?.documentation?.file1 ? (<img src={`data:image/jpeg;base64,${documentationFile1}`} />) : (<div></div>)}
+                    </div>
+                </div>
+                <button type="submit" className={styles.btn} style={{marginTop: '10px', marginBottom: '20px'}}>Update</button>
             </form>
         </div>
         )

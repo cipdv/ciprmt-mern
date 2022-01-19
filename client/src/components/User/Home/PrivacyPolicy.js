@@ -4,9 +4,19 @@ import styles from './styles.module.css'
 const PrivacyPolicy = () => {
     return (
         <div className={styles.box}>
-            <div>
+            <div style={{marginBottom: '2rem'}}>
+                <h2>HARASSMENT POLICY</h2>
+                <h5>Updated: January 2022</h5>
+                <p></p>
+            </div>
+            <div style={{marginBottom: '2rem'}}>
+                <h2>CANCELLATION POLICY</h2>
+                <h5>Updated: January 2022</h5>
+                <p>Cancellation of appointments may be done at any time, however, if the appointment is within 24 hours, the appointment may be charged at the full rate at the discretion of Cip de Vries, RMT. </p>
+                <p><b>If you are showing any signs or symptoms of Covid-19 10 days before or after your appointment, please notify Cip de Vries, RMT as soon as possible. </b>You will not be charged for cancelling your appointment if you are showing symptoms of Covid-19.</p>
+            </div>
+            <div style={{marginBottom: '2rem'}}>
                 <h2>PRIVACY POLICY</h2>
-                <h4>Cip de Vries, RMT</h4>
                 <h5>Updated: January 2022</h5>
                 <p>
                 Cip de Vries, RMT vows to treat all clients with respect and to keep your personal health information private and confidential at all times as required by the Personal Health Information Protection Act (PHIPA) 2004.

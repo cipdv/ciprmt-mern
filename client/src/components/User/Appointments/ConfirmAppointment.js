@@ -1,12 +1,22 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { confirmAppointment } from '../../../actions/appointment'
 import { useForm } from 'react-hook-form'
 import styles from './confirmAppointment.module.css'
 import SignatureCanvas from 'react-signature-canvas'
 import { useHistory, Link } from 'react-router-dom'
+import axios from 'axios'
 
 const ConfirmAppointment = ({user, appointments}) => {
+
+    useEffect(()=>{
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: 'appointment details (date, duration, time, price)',
+            actionPerformed: `viewed`,
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+    }, [])
 
     const { _id, firstName, lastName } = user?.result
 
@@ -97,6 +107,15 @@ const ConfirmAppointment = ({user, appointments}) => {
         }
 
         await dispatch(confirmAppointment(_id, reqBody))
+
+        //electronic audit log
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: 'appointment details (consents, covid screening, reason for massage, notes)',
+            actionPerformed: `modified`,
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+
         history.push('/')
         window.location.reload(false)
     }
@@ -113,8 +132,13 @@ const ConfirmAppointment = ({user, appointments}) => {
                                 <div>
                                     <div>
                                         <label>Reason for booking massage:</label>
-                                            <input className={styles.forminput} type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" placeholder='eg. relaxation, lower back pain, general wellbeing.' />
-                                            {errors?.reasonForMassage && <p className={styles.error}>Please indicate why you'd like to book a massage</p>}
+                                        <div>
+                                            <p style={{fontSize: '13px'}}>
+                                                If you have a specific issue, please include the location and nature of the discomfort.
+                                            </p>
+                                        </div>
+                                        <input className={styles.forminput} type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" placeholder='Eg. Relaxation, pain or discomfort relief, general wellbeing' />               
+                                        {errors?.reasonForMassage && <p className={styles.error}>Please indicate why you'd like to book a massage</p>}
                                     </div>
                                     <div>
                                         <label>Please indicate with your initials which of the following areas you give consent at this time to assess and massage:</label>
@@ -155,6 +179,9 @@ const ConfirmAppointment = ({user, appointments}) => {
                                 </div>
                                 <div className={styles.covidsection}>
                                     <h2>Covid-19 Risk Assessment</h2>
+                                    <div style={{marginTop: '1rem'}}>
+                                        <Link to={'/covidmeasures'}>Click here</Link> to review the current measures Cip de Vries, RMT will be taking to reduce the risk of spreading infectious diseases including Covid-19.
+                                    </div>
                                     <div>
                                         <label>Please respond to the following:</label>
                                         <div style={{marginLeft: '2rem'}}>

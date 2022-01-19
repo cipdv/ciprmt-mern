@@ -8,6 +8,7 @@ const router = express.Router()
 
 //create a new health history document in the user's file
 export const createHealthHistory = async (req, res)=> {
+
     User.findById(req.userId, function(err, result) {
     if (!err) {
       if (!result){

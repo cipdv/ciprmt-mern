@@ -45,12 +45,14 @@ const HHSchema = mongoose.Schema({
     epilepsy: Boolean,
     cancer: Boolean,
     arthritis: Boolean,
+    arthritisFamilyHistory: Boolean,
     chronicHeadaches: Boolean,
     migraineHeadaches: Boolean,
     visionLoss: Boolean, 
     hearingLoss: Boolean,
     osteoporosis: Boolean,
     haemophilia: Boolean,
+    internalEquipment: String,
     otherMedicalConditions: String,
     lossOfFeeling: String,
     allergies: String,
@@ -95,11 +97,20 @@ const appointmentSchema = mongoose.Schema({
         innerThighs: String,
         areasToAvoid: String
     },
-    additionalNotes: String,
+    notes: String,
     covid: {
         vaccinated: Boolean,
         noSymptoms: Boolean,
         notIsolating: Boolean
+    },
+    referToHCP: String,
+    documentation: {
+        file1: String,
+        file2: String,
+        file3: String,
+        file4: String,
+        file5: String, 
+        file6: String
     }
 })
 

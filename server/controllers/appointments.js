@@ -55,9 +55,10 @@ export const getAppointment = async (req, res) => {
 //update appointment form
 export const updateAppointment = async (req, res) => {
   const { userid, appointmentid } = req.params
-  const { findings, remex, treatmentPlan, price, paymentType, date, duration, time } = req.body
+  const { findings, remex, treatmentPlan, price, paymentType, date, duration, time, referToHCP } = req.body
   const { generalTreatment, specificTreatment } = req.body.treatment
   const { subjectiveResults, objectiveResults } = req.body.results
+  const { file1, file2, file3, file4, file5, file6} = req.body.documentation
 
   const user = await User.findById(userid)
   const appointment = user.appointments.id(appointmentid)
@@ -156,6 +157,13 @@ export const updateAppointment = async (req, res) => {
           "appointments.$[i].treatmentPlan": treatmentPlan,
           "appointments.$[i].price": price,
           "appointments.$[i].paymentType": paymentType,
+          "appointments.$[i].referToHCP": referToHCP,
+          "appointments.$[i].documentation.file1": file1,
+          "appointments.$[i].documentation.file2": file2,
+          "appointments.$[i].documentation.file3": file3,
+          "appointments.$[i].documentation.file4": file4,
+          "appointments.$[i].documentation.file5": file5,
+          "appointments.$[i].documentation.file6": file6,
         }
       },{
           new:true,
@@ -186,7 +194,7 @@ export const addAppointment = async (req, res) => {
           text: `Please login to your account at www.ciprmt.com to confirm your appointment`,
           html: `
             <p>
-              Please <a href="http://localhost:3000/auth">login to your account</a> to provide some details and to confirm your appointment on ${req.body.date} at ${req.body.time}.
+              Please <a href="https://ciprmt.netlify.app/">login to your account</a> to provide some details and to confirm your appointment on ${req.body.date} at ${req.body.time}.
             </p>
           `,
         }

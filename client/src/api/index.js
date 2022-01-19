@@ -1,6 +1,9 @@
 import axios from 'axios'
+//PRODUCTION
+// const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
+//DEVELOPMENT
+const API = axios.create({ baseURL: 'http://localhost:5000'})
 
-const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
 
 // API.interceptors.request.use((req)=>{
 //     if (localStorage.getItem('profile')) {
@@ -41,3 +44,6 @@ export const userTypeVerification = () => API.get('/user/usertype')
 export const addTransaction = (RMTid, financialData) => API.put(`/financials/${RMTid}`, financialData)
 export const getFinancialData = (year) => API.post('/financials/getfinancialdata', year)
 export const addFinancials = (formData) => API.patch(`/financials/addFinancials`, formData)
+
+//electronic audit log
+export const addToEAL = (data) => API.post(`/electronicauditlog`, data)

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { searchUsers } from '../../../actions/healthHistory'
-
+import styles from './rmtdashboard.module.css'
 
 const SearchProfiles = () => {
 
@@ -27,9 +27,9 @@ const SearchProfiles = () => {
 
     return (
         <form onSubmit={searchPosts}>
-                <div className="ui input">
-                    <input type="text" placeholder="Search patient profiles" value={searchName} onChange={(e)=>setSearchName(e.target.value)} />
-                    <button type="submit" style={{marginLeft: '10px'}} className="ui button">Search</button>
+                <div>
+                    <input className={styles.forminput} type="text" placeholder="Search patient profiles" value={searchName} onChange={(e)=>setSearchName(e.target.value)} />
+                    <button type="submit" style={{marginLeft: '10px'}} className={styles.btn}>Search</button>
                 </div>
             </form>
     )

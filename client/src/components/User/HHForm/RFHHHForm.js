@@ -1,12 +1,23 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { submitHH, updateUser } from '../../../actions/healthHistory'
 import { useHistory, Link } from 'react-router-dom'
 import moment from 'moment'
 import { useForm, Controller } from 'react-hook-form'
 import styles from './hhform.module.css'
+import axios from 'axios'
 
-const RFHHHForm = () => {
+const RFHHHForm = ({user}) => {
+
+    useEffect(()=>{
+
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: `health history record`,
+            actionPerformed: 'viewed',
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+    }, [])
 
     const userState = useSelector((state)=>state?.usersReducer?.user?.data)
 
@@ -17,9 +28,16 @@ const RFHHHForm = () => {
     const healthHistory = userState?.healthHistory[0]
     const userId = userState?._id
 
-    const onSubmit = async (data) => {
-        await dispatch(submitHH(data))
-        await dispatch(updateUser(userId))
+    const onSubmit = (data) => {
+        console.log(data)
+        dispatch(submitHH(data))
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: `health history record`,
+            actionPerformed: 'modified',
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+        // await dispatch(updateUser(userId))
         history.push('/')
         window.location.reload(false)
     }
@@ -199,7 +217,12 @@ const RFHHHForm = () => {
                             Arthritis
                             <input defaultChecked={healthHistory?.arthritis} name="arthritis" type="checkbox" id="arthritis" {...register('arthritis')} />
                             <span className={styles.checkmark}></span>
-                        </label >                                      
+                        </label >  
+                        <label className={styles.container}>
+                            Family history of arthritis
+                            <input defaultChecked={healthHistory?.arthritisFamilyHistory} name="arthritisFamilyHistory" type="checkbox" id="arthritisFamilyHistory" {...register('arthritisFamilyHistory')} />
+                            <span className={styles.checkmark}></span>
+                        </label >                                     
                         <label className={styles.container}>
                             Chronic Headaches
                             <input defaultChecked={healthHistory?.chronicHeadaches} name="chronicHeadaches" type="checkbox" id="chronicHeadaches" {...register('chronicHeadaches')} />
@@ -287,6 +310,10 @@ const RFHHHForm = () => {
                     </div>  
                 </div> 
                 <div>
+                    <label>Do you have any internal pins, wires, artificial joints or special equipment?</label>
+                    <input className={styles.forminput} defaultValue={healthHistory?.internalEquipment} name="internalEquipment" placeholder='Please describe the type of equipment and location and approximate date of implementation' type="text" id="internalEquipment" {...register('internalEquipment')} />
+                </div>
+                <div>
                     <label>Do you have any skin conditions?</label>
                     <input className={styles.forminput} defaultValue={healthHistory?.skinConditions} name="skinConditions" placeholder="Please list any skin conditions you have" type="text" id="skinConditions" {...register('skinConditions')} />
                 </div>
@@ -320,10 +347,10 @@ const RFHHHForm = () => {
                     <input className={styles.forminput} defaultValue={healthHistory?.otherMedicalConditions} name="otherMedicalConditions" placeholder="Please list anything not listed above" type="text" id="otherMedicalConditions" {...register('otherMedicalConditions')} />
                 </div>
                 <div className={styles.section}>
-                    <h2>Privacy Policy</h2>
+                    <h2>Policies: Cancellations, Privacy, and Harassment</h2>
                     <div style={{marginLeft: '1.5rem', marginTop: '1rem'}}> 
-                        <Link className={styles.link} target="_blank" to="/privacypolicy">Click here to read the privacy policy</Link>
-                        <label className={styles.container}>By clicking here you are indicating that you have read the privacy policy
+                        <Link className={styles.link} target="_blank" to="/privacypolicy">Click here to read the policies for cancellation, privacy, and harassment.</Link>
+                        <label className={styles.container}>By clicking here you are indicating that you have read and agree to the aforementioned policies.
                             <input defaultChecked={healthHistory?.privacyPolicy} name="privacyPolicy" type="checkbox" id="privacyPolicy" {...register('privacyPolicy', {required: true})} />
                             <span className={styles.checkmark}></span>
                         </label>
