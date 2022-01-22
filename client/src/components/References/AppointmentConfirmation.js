@@ -1,27 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { confirmAppointment } from '../../../actions/appointment'
 import { useForm } from 'react-hook-form'
-import styles from './confirmAppointment.module.css'
+import styles from '../User/Appointments/confirmAppointment.module.css'
 import SignatureCanvas from 'react-signature-canvas'
-import { useHistory, Link } from 'react-router-dom'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
 
-const ConfirmAppointment = ({user, appointments}) => {
-
-    useEffect(()=>{
-        axios.post('http://localhost:5000/electronicauditlog', {
-            typeOfInfo: 'appointment details (date, duration, time, price)',
-            actionPerformed: `viewed`,
-            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
-            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
-        })
-    }, [])
-
-    const { _id, firstName, lastName } = user?.result
-
-    const dispatch = useDispatch()
-    const history = useHistory()
+const AppointmentConfirmation = () => {
     
     let gluteSig = useRef({})
     let abdomenSig = useRef({})
@@ -50,7 +33,6 @@ const ConfirmAppointment = ({user, appointments}) => {
             abdomen,
             innerThighs,
         },
-        name: `${firstName} ${lastName}`,
         apptDate,
         apptTime,
         apptId
@@ -100,33 +82,15 @@ const ConfirmAppointment = ({user, appointments}) => {
     }
 
     const onSubmit = async (data) => {
-
-        const reqBody = {
-            data,
-            otherData
-        }
-
-        await dispatch(confirmAppointment(_id, reqBody))
-
-        //electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', {
-            typeOfInfo: 'appointment details (consents, covid screening, reason for massage, notes)',
-            actionPerformed: `modified`,
-            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
-            whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
-        })
-
-        history.push('/')
-        window.location.reload(false)
     }
 
-    if (appointments?.length > 0) {
         return (
-            <div className={styles.box} >           
-                {appointments && appointments?.map((appointment) => (
-                    new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent !== true ? (                  
-                        <div className={styles.box} key={appointment._id} >
-                            <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>
+            <div >                 
+                <div className={styles.box}>
+                    <h2>This is a reference only - this is not a functional form</h2>
+                </div>          
+                        <div className={styles.box} >
+                            <h3>Please confirm your appointment on APPOINTMENT DATE HERE at APPOINTMENT TIME HERE for APPOINTMENT DURATION HERE.</h3>
                             <div>
                             <form onSubmit={handleSubmit(onSubmit)}  >
                                 <div>
@@ -138,7 +102,6 @@ const ConfirmAppointment = ({user, appointments}) => {
                                             </p>
                                         </div>
                                         <input className={styles.forminput} type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" placeholder='Eg. Relaxation, pain or discomfort relief, general wellbeing' />               
-                                        {errors?.reasonForMassage && <p className={styles.error}>Please indicate why you'd like to book a massage</p>}
                                     </div>
                                     <div>
                                         <label>Please indicate with your initials which of the following areas you give consent at this time to assess and massage:</label>
@@ -180,7 +143,7 @@ const ConfirmAppointment = ({user, appointments}) => {
                                 <div className={styles.covidsection}>
                                     <h2>Covid-19 Risk Assessment</h2>
                                     <div style={{marginTop: '1rem'}}>
-                                        <Link target="_blank" to={'/covidmeasures'}>Click here</Link> to review the current measures Cip de Vries, RMT will be taking to reduce the risk of spreading infectious diseases including Covid-19.
+                                        <Link to={'/covidmeasures'}>Click here</Link> to review the current measures Cip de Vries, RMT will be taking to reduce the risk of spreading infectious diseases including Covid-19.
                                     </div>
                                     <div>
                                         <label>Please respond to the following:</label>
@@ -201,36 +164,15 @@ const ConfirmAppointment = ({user, appointments}) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button className={styles.btn} style={{marginTop: '20px'}} type="submit" onClick={()=>setDateAndTimeAndConsent(appointment?.date, appointment?.time, appointment?._id)}>Confirm Appointment</button>
+                                    <button className={styles.btn} style={{marginTop: '20px'}} type="submit" >Confirm Appointment</button>
                                 </div>
                             </form>
                             </div>                                
                         </div>
-                        ) : new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent === true ? 
-                        (                              
-                            <div className={styles.box2} key={appointment._id}>
-                                <h3>
-                                    You have an upcoming appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
-                                </h3>
-                                <div>
-                                    Location, what to wear, payment types
-                                </div>
-                            </div>
-                        ) : new Date(appointment?.date) <= today ? (
-                            <div></div>
-                        ) : (
-                            <div></div>
-                        )
-                    ))}                 
+                        
+                               
             </div>
         )
-    } else {
-        return (
-            <div>
-                You have no upcoming appointments booked at the moment.
-            </div>
-        )
-    }
 }
 
-export default ConfirmAppointment
+export default AppointmentConfirmation

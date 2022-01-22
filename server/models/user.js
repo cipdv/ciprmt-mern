@@ -66,6 +66,7 @@ const HHSchema = mongoose.Schema({
         areasToAvoid: String,
     },
     privacyPolicy: {type: Boolean, required: [true, 'privacy policy left unchecked']},
+    sourceOfReferral: String
     // signature: String
 })
 

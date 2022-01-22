@@ -17,6 +17,7 @@ import RMTRoutes from './routes/rmt.js'
 import financialRoutes from './routes/financials.js'
 import EALRoutes from './routes/electronicAuditLog.js'
 import maintenanceLog from './routes/maintenanceLog.js'
+import treatmentPlanRoutes from './routes/treatmentPlan.js'
 
 //configs
 const app = express()
@@ -34,6 +35,7 @@ app.use('/rmt', RMTRoutes )
 app.use('/financials', financialRoutes)
 app.use('/electronicauditlog', EALRoutes)
 app.use('/maintenancelog', maintenanceLog)
+app.use('/treatmentplan', treatmentPlanRoutes)
 
 app.get('/', (req, res)=>{
     res.send('Cip de Vries, RMT')
@@ -41,7 +43,6 @@ app.get('/', (req, res)=>{
 
 //post route to generate pdf and fetching data
 app.post('/createpdf', (req, res)=>{
-    console.log(req.body)
     pdf.create(pdfFile(req.body), {}).toFile('receipt.pdf', (err)=>{
         if(err) {
             res.send(Promise.reject())

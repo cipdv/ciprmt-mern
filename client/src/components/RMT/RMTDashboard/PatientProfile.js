@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getUser } from '../../../actions/healthHistory'
+import { getTreatmentPlans } from '../../../actions/treatmentPlans'
 import moment from 'moment'
 import styles from './rmtdashboard.module.css'
 import axios from 'axios'
@@ -23,7 +24,7 @@ const PatientProfile = ({user}) => {
 
     useEffect(()=>{
         dispatch(getUser(params.id))
-
+        dispatch(getTreatmentPlans(params.id))
         //add to electronic audit log
         axios.post('http://localhost:5000/electronicauditlog', eal)
 
@@ -31,9 +32,14 @@ const PatientProfile = ({user}) => {
 
     const patient = useSelector((state)=>state.usersReducer.user.data)
     const HHCreatedOn = useSelector((state)=>state.usersReducer.user.data?.healthHistory[0]?.createdAt)
+    const treatmentPlans = useSelector((state)=>state.treatmentPlanReducer.treatmentPlans)
 
     const selectAppoinment = (appointmentId) => {
         history.push(`/rmt/dashboard/appointment/${appointmentId}`)
+    }
+
+    const selectTreatmentPlan = (tpid) => {
+        history.push(`/rmt/dashboard/treatments/${tpid}`)
     }
 
     const today = new Date()
@@ -52,6 +58,7 @@ const PatientProfile = ({user}) => {
                 {(today - new Date(HHCreatedOn)) / (1000 * 3600 * 24 * 365) > 1 ? (
                     <div className={styles.box}>
                         <h3>This patient's health history was created more than one year ago.</h3>
+                        <h5>Last updated: {patient?.healthHistory[0]?.createdAt}</h5>
                     </div>
                 ) : (
                     <div>
@@ -114,6 +121,14 @@ const PatientProfile = ({user}) => {
                         </tr>
                     </tbody>
                 </table>
+                <div className={styles.box}>
+                    <h4>Treatment Plans</h4>
+                    <ul>
+                        {treatmentPlans?.map((tp)=>(
+                            <li className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{tp.startDate} - {!tp.endDate ? ('current') : (`${tp.endDate}`)}</li>
+                        ))}
+                    </ul>
+                </div>
                 <div>
                     <h4>Appointments</h4>
                     <Link to={`/rmt/dashboard/patientprofile/${params.id}/addappointment`}>

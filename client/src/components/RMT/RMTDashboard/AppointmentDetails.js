@@ -17,10 +17,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         axios.post('http://localhost:5000/electronicauditlog', {
             typeOfInfo: `appointment details`,
             actionPerformed: 'viewed',
-            accessedBy: {
-            firstName: user?.result?.firstName,
-            lastName: user?.result?.lastName
-        } ,
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
             whoseInfo: userState?._id
         })
     }, [])
@@ -40,7 +37,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
     const [duration, setDuration] = useState(appointments?.duration)
     const [referToHCP, setReferToHCP] = useState(appointments?.referToHCP)
     const [notes, setNotes] = useState(appointments?.notes)
-    const [documentationFile1, setDocumentationFile1] = useState(appointments?.documentation?.file1)
+    // const [documentationFile1, setDocumentationFile1] = useState(appointments?.documentation?.file1)
 
     const formData = {
         paymentType,
@@ -60,10 +57,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         duration,
         time,
         referToHCP,
-        notes,
-        documentation: {
-            file1: documentationFile1
-        }
+        notes
     }
 
     const handleChange = (e) => {
@@ -112,7 +106,6 @@ const AppointmentDetails = ({appointments, userState, user}) => {
         setPrice('')
         setReferToHCP('')
         setNotes('')
-        setDocumentationFile1('')
     }
 
     const handleSubmit = (e) => {
@@ -142,6 +135,42 @@ const AppointmentDetails = ({appointments, userState, user}) => {
             <Link to={`/rmt/dashboard/patientprofile/${userState?._id}`} >
                 <h3>{userState?.firstName} {userState?.lastName}</h3>
             </Link>
+            <div className={styles.box} style={{justifyContent: 'left', width: '100%'}}>
+                <h3>Treatment Plan</h3>
+                <div style={{columns: '2'}}>
+                    <div style={{columnSpan: '1'}}>
+                        Treatment Plan
+                    </div>
+                    <div style={{columnSpan: '1'}}>
+                        Start date - end date
+                    </div>
+                </div>
+                <div style={{columns: '2'}}>
+                    <div style={{columnSpan: '1'}}>
+                        Treatment plan goals
+                    </div>
+                    <div style={{columnSpan: '1'}}>
+                        retrieve client's goals here
+                    </div>
+                </div>
+                <div style={{columns: '2'}}>
+                    <div style={{columnSpan: '1'}}>
+                        Objectives of Treatment Plan
+                    </div>
+                    <div style={{columnSpan: '1'}}>
+                        retrieve objectives
+                    </div>
+                </div>
+                <div style={{columns: '2'}}>
+                    <div style={{columnSpan: '1'}}>
+                        Conclusion
+                    </div>
+                    <div style={{columnSpan: '1'}}>
+                        <input className={styles.forminput} type="text" placeholder='explain the conclusion of this treatment plan' />
+                    </div>
+                </div>
+            </div>
+            
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -277,13 +306,19 @@ const AppointmentDetails = ({appointments, userState, user}) => {
                     <label>Notes</label>
                     <input className={styles.forminput} type="text" value={notes} onChange={(e)=>setNotes(e.target.value)} placeholder='Include PPE used, and if consent to any areas was revoked before/during the massage'/>
                 </div>
-                <div>
+                {/* how to upload image file of document  */}
+                {/* <div>
                     <label>Documents</label>
                     <FileBase type="file" multiple={false} onDone={({ base64 }) => setDocumentationFile1(base64)} />
-                    <div>
-                        {appointments?.documentation?.file1 ? (<img src={`data:image/jpeg;base64,${documentationFile1}`} />) : (<div></div>)}
-                    </div>
-                </div>
+                    {documentationFile1 ? 
+                        <div>
+                            <img src={`data:image/jpeg;base64,${documentationFile1}`} />
+                        </div>
+                        : 
+                        <div>
+                        </div>
+                    }
+                </div> */}
                 <button type="submit" className={styles.btn} style={{marginTop: '10px', marginBottom: '20px'}}>Update</button>
             </form>
         </div>

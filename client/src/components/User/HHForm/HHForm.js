@@ -212,20 +212,16 @@ const HHForm = ({user, userState }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         
-        console.log('form data', formData)
-        console.log('phone number', phoneNumber)
+        
         HHFormValidation(formData)
-        console.log('errors', errors)
 
         if(Object.keys(errors).length === 0) {
             if(user) {
-                console.log('no errors')
                 dispatch(submitHH(formData))
                 clear() 
                 history.push('/dashboard')
             }
             else {
-                console.log('there were errors')
                 // clear() 
                 // history.push('/dashboard')
             }  

@@ -170,3 +170,15 @@ label,input{
 h2 {
     margin-bottom: 0;
 }
+
+.box {
+  display: grid;
+  color: rgb(255, 253, 245);
+  justify-content: center;
+  border:2px solid #d7c8f0;
+  border-radius: 10px;
+  background-color: rgb(33, 48, 39);
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 1rem
+}

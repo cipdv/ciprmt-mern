@@ -47,3 +47,10 @@ export const addFinancials = (formData) => API.patch(`/financials/addFinancials`
 
 //electronic audit log
 export const addToEAL = (data) => API.post(`/electronicauditlog`, data)
+
+//treatment plans
+export const createNewTreatmentPlan = (data, userId) => API.post(`/treatmentplan/createnewforthisuser/${userId}`, data)
+export const getTreatmentPlans = (userId) => API.post(`/treatmentplan/getallforthisuser/${userId}`)
+export const addTreatmentToTP = (formData) => API.post('/treatmentplan/addTreatment', formData)
+export const getTreatmentPlanById = (tpid) => API.post(`/treatmentplan/gettreatmentplanbyid/${tpid}`)
+export const getTreatmentById = (tid) => API.post(`/treatmentplan/gettreatmentbyid/${tid}`)

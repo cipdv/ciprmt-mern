@@ -29,7 +29,6 @@ const RFHHHForm = ({user}) => {
     const userId = userState?._id
 
     const onSubmit = (data) => {
-        console.log(data)
         dispatch(submitHH(data))
         axios.post('http://localhost:5000/electronicauditlog', {
             typeOfInfo: `health history record`,
@@ -345,6 +344,11 @@ const RFHHHForm = ({user}) => {
                 <div>
                     <label>Do you have any other health conditions, medical conditions, or gynecological conditions?</label>
                     <input className={styles.forminput} defaultValue={healthHistory?.otherMedicalConditions} name="otherMedicalConditions" placeholder="Please list anything not listed above" type="text" id="otherMedicalConditions" {...register('otherMedicalConditions')} />
+                </div>
+                <div className={styles.section}>
+                    <h2>Source of Referral</h2>
+                    <label>How did you hear about Cip de Vries, RMT?</label>
+                    <input type="text" className={styles.forminput} defaultValue={healthHistory?.sourceOfReferral} name="sourceOfReferral" id="sourceOfReferral" placeholder='Eg. Google, Facebook, etc. If referred by a friend or medical professional, please provide their name here' {...register('sourceOfReferral')} />
                 </div>
                 <div className={styles.section}>
                     <h2>Policies: Cancellations, Privacy, and Harassment</h2>

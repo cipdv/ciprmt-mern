@@ -60,7 +60,6 @@ const AppointmentReceipt = ({user}) => {
     // }
     
     const addDownloadPDFToEAL = () => {
-        console.log('dfasfda')
         axios.post('http://localhost:5000/electronicauditlog', {
             typeOfInfo: 'appointment details (date, duration, time, price)',
             actionPerformed: 'PDF downloaded',

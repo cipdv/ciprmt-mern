@@ -51,7 +51,7 @@ const ConsentInfo = () => {
             <div style={{marginTop: '1rem'}}>
                 <h3>What if I change my mind to these areas being assessed and treated?</h3>    
                 <div>
-                    Giving your consent now does not mean that you cannot change your mind any time before or even during the massage. If you feel uncomfortable with any parts of the assessing or treating of any part of your body, please feel welcome to express this in writing via text (416-258-1230) or email (cip.devries@gmail.com) or verbally to Cip de Vries, RMT. Your comfort is extremely important to receiving the best treatment possible for you, and alternatives can be given to assessing and treating these areas, and other area in your body that you consider to be sensitive. 
+                    Giving your consent now does not mean that you cannot change your mind any time before or even during the massage. If you feel uncomfortable with any parts of the assessing or treating of any part of your body, please feel welcome to express this in writing via text (416-258-1230) or email (cip.devries@gmail.com) or verbally to Cip de Vries, RMT. Your comfort is extremely important to receiving the best treatment possible for you, and alternatives can be given to assessing and treating these areas, and other areas in your body that you consider to be sensitive. 
                 </div>
             </div>
         </div>

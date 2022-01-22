@@ -1,7 +1,6 @@
 import React, {  useState, useEffect } from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { getUser } from './actions/healthHistory'
 
 
 //components
@@ -25,16 +24,17 @@ import PrivacyPolicy from './components/User/Home/PrivacyPolicy'
 import ConsentInfo from './components/User/Home/ConsentInfo'
 import CovidMeasures from './components/User/Home/CovidMeasures'
 import MaintenanceLog from './components/RMT/RMTDashboard/MaintenanceLog/MaintenanceLog'
+import TreatmentPlanList from './components/RMT/RMTDashboard/TreatmentPlanList'
+import Treatments from './components/RMT/RMTDashboard/Treatments'
+//references
+import HealthHistoryForm from './components/References/HealthHistoryForm'
+import AppointmentConfirmation from './components/References/AppointmentConfirmation'
 
 const App = () => {
 
     const dispatch = useDispatch()
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-
-    // useEffect(() => {
-    //     dispatch(getUser(user?.result._id)) 
-    // }, [dispatch])
 
     return (
         <div >
@@ -64,6 +64,11 @@ const App = () => {
                     <Route path="/rmt/financialstatements/month" exact render={()=> user?.result?.userType === 'rmt' ? (<MonthlyStatement />) : (<Redirect to="rmt/auth" />)} />
                     <Route path="/formtest" exact component={RFHHHForm} />
                     <Route path="/rmt/maintenancelog" exact render={()=> user?.result?.userType === 'rmt' ? (<MaintenanceLog user={user} />) : (<Redirect to="rmt/auth" />)} />
+                    <Route path="/rmt/dashboard/treatments/:id" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlanList />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path='/rmt/dashboard/treatmentplan/:tpid/treatment/:tid' exact render={()=>user?.result?.userType === 'rmt' ? (<Treatments />) : (<Redirect to="/rmt/dashboard" />)} />
+                    {/* References */}
+                    <Route path="/references/healthhistoryform" exact component={HealthHistoryForm} />
+                    <Route path="/references/appointmentconfirmation" exact component={AppointmentConfirmation} />
                 </Switch>
             </BrowserRouter>
         </div>       

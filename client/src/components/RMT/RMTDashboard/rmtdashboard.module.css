@@ -108,3 +108,8 @@ td {
 th {
     padding: 1rem;
 }
+
+.tpli:hover {
+    background-color: #8fbc8f65;
+    cursor: pointer;
+}
