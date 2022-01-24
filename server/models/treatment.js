@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const treatmentSchema = mongoose.Schema({
     id: String,
+    treatmentPlanId: String,
     clientId: String,
     date: String,
     time: String,
@@ -46,15 +47,4 @@ const treatmentSchema = mongoose.Schema({
     }
 })
 
-const treatmentPlanSchema = mongoose.Schema({
-    id: String,
-    clientId: String,
-    startDate: Date,
-    clientGoals: String,
-    objectivesOfTreatmentPlan: String,
-    conclusionOfTreatmentPlan: String,
-    endDate: Date,
-    treatments: [treatmentSchema]
-})
-
-export default mongoose.model('TreatmentPlan', treatmentPlanSchema)
+export default mongoose.model('Treatment', treatmentSchema)

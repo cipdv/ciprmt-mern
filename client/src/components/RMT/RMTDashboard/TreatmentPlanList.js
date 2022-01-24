@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams  } from 'react-router-dom'
-import { getTreatmentPlanById } from '../../../actions/treatmentPlans'
+import { getTreatmentPlanById, getTreatmentById } from '../../../actions/treatmentPlans'
+import { getUser } from '../../../actions/healthHistory'
+import { Link } from 'react-router-dom'
+import styles from './rmtdashboard.module.css'
 
-const TreatmentPlanList = () => {
+const TreatmentPlanList = ({setTreatmentId}) => {
 
     const params = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
 
-    useEffect(()=>{
-        dispatch(getTreatmentPlanById(params?.id))
-    }, [params])
+    const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
+    console.log(treatments)
 
-    const currentTp = useSelector((state)=>state?.treatmentPlanReducer?.currentTreatmentPlan)
-
-    const selectTreatment = (tid) => {
-        history.push(`/rmt/dashboard/treatmentplan/${params.id}/treatment/${tid}`)
+    const selectTreatment = (tid, clientId, tpid) => {
+        // history.push(`/rmt/dashboard/patient/${clientId}/treatmentplan/${tpid}/treatment/${tid}`)
+        setTreatmentId(tid)     
     }
 
     return (
-        !currentTp ? (
+        !treatments ? (
             <div>
                 Loading...
             </div>
@@ -35,8 +36,8 @@ const TreatmentPlanList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {currentTp?.treatments?.map((t)=>(
-                        <tr onClick={()=>selectTreatment(t?._id)}>
+                    {treatments?.map((t)=>(
+                        <tr onClick={()=>selectTreatment(t?._id, t?.clientId, t?.treatmentPlanId)}>
                             <td>{t?.date}</td>
                             <td>{t?.time}</td>
                             <td>{t?.duration} minutes</td>

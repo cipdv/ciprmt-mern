@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { confirmAppointment } from '../../../actions/appointment'
 import { useForm } from 'react-hook-form'
 import styles from './confirmAppointment.module.css'
 import SignatureCanvas from 'react-signature-canvas'
 import { useHistory, Link } from 'react-router-dom'
 import axios from 'axios'
+import { updateTreatment } from '../../../actions/treatmentPlans'
 
-const ConfirmAppointment = ({user, appointments}) => {
+const ConfirmAppointment = ({user, treatments}) => {
 
     useEffect(()=>{
         axios.post('http://localhost:5000/electronicauditlog', {
@@ -106,7 +107,8 @@ const ConfirmAppointment = ({user, appointments}) => {
             otherData
         }
 
-        await dispatch(confirmAppointment(_id, reqBody))
+        // await dispatch(confirmAppointment(_id, reqBody))
+        await dispatch(updateTreatment(apptId, reqBody))
 
         //electronic audit log
         axios.post('http://localhost:5000/electronicauditlog', {
@@ -120,10 +122,10 @@ const ConfirmAppointment = ({user, appointments}) => {
         window.location.reload(false)
     }
 
-    if (appointments?.length > 0) {
+    if (treatments?.length > 0) {
         return (
             <div className={styles.box} >           
-                {appointments && appointments?.map((appointment) => (
+                {treatments && treatments?.map((appointment) => (
                     new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent !== true ? (                  
                         <div className={styles.box} key={appointment._id} >
                             <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>
@@ -227,7 +229,7 @@ const ConfirmAppointment = ({user, appointments}) => {
     } else {
         return (
             <div>
-                You have no upcoming appointments booked at the moment.
+                You have no upcoming treatments booked at the moment.
             </div>
         )
     }

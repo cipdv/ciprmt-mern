@@ -5,19 +5,22 @@ import HealthHistory from '../HHForm/HealthHistory'
 import HHUpdateRequired from '../Appointments/HHUpdateRequired'
 import styles from './dashboard.module.css'
 import { getUser } from '../../../actions/healthHistory'
+import { getTreatmentPlans, getTreatmentsByClientId } from '../../../actions/treatmentPlans'
+import { Link } from 'react-router-dom'
 
 const Dashboard = ({user}) => {
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getUser(user?.result._id)) 
+        dispatch(getUser(user?.result._id))
+        dispatch(getTreatmentsByClientId(user?.result?._id))
     }, [dispatch])
 
     const currentUser = useSelector((state)=>state?.usersReducer)
-    const appointments = useSelector((state)=>state?.usersReducer?.user?.data?.appointments)
     const healthHistory = useSelector((state)=>state?.usersReducer?.user?.data?.healthHistory)
     const currentHH = useSelector((state)=>state?.usersReducer?.user?.data?.healthHistory[0])
+    const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
 
     const today = new Date()
     
@@ -30,18 +33,18 @@ const Dashboard = ({user}) => {
                     <div>
                     </div>
                 )}
-                {appointments?.length > 0 ? (
-                    <ConfirmAppointment user={user} appointments={appointments} />
-                ) : appointments?.length === 0 && healthHistory?.length > 0 ? (
-                    <div className={styles.box}>You have no upcoming appointments scheduled yet. <br />Text Cip at 416-258-1230 to schedule a massage.</div>
-                ) : appointments?.length === 0 && healthHistory?.length === 0 ? (
+                {treatments?.length > 0 ? (
+                    <ConfirmAppointment user={user} treatments={treatments} />
+                ) : treatments?.length === 0 && healthHistory?.length > 0 ? (
+                    <div className={styles.box}>You have no upcoming treatments scheduled yet. <br />Text Cip at 416-258-1230 to schedule a massage.</div>
+                ) : treatments?.length === 0 && healthHistory?.length === 0 ? (
                     <div className={styles.box}>
                         <h3>Thanks for registering.</h3>
-                        {/* <p>The next step is to complete your health history file:</p>
-                        {/* <Link to="/healthhistory">
+                        <p>The next step is to complete your health history file:</p>
+                        <Link to="/healthhistory">
                             <button style={{marginTop: '0.5rem'}} className={styles.btn}>Click here</button>
-                        </Link> */}
-                        {/* <HealthHistory currentUser={currentUser} /> */}
+                        </Link>
+                        <HealthHistory currentUser={currentUser} />
                         <HHUpdateRequired />
                     </div>
                 ) : (

@@ -39,14 +39,14 @@ const PatientProfile = ({user}) => {
     }
 
     const selectTreatmentPlan = (tpid) => {
-        history.push(`/rmt/dashboard/treatments/${tpid}`)
+        history.push(`/rmt/dashboard/patient/${params?.id}/treatments/${tpid}`)
     }
 
     const today = new Date()
 
-    if ((today - new Date(HHCreatedOn)) / (1000 * 3600 * 24 * 365) > 1) {
-        alert(`This patient's health history was created more than one year ago.`)
-    }
+    // if ((today - new Date(HHCreatedOn)) / (1000 * 3600 * 24 * 365) > 1) {
+    //     alert(`This patient's health history was created more than one year ago.`)
+    // }
 
     return (
         !patient ? (
@@ -121,15 +121,20 @@ const PatientProfile = ({user}) => {
                         </tr>
                     </tbody>
                 </table>
-                <div className={styles.box}>
-                    <h4>Treatment Plans</h4>
-                    <ul>
-                        {treatmentPlans?.map((tp)=>(
-                            <li className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{tp.startDate} - {!tp.endDate ? ('current') : (`${tp.endDate}`)}</li>
-                        ))}
-                    </ul>
-                </div>
                 <div>
+                    <h4>Treatment Plans</h4>
+                    <Link to={`/rmt/dashboard/patient/${patient?._id}/addtreatmentplan`}>
+                        <button className={styles.btn}>New Treatment Plan</button>
+                    </Link>
+                    <div className={styles.box}>
+                        <ul>
+                            {treatmentPlans?.map((tp)=>(
+                                <li className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{tp.startDate} - {!tp.endDate ? ('current') : (`${tp.endDate}`)}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                {/* <div>
                     <h4>Appointments</h4>
                     <Link to={`/rmt/dashboard/patientprofile/${params.id}/addappointment`}>
                         <button className={styles.btn}>
@@ -161,7 +166,7 @@ const PatientProfile = ({user}) => {
                         </tbody>  
                      )}
                 </table>
-                </div>
+                </div> */}
                 <h4>Health History</h4>
                 <table className={styles.table}>
                 <thead>

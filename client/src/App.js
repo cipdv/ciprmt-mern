@@ -24,11 +24,14 @@ import PrivacyPolicy from './components/User/Home/PrivacyPolicy'
 import ConsentInfo from './components/User/Home/ConsentInfo'
 import CovidMeasures from './components/User/Home/CovidMeasures'
 import MaintenanceLog from './components/RMT/RMTDashboard/MaintenanceLog/MaintenanceLog'
-import TreatmentPlanList from './components/RMT/RMTDashboard/TreatmentPlanList'
-import Treatments from './components/RMT/RMTDashboard/Treatments'
+import TreatmentPlan from './components/RMT/RMTDashboard/TreatmentPlan'
+import Treatment from './components/RMT/RMTDashboard/Treatment'
+import TreatmentPlanAddNew from './components/RMT/RMTDashboard/TreatmentPlanAddNew'
+import TreatmentAddnew from './components/RMT/RMTDashboard/TreatmentAddnew'
 //references
 import HealthHistoryForm from './components/References/HealthHistoryForm'
 import AppointmentConfirmation from './components/References/AppointmentConfirmation'
+
 
 const App = () => {
 
@@ -64,8 +67,11 @@ const App = () => {
                     <Route path="/rmt/financialstatements/month" exact render={()=> user?.result?.userType === 'rmt' ? (<MonthlyStatement />) : (<Redirect to="rmt/auth" />)} />
                     <Route path="/formtest" exact component={RFHHHForm} />
                     <Route path="/rmt/maintenancelog" exact render={()=> user?.result?.userType === 'rmt' ? (<MaintenanceLog user={user} />) : (<Redirect to="rmt/auth" />)} />
-                    <Route path="/rmt/dashboard/treatments/:id" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlanList />) : (<Redirect to="/rmt/dashboard" />)} />
-                    <Route path='/rmt/dashboard/treatmentplan/:tpid/treatment/:tid' exact render={()=>user?.result?.userType === 'rmt' ? (<Treatments />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path="/rmt/dashboard/patient/:clientid/treatments/:tpid" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlan />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path='/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/treatment/:tid' exact render={()=>user?.result?.userType === 'rmt' ? (<Treatment user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path='/rmt/dashboard/patient/:clientid/addtreatmentplan' exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlanAddNew user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path="/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/addtreatment" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentAddnew user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
+                    {/* <Route path="/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/treatment/:tid" exact render={()=>user?.result?.userType === 'rmt' ? (<Treatment user={user} />) : (<Redirect to="/rmt/dashboard" />)} /> */}
                     {/* References */}
                     <Route path="/references/healthhistoryform" exact component={HealthHistoryForm} />
                     <Route path="/references/appointmentconfirmation" exact component={AppointmentConfirmation} />

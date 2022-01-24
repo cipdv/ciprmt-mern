@@ -54,3 +54,8 @@ export const getTreatmentPlans = (userId) => API.post(`/treatmentplan/getallfort
 export const addTreatmentToTP = (formData) => API.post('/treatmentplan/addTreatment', formData)
 export const getTreatmentPlanById = (tpid) => API.post(`/treatmentplan/gettreatmentplanbyid/${tpid}`)
 export const getTreatmentById = (tid) => API.post(`/treatmentplan/gettreatmentbyid/${tid}`)
+export const updateTreatmentPlan = (tpid, tid, formData) => API.put(`/treatmentplan/${tpid}/treatment/${tid}/update`, formData)
+export const getTreatmentsByClientId = (clientid) => API.post(`/treatmentplan/getTreatmentsByClientId/${clientid}`)
+export const getTreatmentsByTreatmentPlanId = (tpid) => API.post(`/treatmentplan/${tpid}/gettreatments`)
+export const addTreatment = (form) => API.post('/treatmentplan/addtreatment', form)
+export const updateTreatment = (tid, form) => API.put(`/treatmentplan/treatment/${tid}/updatetreatment`, form)

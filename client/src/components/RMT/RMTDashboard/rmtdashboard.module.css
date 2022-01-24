@@ -86,9 +86,9 @@ table  {
 
 }
 
-tbody tr:hover {
+/* tbody tr:hover {
     background-color: #d8a64a;
-}
+} */
 
 .table .header {
     background-color: rgb(33, 48, 39);
