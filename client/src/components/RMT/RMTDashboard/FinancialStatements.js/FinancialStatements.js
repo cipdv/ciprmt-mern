@@ -1,9 +1,19 @@
+import axios from 'axios'
 import React from 'react'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { createNewFinancialStatement } from '../../../../actions/financials'
+import styles from '../rmtdashboard.module.css'
 
-const FinancialStatements = ({year, setYear, financialData}) => {
+const FinancialStatements = ({year, setYear, financialData, user}) => {
 
+    console.log(user)
+
+    const dispatch = useDispatch()
     const history = useHistory()
+
+    const [newFSYear, setNewFSYear] = useState('')
 
     const revenue = financialData?.financialState[0]?.income?.reduce((accumulator, current)=> accumulator + current.amount, 0).toFixed(2)
     const expenses = financialData?.financialState[0]?.expenses?.reduce((accumulator, current)=> accumulator + current.amount, 0).toFixed(2)
@@ -166,15 +176,30 @@ const FinancialStatements = ({year, setYear, financialData}) => {
     const decemberExpenses = december?.reduce((accumulator, current)=> accumulator + current.amount, 0).toFixed(2)
 
 
+    const createNewFinancialStatement = (e) => {
+        e.preventDefault()
+        dispatch(createNewFinancialStatement(user?.result?._id, newFSYear))
+    }
+
     return (
-        <div>
-            <h5>Select year</h5>
-            <select className="ui dropdown" value={year} onChange={(e)=>setYear(e.target.value)}>
-                <option value="" disabled='disabled'>Select year</option>
-                <option value="2021">2021</option>
-            </select>
+        <div className={styles.box}>
+            <div>
+                <input className={styles.forminput} type="text" placeholder='year' value={newFSYear} onChange={(e)=>setNewFSYear(e.target.value)} />
+                <button className={styles.btn} onClick={createNewFinancialStatement}>Create new financial statement</button>
+            </div>
+            <div>
+                <select className={styles.forminput} value={year} onChange={(e)=>setYear(e.target.value)}>
+                    <option value="" disabled='disabled'>Select year</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                </select>
+            </div>
             <h3>Total</h3>
-            <table className="ui table">
+            <table>
                 <thead>
                     <tr>
                         <th>Revenue</th>
@@ -200,7 +225,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </table>
             <div style={{marginTop: '2em'}}>
                 <h4>First Quarter</h4>
-                <table className="ui table">
+                <table>
                     <thead>
                         <tr>
                             <th>Revenue</th>
@@ -214,7 +239,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </thead>
                 </table>             
                 <h5 style={{marginLeft: '1em', marginBottom: '1em', marginTop: '1em'}}>January</h5>
-                <table className="ui table">
+                <table>
                     
                     <tbody>
                         <tr onClick={selectMonth}>
@@ -229,7 +254,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </tbody>
                 </table>
                 <h5 style={{marginLeft: '1em', marginBottom: '1em', marginTop: '1em'}}>February</h5>
-                <table className="ui table">
+                <table>
                     
                     <tbody>
                         <tr>
@@ -244,7 +269,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </tbody>
                 </table>
                 <h5 style={{marginLeft: '1em', marginBottom: '1em', marginTop: '1em'}}>March</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{marchincome}</td>
@@ -260,7 +285,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div style={{marginTop: '2em'}}>
                 <h4>Second Quarter</h4>
-                <table className="ui table">
+                <table>
                     <thead>
                         <tr>
                             <th>Revenue</th>
@@ -274,7 +299,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </thead>
                 </table>
                 <h5 style={{marginLeft: '1em', marginBottom: '1em', marginTop: '1em'}}>April</h5>
-                <table className="ui table">
+                <table>
                     <tbody>                           
                         <tr>
                             <td>{aprilincome}</td>
@@ -288,7 +313,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </tbody>
                 </table>
                 <h5 style={{marginLeft: '1em', marginBottom: '1em', marginTop: '1em'}}>May</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{mayincome}</td>
@@ -302,7 +327,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </tbody>
                 </table>
                 <h5 style={{marginLeft: '1em', marginBottom: '1em', marginTop: '1em'}}>June</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{juneincome}</td>
@@ -318,7 +343,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div style={{marginTop: '2em'}}>
                 <h4>Third Quarter</h4>
-                <table className="ui table">
+                <table>
                     <thead>
                         <tr>
                             <th>Revenue</th>
@@ -332,7 +357,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </thead>
                 </table>
                 <h5>July</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{julyincome}</td>
@@ -348,7 +373,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div>
                 <h5>August</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{augustincome}</td>
@@ -364,7 +389,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div>
                 <h5>September</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{septemberincome}</td>
@@ -380,7 +405,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div style={{marginTop: '2em'}}>
                 <h4>Forth Quarter</h4>
-                <table className="ui table">
+                <table>
                     <thead>
                         <tr>
                             <th>Revenue</th>
@@ -394,7 +419,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
                     </thead>
                 </table>
                 <h5>October</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{octoberincome}</td>
@@ -410,7 +435,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div>
                 <h5>November</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{novemberincome}</td>
@@ -426,7 +451,7 @@ const FinancialStatements = ({year, setYear, financialData}) => {
             </div>
             <div>
                 <h5>December</h5>
-                <table className="ui table">
+                <table>
                     <tbody>
                         <tr>
                             <td>{decemberincome}</td>

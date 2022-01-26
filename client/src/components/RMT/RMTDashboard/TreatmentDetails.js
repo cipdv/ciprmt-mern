@@ -42,6 +42,8 @@ const Treatment = ({user, patient}) => {
     const [referToHCP, setReferToHCP] = useState(treatment?.referToHCP)
     const [notes, setNotes] = useState(treatment?.notes)
 
+    const [reasonForMassage, setReasonForMassage] = useState(treatment?.reasonForMassage)
+
     const formData = {
         paymentType,
         findings,
@@ -188,7 +190,7 @@ const Treatment = ({user, patient}) => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{treatment?.reasonForMassage}</td>
+                            <td>{reasonForMassage}</td>
                         </tr>
                     </tbody>
                 </table>

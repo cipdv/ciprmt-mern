@@ -7,7 +7,7 @@ import Treatment from './Treatment';
 import { getTreatmentPlanById, getTreatmentsByClientId, getTreatmentsByTreatmentPlanId } from '../../../actions/treatmentPlans';
 import { getUser } from '../../../actions/healthHistory';
 
-const TreatmentPlans = () => {
+const TreatmentPlans = ({user}) => {
 
     const dispatch = useDispatch()
     const params = useParams()
@@ -24,7 +24,7 @@ const TreatmentPlans = () => {
         <div>
             <TreatmentPlanDetails />
             <TreatmentPlanList setTreatmentId={setTreatmentId} />
-            <Treatment treatmentId={treatmentId} />
+            <Treatment treatmentId={treatmentId} user={user}/>
         </div>
     )
 };

@@ -5,7 +5,6 @@ import { GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BY
 export const createNewTreatmentPlan = (tpForm, userId) => async (dispatch) => {
     try {
         const {data} = await api.createNewTreatmentPlan(tpForm, userId)
-        console.log('create new tp', data)
         dispatch({type: CREATE_NEW_TREATMENTPLAN, payload: data})
     } catch (error) {
         console.log(error)
@@ -84,8 +83,34 @@ export const addTreatment = (form) => async (dispatch) => {
 }
 
 export const updateTreatment = (tid, form) => async (dispatch) => {
-    console.log('tid', tid)
-    console.log('form', form)
+    try {
+        const { data } = await api.updateTreatment(tid, form)
+        dispatch({type: UPDATE_TREATMENT, payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const confirmTreatment = (tid, formData) => async (dispatch) => {
+
+    const form = {
+        reasonForMassage: formData?.data?.reasonForMassage,
+        consents: {
+            treatmentConsent: formData?.otherData?.consents?.treatmentConsent,
+            glutes: formData?.otherData?.consents?.glutes,
+            chest: formData?.otherData?.consents?.chest,
+            abdomen: formData?.otherData?.consents?.abdomen,
+            innerThighs: formData?.otherData?.consents?.innerThighs,
+            areasToAvoid: formData?.otherData?.consents?.areasToAvoid
+        },
+        covid: {
+            vaccinated: formData?.data?.covid?.vaccinated,
+            noSymptoms: formData?.data?.covid?.noSymptoms,
+            notIsolating: formData?.data?.covid?.notIsolating
+        },
+        notesFromClient: formData?.data?.notesFromClient 
+    }
+
     try {
         const { data } = await api.updateTreatment(tid, form)
         dispatch({type: UPDATE_TREATMENT, payload: data})

@@ -3,9 +3,11 @@ import TreatmentDetails from './TreatmentDetails'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getTreatmentById, updateTreatment } from '../../../actions/treatmentPlans';
+import { addTransaction } from '../../../actions/financials';
 import styles from './rmtdashboard.module.css'
+import axios from 'axios'
 
-const Treatment = ({treatmentId}) => {
+const Treatment = ({treatmentId, user}) => {
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -28,8 +30,6 @@ const Treatment = ({treatmentId}) => {
     const [duration, setDuration] = useState('')
     const [referToHCP, setReferToHCP] = useState('')
     const [notes, setNotes] = useState('')
-
-    const [consentForTreatment, setConsentForTreatment] = useState(false)
     const [reasonForMassage, setReasonForMassage] = useState('')
     const [treatmentConsent, setTreatmentConsent] = useState(false)
     const [glutes, setGlutes] = useState(false)
@@ -37,26 +37,59 @@ const Treatment = ({treatmentId}) => {
     const [abdomen, setAbdomen] = useState(false)
     const [innerThighs, setInnerThighs] = useState(false)
     const [areasToAvoid, setAreasToAvoid] = useState('')
+    const [receiptNumber, setReceiptNumber] = useState('')
 
     useEffect(()=>{
         if (treatments?.length > 0) {
             const treatment = treatments.find(({_id})=>_id === treatmentId)
-            setDate(treatment?.date)
-            setTime(treatment?.time)
-            setDuration(treatment?.duration)
-            setFindings(treatment?.findings)
-            setGeneralTreatment(treatment?.treatment?.generalTreatment)
-            setSpecificTreatment(treatment?.treatment?.specificTreatment)
-            setSubjectiveResults(treatment?.results?.subjectiveResults)
-            setObjectiveResults(treatment?.results?.objectiveResults)
-            setRemex(treatment?.remex)
-            setPaymentType(treatment?.paymentType)
-            setPrice(treatment?.price)
-            setPaymentFee(treatment?.paymentFee)
-            setReferToHCP(treatment?.referToHCP)
-            setNotes(treatment?.notes)
+            setDate(treatment?.date !== undefined ? (treatment?.date) : (""))
+            setTime(treatment?.time !== undefined ? (treatment?.time) : (""))
+            setDuration(treatment?.duration !== undefined ? (treatment?.duration) : (""))
+            setFindings(treatment?.findings !== undefined ? (treatment?.findings) : (""))
+            setGeneralTreatment(treatment?.treatment?.generalTreatment !== undefined ? (treatment?.treatment?.generalTreatment) : (''))
+            setSpecificTreatment(treatment?.treatment?.specificTreatment !== undefined ? (treatment?.treatment?.specificTreatment) : (""))
+            setSubjectiveResults(treatment?.results?.subjectiveResults !== undefined ? (treatment?.results?.subjectiveResults) : (""))
+            setObjectiveResults(treatment?.results?.objectiveResults !== undefined ? (treatment?.results?.objectiveResults) : (""))
+            setRemex(treatment?.remex !== undefined ? (treatment?.remex) : (""))
+            setPaymentType(treatment?.paymentType !== undefined ? (treatment?.paymentType) : (""))
+            setPrice(treatment?.price !== undefined ? (treatment?.price) : (""))
+            setPaymentFee(treatment?.paymentFee !== undefined ? (treatment?.paymentFee) : (""))
+            setReferToHCP(treatment?.referToHCP !== undefined ? (treatment?.referToHCP) : (""))
+            setNotes(treatment?.notes !== undefined ? (treatment?.notes) : (""))
+            setReasonForMassage(treatment?.reasonForMassage !== undefined ? (treatment?.reasonForMassage) : (""))
+            setTreatmentConsent(treatment?.consents?.treatmentConsent !== undefined ? (treatment?.consents?.treatmentConsent) : (""))
+            setGlutes(treatment?.consents?.glutes !== undefined ? (treatment?.consents?.glutes) : (""))
+            setChest(treatment?.consents?.chest !== undefined ? (treatment?.consents?.chest) : (""))
+            setAbdomen(treatment?.consents?.abdomen !== undefined ? (treatment?.consents?.abdomen) : (""))
+            setInnerThighs(treatment?.consents?.innerThighs !== undefined ? (treatment?.consents?.innerThighs) : (""))
+            setAreasToAvoid(treatment?.consents?.areasToAvoid !== undefined ? (treatment?.consents?.areasToAvoid) : (""))
+            setReceiptNumber(treatment?._id !== undefined ? (treatment?._id) : (''))
         }
     }, [treatmentId])
+
+    const financialData = {
+        year: 2022,
+        expenses: [
+            {
+                category: 'bank fees',
+                //advertising, travel, licenses, insurance, interest paid, repairs and maintenance, supplies, office supplies, bank fees, adminstrative fees
+                amount: paymentFee,
+                details: 'payment processing fee',
+                date: date,
+                receiptNumber: receiptNumber
+            }
+        ],
+        income: [
+            {
+                category: 'revenue',
+                amount: price/1.13,
+                date: date,
+                details: `${patient?.firstName} ${patient?.lastName}`,
+                receiptNumber: receiptNumber
+            }  
+        ]
+    }
+
 
     const handleChange = (e) => {
         setPaymentType(e.target.value)
@@ -70,7 +103,7 @@ const Treatment = ({treatmentId}) => {
     }
 
     const form = {
-        consentForTreatment,
+        treatmentConsent,
         findings,
         treatment: {
             generalTreatment, 
@@ -94,6 +127,20 @@ const Treatment = ({treatmentId}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(updateTreatment(treatmentId, form))
+
+        //add transaction to financials
+        dispatch(addTransaction(user?.result?._id, financialData))
+
+        //email receipt to client
+        
+        //electronic audit log
+        axios.post('http://localhost:5000/electronicauditlog', {
+            typeOfInfo: `appointment details`,
+            actionPerformed: 'appointment details modified and income transaction added to financial statement',
+            accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+            whoseInfo: `${patient?.firstName} ${patient?.lastName}`
+        })
+
         history.push(`/rmt/dashboard/patientprofile/${patient?._id}`)
     }
 
@@ -165,18 +212,18 @@ const Treatment = ({treatmentId}) => {
                             <tr>
                                 <td>
                                     <div className="ui list">
-                                        {glutes === true ? <div className="ui item" >Glutes</div> : <div></div>}
-                                        {chest === true ? <div className="ui item" >Chest</div> : <div></div>}
-                                        {innerThighs === true ? <div className="ui item" >Inner thighs</div> : <div></div>}
-                                        {abdomen === true ? <div className="ui item" >Abdomen</div> : <div></div>}
+                                        {glutes !== "" ? <div className="ui item" >Glutes</div> : <div></div>}
+                                        {chest !== "" ? <div className="ui item" >Chest</div> : <div></div>}
+                                        {innerThighs !== "" ? <div className="ui item" >Inner thighs</div> : <div></div>}
+                                        {abdomen !== "" ? <div className="ui item" >Abdomen</div> : <div></div>}
                                     </div>
                                 </td>
                                 <td>
                                     <div className="ui list">
-                                        {glutes === false ? <div className="ui item" style={{color: 'red'}}>Glutes</div> : <div></div>}
-                                        {chest === false ? <div className="ui item" style={{color: 'red'}}>Chest</div> : <div></div>}
-                                        {innerThighs === false ? <div className="ui item" style={{color: 'red'}}>Inner thighs</div> : <div></div>}
-                                        {abdomen === false ? <div className="ui item" style={{color: 'red'}}>Abdomen</div> : <div></div>}
+                                        {glutes === "" ? <div className="ui item" style={{color: 'red'}}>Glutes</div> : <div></div>}
+                                        {chest === "" ? <div className="ui item" style={{color: 'red'}}>Chest</div> : <div></div>}
+                                        {innerThighs === "" ? <div className="ui item" style={{color: 'red'}}>Inner thighs</div> : <div></div>}
+                                        {abdomen === "" ? <div className="ui item" style={{color: 'red'}}>Abdomen</div> : <div></div>}
                                         {areasToAvoid ? <div className="ui item" style={{color: 'red'}}>{areasToAvoid}</div> : <div></div>}
                                     </div>
                                 </td>

@@ -48,11 +48,9 @@ export const getTreatmentPlanById = async (req, res) => {
 
 export const getTreatmentById = async (req, res) => {
     const {tid} = req.params
-    console.log(tid)
     try {
         const treatment = await Treatment.findById({_id: tid})
         res.status(200).json(treatment)
-        console.log(treatment)
     } catch (error) {
         res.status(404).json({message: error.message})
     }
@@ -101,7 +99,6 @@ export const getTreatmentsByClientId = async (req, res) => {
     const { clientId: id } = req.params
     try {
         const results = await Treatment.find({clientId: id})
-        console.log(results)
         res.status(200).json(results)
     } catch (error) {
         res.status(404).json({message: error.message})
@@ -148,6 +145,7 @@ export const sendConfirmEmail = async (req, res) => {
             .send(msg)
             .then(() => {
                 console.log('Email sent')
+                res.send('email sent')
             })
             .catch((error) => {
                 console.error(error)
@@ -159,12 +157,77 @@ export const sendConfirmEmail = async (req, res) => {
 
 export const updateTreatment = async (req, res) => {
     const { tid } = req.params
-    console.log('req body', req.body)
     try {
         const updatedTreatment = await Treatment.findByIdAndUpdate(tid, req.body, {new: true})
         res.status(200).json(updatedTreatment)
     } catch (error) {
-        
+        res.status(400).json({message: error.message})
     }
 }
 
+export const clientConfirmedTreatment = async (req, res) => {
+
+    const { name, apptDate, apptTime, reasonForMassage, glutes, chest, abdomen, innerThighs, areasToAvoid, pronoun } = req.body
+    
+    let gluteConsent = ''
+    let chestConsent = ''
+    let abdomenConsent = ''
+    let innerThighsConsent = ''
+
+    if (glutes !== '' && glutes !== undefined) {
+        gluteConsent = 'yes'
+     } else {
+        gluteConsent = 'no'
+     }
+   
+     if (chest !== '' && chest !==  undefined) {
+        chestConsent = 'yes'
+    } else {
+        chestConsent = 'no'
+    }
+   
+    if (abdomen !== '' && abdomen !== undefined) {
+        abdomenConsent = 'yes'
+   } else {
+        abdomenConsent = 'no'
+   }
+   
+   if (innerThighs !== '' && innerThighs !== undefined) {
+        innerThighsConsent = 'yes'
+   } else {
+        innerThighsConsent = 'no'
+   }
+
+    const msg = {
+        to: `cip@cip.gay`,
+        from: 'cip@cip.gay', // Change to your verified sender
+        subject: `Confirmed: ${name} on ${apptDate} at ${apptTime} `,
+        text: `${name} has confirmed their appointment on ${apptDate} at ${apptTime}`,
+        html: `
+          <p>${name} has confirmed ${pronoun} appointment on ${apptDate} at ${apptTime}</p>
+          <p>Their reason for massage is: ${reasonForMassage}</p> 
+          <p>Consents given:</p>
+          <ul>
+            <li>Glutes: ${gluteConsent}</li>
+            <li>Chest: ${chestConsent}</li>
+            <li>Abdomen: ${abdomenConsent}</li>
+            <li>Inner Thighs: ${innerThighsConsent}</li>
+          </ul>
+          <p>Areas to avoid: ${areasToAvoid}</p>
+        `,
+      }
+
+    try {
+        sgMail
+            .send(msg)
+            .then(() => {
+                console.log('Email sent')
+                res.send('email sent')
+        })
+            .catch((error) => {
+            console.error(error)
+        }) 
+    } catch (error) {
+        console.log(error.message)
+    }
+}

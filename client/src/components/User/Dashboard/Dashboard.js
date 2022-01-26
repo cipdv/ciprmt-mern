@@ -34,17 +34,17 @@ const Dashboard = ({user}) => {
                     </div>
                 )}
                 {treatments?.length > 0 ? (
-                    <ConfirmAppointment user={user} treatments={treatments} />
+                    <ConfirmAppointment user={user} />
                 ) : treatments?.length === 0 && healthHistory?.length > 0 ? (
                     <div className={styles.box}>You have no upcoming treatments scheduled yet. <br />Text Cip at 416-258-1230 to schedule a massage.</div>
                 ) : treatments?.length === 0 && healthHistory?.length === 0 ? (
                     <div className={styles.box}>
-                        <h3>Thanks for registering.</h3>
+                        {/* <h3>Thanks for registering.</h3>
                         <p>The next step is to complete your health history file:</p>
                         <Link to="/healthhistory">
                             <button style={{marginTop: '0.5rem'}} className={styles.btn}>Click here</button>
                         </Link>
-                        <HealthHistory currentUser={currentUser} />
+                        <HealthHistory currentUser={currentUser} /> */}
                         <HHUpdateRequired />
                     </div>
                 ) : (

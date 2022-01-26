@@ -32,6 +32,9 @@ import TreatmentAddnew from './components/RMT/RMTDashboard/TreatmentAddnew'
 import HealthHistoryForm from './components/References/HealthHistoryForm'
 import AppointmentConfirmation from './components/References/AppointmentConfirmation'
 
+//financials practice
+import Finances from './components/RMT/RMTDashboard/NewFinancialStatement/Finances'
+
 
 const App = () => {
 
@@ -63,11 +66,11 @@ const App = () => {
                     <Route path="/rmt/dashboard/patientprofile/:id" exact render={()=> user?.result?.userType === 'rmt' ? (<PatientProfile user={user} />) : (<Redirect to="/rmt/auth" />)} />
                     <Route path="/rmt/dashboard/appointment/:id" exact render={()=> user?.result?.userType === 'rmt' ? (<AppointmentList user={user} />) : (<Redirect to="/rmt/auth" />)} />
                     <Route path="/rmt/dashboard/patientprofile/:id/addappointment" exact render={()=> user?.result?.userType === 'rmt' ? (<AddAppointment user={user} />) : (<Redirect to="/rmt/auth" />)} />
-                    <Route path="/rmt/financialstatements" exact render={()=> user?.result?.userType === 'rmt' ? (<Financials />) : (<Redirect to="rmt/auth" />)} />
+                    <Route path="/rmt/financialstatements" exact render={()=> user?.result?.userType === 'rmt' ? (<Financials user={user} />) : (<Redirect to="rmt/auth" />)} />
                     <Route path="/rmt/financialstatements/month" exact render={()=> user?.result?.userType === 'rmt' ? (<MonthlyStatement />) : (<Redirect to="rmt/auth" />)} />
                     <Route path="/formtest" exact component={RFHHHForm} />
                     <Route path="/rmt/maintenancelog" exact render={()=> user?.result?.userType === 'rmt' ? (<MaintenanceLog user={user} />) : (<Redirect to="rmt/auth" />)} />
-                    <Route path="/rmt/dashboard/patient/:clientid/treatments/:tpid" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlan />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path="/rmt/dashboard/patient/:clientid/treatments/:tpid" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlan user={user}/>) : (<Redirect to="/rmt/dashboard" />)} />
                     <Route path='/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/treatment/:tid' exact render={()=>user?.result?.userType === 'rmt' ? (<Treatment user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                     <Route path='/rmt/dashboard/patient/:clientid/addtreatmentplan' exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlanAddNew user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                     <Route path="/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/addtreatment" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentAddnew user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
@@ -75,6 +78,9 @@ const App = () => {
                     {/* References */}
                     <Route path="/references/healthhistoryform" exact component={HealthHistoryForm} />
                     <Route path="/references/appointmentconfirmation" exact component={AppointmentConfirmation} />
+
+                    New financial stuff
+                    <Route path="/rmt/dashboard/financialstatements" exact render={()=>user?.result?.userType === 'rmt' ? (<Finances user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                 </Switch>
             </BrowserRouter>
         </div>       

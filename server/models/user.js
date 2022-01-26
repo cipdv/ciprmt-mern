@@ -67,53 +67,52 @@ const HHSchema = mongoose.Schema({
     },
     privacyPolicy: {type: Boolean, required: [true, 'privacy policy left unchecked']},
     sourceOfReferral: String
-    // signature: String
 })
 
-const appointmentSchema = mongoose.Schema({
-    id: String,
-    date: String,
-    time: String,
-    price: String,
-    paymentType: String,
-    duration: Number,
-    receiptNumber: String,
-    reasonForMassage: String,
-    findings: String,
-    treatment: {
-        generalTreatment: String,
-        specificTreatment: String
-    },
-    results: {
-        subjectiveResults: String,
-        objectiveResults: String,
-    },
-    remex: String,
-    treatmentPlan: String,
-    consents: {
-        treatmentConsent: Boolean,
-        glutes: String,
-        chest: String,
-        abdomen: String,
-        innerThighs: String,
-        areasToAvoid: String
-    },
-    notes: String,
-    covid: {
-        vaccinated: Boolean,
-        noSymptoms: Boolean,
-        notIsolating: Boolean
-    },
-    referToHCP: String,
-    documentation: {
-        file1: String,
-        file2: String,
-        file3: String,
-        file4: String,
-        file5: String, 
-        file6: String
-    }
-})
+// const appointmentSchema = mongoose.Schema({
+//     id: String,
+//     date: String,
+//     time: String,
+//     price: String,
+//     paymentType: String,
+//     duration: Number,
+//     receiptNumber: String,
+//     reasonForMassage: String,
+//     findings: String,
+//     treatment: {
+//         generalTreatment: String,
+//         specificTreatment: String
+//     },
+//     results: {
+//         subjectiveResults: String,
+//         objectiveResults: String,
+//     },
+//     remex: String,
+//     treatmentPlan: String,
+//     consents: {
+//         treatmentConsent: Boolean,
+//         glutes: String,
+//         chest: String,
+//         abdomen: String,
+//         innerThighs: String,
+//         areasToAvoid: String
+//     },
+//     notes: String,
+//     covid: {
+//         vaccinated: Boolean,
+//         noSymptoms: Boolean,
+//         notIsolating: Boolean
+//     },
+//     referToHCP: String,
+//     documentation: {
+//         file1: String,
+//         file2: String,
+//         file3: String,
+//         file4: String,
+//         file5: String, 
+//         file6: String
+//     }
+// })
 
 const userSchema = mongoose.Schema({
     id: {type: String},
@@ -124,7 +123,7 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: [true, 'no password']},
     userType: {type: String},
     healthHistory: [HHSchema],
-    appointments: [appointmentSchema],
+    // appointments: [appointmentSchema],
     signature: String
 })
 

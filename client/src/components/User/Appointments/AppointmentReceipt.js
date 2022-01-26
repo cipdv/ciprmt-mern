@@ -5,6 +5,7 @@ import axios from 'axios'
 import { saveAs } from 'file-saver'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { PDFReceipt } from './PDFReceipt'
+import { useSelector } from 'react-redux'
 
 const AppointmentReceipt = ({user}) => {
 
@@ -21,7 +22,7 @@ const AppointmentReceipt = ({user}) => {
 
     // const user = JSON.parse(localStorage.getItem('profile'))
 
-    const appointmentArray = user?.result?.appointments
+    const appointmentArray = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
 
     const appointment = appointmentArray.find(({_id}) => _id === params?.id)
 

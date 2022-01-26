@@ -3,8 +3,9 @@ import FinancialStatements from './FinancialStatements'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFinancialData } from '../../../../actions/financials'
 import AddToFinancials from './AddToFinancials'
+import axios from 'axios'
 
-const Financials = () => {
+const Financials = ({user}) => {
 
     const dispatch = useDispatch()
     const [year, setYear] = useState('')
@@ -15,7 +16,7 @@ const Financials = () => {
     
     useEffect(()=>{
         dispatch(getFinancialData(formData))
-    }, [dispatch, year, formData])
+    }, [dispatch, formData])
 
     const financialData = useSelector((state)=>state?.financialsReducer)
 
@@ -27,7 +28,7 @@ const Financials = () => {
         ) : (
             <div>
                 <AddToFinancials />
-                <FinancialStatements setYear={setYear} financialData={financialData} year={year} />
+                <FinancialStatements setYear={setYear} financialData={financialData} year={year} user={user}/>
             </div>
         )    
     )

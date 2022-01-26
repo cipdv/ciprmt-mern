@@ -30,6 +30,7 @@ const treatmentSchema = mongoose.Schema({
         innerThighs: String,
         areasToAvoid: String
     },
+    notesFromClient: String,
     notes: String,
     covid: {
         vaccinated: Boolean,

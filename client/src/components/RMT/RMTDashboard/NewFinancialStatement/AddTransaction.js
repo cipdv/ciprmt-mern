@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addFinancials } from '../../../../actions/financials'
+import { addTransactionToFinancialStatement } from '../../../../actions/financials'
 import styles from '../rmtdashboard.module.css'
 
-const AddToFinancials = () => {
+const AddTransaction = () => {
 
     const dispatch = useDispatch()
 
@@ -13,9 +13,9 @@ const AddToFinancials = () => {
     const [category, setCategory] = useState('')
     const [details, setDetails] = useState('')
 
-    const handleAdd = (e) => {
+    const addTransaction = (e) => {
         e.preventDefault()
-        dispatch(addFinancials(formData))
+        dispatch(addTransactionToFinancialStatement(formData))
         clear()
     }
 
@@ -37,7 +37,7 @@ const AddToFinancials = () => {
 
     return (     
         <div className={styles.box}>
-            <form onSubmit={handleAdd}>
+            <form onSubmit={addTransaction}>
                 <div>
                     <div>
                         <select value={type} onChange={(e)=>setType(e.target.value)} className={styles.forminput} placeholder="Select type">
@@ -93,4 +93,4 @@ const AddToFinancials = () => {
     )
 }
 
-export default AddToFinancials
+export default AddTransaction

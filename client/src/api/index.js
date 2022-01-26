@@ -41,9 +41,12 @@ export const RMTLogin = (formData) => API.post('/rmt/login', formData)
 
 export const userTypeVerification = () => API.get('/user/usertype')
 
+//financial statements
 export const addTransaction = (RMTid, financialData) => API.put(`/financials/${RMTid}`, financialData)
+export const getFinancialStatementsByRMTId = (rmtid) => API.get(`/financials/getfinancialstatementsbyrmtid/${rmtid}`)
 export const getFinancialData = (year) => API.post('/financials/getfinancialdata', year)
 export const addFinancials = (formData) => API.patch(`/financials/addFinancials`, formData)
+export const createNewFinancialStatement = (rmtid, year) => API.post(`/financials/addnewfinancialstatement/${rmtid}`, year)
 
 //electronic audit log
 export const addToEAL = (data) => API.post(`/electronicauditlog`, data)

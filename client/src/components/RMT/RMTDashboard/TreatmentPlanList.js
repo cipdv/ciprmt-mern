@@ -13,7 +13,6 @@ const TreatmentPlanList = ({setTreatmentId}) => {
     const history = useHistory()
 
     const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
-    console.log(treatments)
 
     const selectTreatment = (tid, clientId, tpid) => {
         // history.push(`/rmt/dashboard/patient/${clientId}/treatmentplan/${tpid}/treatment/${tid}`)

@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const financialsSchema = new mongoose.Schema({
     id: String,
     RMTid: String,
-    year: Number,
+    year: String,
     income: [
         {
             category: String,
@@ -49,4 +49,4 @@ const financialsSchema = new mongoose.Schema({
     Taxes: Number
 })
 
-export default mongoose.model('Financials', financialsSchema) 
+export default mongoose.model('FinancialStatement', financialsSchema) 

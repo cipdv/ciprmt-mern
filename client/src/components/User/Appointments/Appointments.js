@@ -6,6 +6,7 @@ import { PDFReceipt } from './PDFReceipt'
 import cssstyle from './appointments.module.css'
 import { getUser } from '../../../actions/healthHistory'
 import { useSelector, useDispatch } from 'react-redux'
+import { getTreatmentsByClientId } from '../../../actions/treatmentPlans'
 
 const Appointments = ({user}) => {
 
@@ -15,10 +16,10 @@ const Appointments = ({user}) => {
 
     useEffect(() => {
         dispatch(getUser(user?.result._id)) 
+        dispatch(getTreatmentsByClientId(user?.result?._id))
     }, [dispatch])
 
-    const { appointments } = user?.result
-    // const appointments = useSelector((state)=>state?.usersReducer?.user?.data?.appointments)
+    const appointments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
 
     const selectAppointment = (id) => {
         history.push(`/dashboard/appointment/${id}`)

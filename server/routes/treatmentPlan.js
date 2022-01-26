@@ -4,7 +4,7 @@ const router = express.Router()
 
 import auth from '../middleware/auth.js'
 
-import { getTreatmentPlans, createNewTreatmentPlan, addTreatment, getTreatmentPlanById, getTreatmentById, updateTreatmentPlan, getTreatmentsByClientId, getTreatmentsByTreatmentPlanId, updateTreatment, sendConfirmEmail } from '../controllers/treatmentPlan.js'
+import { getTreatmentPlans, createNewTreatmentPlan, addTreatment, getTreatmentPlanById, getTreatmentById, updateTreatmentPlan, getTreatmentsByClientId, getTreatmentsByTreatmentPlanId, updateTreatment, sendConfirmEmail, clientConfirmedTreatment } from '../controllers/treatmentPlan.js'
 
 router.post('/getallforthisuser/:userid', getTreatmentPlans)
 router.post('/createnewforthisuser/:userid', createNewTreatmentPlan)
@@ -17,5 +17,6 @@ router.post('/:tpid/gettreatments', getTreatmentsByTreatmentPlanId)
 router.post('/addtreatment', addTreatment)
 router.put('/treatment/:tid/updatetreatment', updateTreatment)
 router.post('/sendconfirmemail/:clientid', sendConfirmEmail)
+router.post('/sendemailtormtforconfirmedappt', clientConfirmedTreatment)
 
 export default router

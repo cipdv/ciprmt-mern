@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { confirmAppointment } from '../../../actions/appointment'
+// import { confirmAppointment } from '../../../actions/appointment'
 import { useForm } from 'react-hook-form'
 import styles from './confirmAppointment.module.css'
 import SignatureCanvas from 'react-signature-canvas'
 import { useHistory, Link } from 'react-router-dom'
 import axios from 'axios'
-import { updateTreatment } from '../../../actions/treatmentPlans'
+import { confirmTreatment } from '../../../actions/treatmentPlans'
 
-const ConfirmAppointment = ({user, treatments}) => {
+const ConfirmAppointment = ({user}) => {
+
+    const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
+    console.log(treatments)
 
     useEffect(()=>{
         axios.post('http://localhost:5000/electronicauditlog', {
@@ -20,6 +23,16 @@ const ConfirmAppointment = ({user, treatments}) => {
     }, [])
 
     const { _id, firstName, lastName } = user?.result
+    let pronoun = ''
+    if (user?.result?.healthHistory[0]?.pronouns === 'he/him') {
+        pronoun = 'his'
+    } else if (user?.result?.healthHistory[0]?.pronouns === 'she/her') {
+        pronoun = 'her'
+    } else if (user?.result?.healthHistory[0]?.pronouns === 'they/them') {
+        pronoun = 'their'
+    } else {
+        pronoun = 'their'
+    }
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -38,7 +51,7 @@ const ConfirmAppointment = ({user, treatments}) => {
     const [chest, setChest] = useState('')
     const [abdomen, setAbdomen] = useState('')
     const [innerThighs, setInnerThighs] = useState('')
-    // const [areasToAvoid, setAreasToAvoid] = useState('')
+    const [areasToAvoid, setAreasToAvoid] = useState('')
     const [apptDate, setApptDate] = useState('')
     const [apptTime, setApptTime] = useState('')
     const [apptId, setApptId] = useState('')
@@ -50,11 +63,12 @@ const ConfirmAppointment = ({user, treatments}) => {
             chest,
             abdomen,
             innerThighs,
+            areasToAvoid
         },
         name: `${firstName} ${lastName}`,
         apptDate,
         apptTime,
-        apptId
+        apptId,
     }
 
     const abdomenPng = () => {
@@ -100,15 +114,15 @@ const ConfirmAppointment = ({user, treatments}) => {
         setApptId(appointmentId)
     }
 
-    const onSubmit = async (data) => {
+    const onSubmit = (data) => {
 
         const reqBody = {
             data,
             otherData
         }
 
-        // await dispatch(confirmAppointment(_id, reqBody))
-        await dispatch(updateTreatment(apptId, reqBody))
+        // // await dispatch(confirmAppointment(_id, reqBody))
+        dispatch(confirmTreatment(apptId, reqBody))
 
         //electronic audit log
         axios.post('http://localhost:5000/electronicauditlog', {
@@ -116,6 +130,21 @@ const ConfirmAppointment = ({user, treatments}) => {
             actionPerformed: `modified`,
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
             whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        })
+
+        //send email to RMT that client confirmed appt
+        axios.post('http://localhost:5000/treatmentplan/sendemailtormtforconfirmedappt', {
+            treatmentConsent,
+            glutes,
+            chest,
+            abdomen,
+            innerThighs,
+            areasToAvoid,
+            name: `${firstName} ${lastName}`,
+            apptDate,
+            apptTime,
+            reasonForMassage: data.reasonForMassage,
+            pronoun
         })
 
         history.push('/')
@@ -172,11 +201,11 @@ const ConfirmAppointment = ({user, treatments}) => {
                                     </div>
                                     <div>
                                         <label>Are there any other areas you do not want to have massaged during this session?</label>
-                                        <input className={styles.forminput} type="text" {...register('consents.areasToAvoid')} name="consents.areasToAvoid" placeholder='eg. face, feet, hands'/>
+                                        <input className={styles.forminput} type="text" value={areasToAvoid} onChange={(e)=>setAreasToAvoid(e.target.value)} name="consents.areasToAvoid" placeholder='eg. face, feet, hands'/>
                                     </div>
                                     <div>
                                         <label>If there's any other information you'd like me to know before the massage, include it here:</label>
-                                        <input className={styles.forminput} type="text" {...register('additionalNotes')} name="additionalNotes" placeholder='eg. recent injuries or surgeries' />
+                                        <input className={styles.forminput} type="text" {...register('notesFromClient')} name="notesFromClient" placeholder='eg. recent injuries or surgeries' />
                                     </div>
                                 </div>
                                 <div className={styles.covidsection}>
@@ -215,10 +244,26 @@ const ConfirmAppointment = ({user, treatments}) => {
                                     You have an upcoming appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
                                 </h3>
                                 <div>
-                                    Location, what to wear, payment types
+                                    <h4>Location:</h4>
+                                    <p>268 Shuter Street, Toronto ON. There is parking available at the side of the building, on Berkeley Street and free street parking availale on Shuter Street and Berkeley Street. Please plan to arrive no earlier than 10 minutes before your appointment as I may still need time to clean and disinfect after the previous appointment.</p>
+                                    <h4>What to wear:</h4>
+                                    <p>Bring comfortable pants/shorts and a short or long-sleeved t-shirt. Clothing that you will be able to stretch in, made from soft natural fabric like cotton, bamboo, hemp. Clothing you could wear to practice yoga. More coverage is better, so aim for longer short/pant and sleeve lengths. You may change clothing here, or come fully dressed.</p>
+                                    <h4>What NOT to wear:</h4>
+                                    <ul>
+                                        <li>Clothing with zippers</li>
+                                        <li>Slippery fabrics like polyester (eg. UnderArmour)</li>
+                                        <li>Shirts without sleeves (eg. tank tops)</li>
+                                        <li>Extremely short shorts - aim for knee length or lower</li>
+                                        <li>Strong scents (eg. perfume, cologne)</li>
+                                    </ul>
+                                    <p>I know it may seem counter-intuitive, but trust me, for this style of massage more coverage is better.</p>
+                                    <h4>Payment:</h4>
+                                    <p>Preferred payment methods are debit, email money transfer, and cash, but I can take credit card payments as well. Your receipt will be available on your profile within 24 hours of your appointment.</p>
+                                    <h4>Medications:</h4>
+                                    <p>It is important that you can fully feel what is happening during the massage, so please refrain from taking any pain medications at least 2 hours before your appointment start-time.</p>
                                 </div>
                             </div>
-                        ) : new Date(appointment?.date) <= today ? (
+                        ) : new Date(appointment?.date) < today ? (
                             <div></div>
                         ) : (
                             <div></div>
