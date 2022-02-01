@@ -2,8 +2,7 @@ import axios from 'axios'
 //PRODUCTION
 // const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
 //DEVELOPMENT
-const API = axios.create({ baseURL: 'http://localhost:5000'})
-
+const API = axios.create({ baseURL: 'http://localhost:5000/'})
 
 // API.interceptors.request.use((req)=>{
 //     if (localStorage.getItem('profile')) {
@@ -62,3 +61,11 @@ export const getTreatmentsByClientId = (clientid) => API.post(`/treatmentplan/ge
 export const getTreatmentsByTreatmentPlanId = (tpid) => API.post(`/treatmentplan/${tpid}/gettreatments`)
 export const addTreatment = (form) => API.post('/treatmentplan/addtreatment', form)
 export const updateTreatment = (tid, form) => API.put(`/treatmentplan/treatment/${tid}/updatetreatment`, form)
+
+//non-redux calls
+// export const ealApptDetails = (data) => API.post(`/electronicauditlog`, data)
+//send email to RMT that client confirmed appt
+export const emailApptConfirmed = (data) => API.post('/treatmentplan/sendemailtormtforconfirmedappt', data)
+export const emailSendReceipt = (data) => API.post('/treatmentplan/sendreceipt', data)
+export const sendConfirmEmail = (clientid, data) => API.post(`/treatmentplan/sendconfirmemail/${clientid}`, data)
+export const addToMaintenanceLog = (data) => API.post('/maintenancelog', data)

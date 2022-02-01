@@ -6,6 +6,7 @@ import { getTreatmentById, updateTreatment } from '../../../actions/treatmentPla
 import { addTransaction } from '../../../actions/financials';
 import styles from './rmtdashboard.module.css'
 import axios from 'axios'
+import { addToEAL, emailSendReceipt } from '../../../api/index'
 
 const Treatment = ({treatmentId, user}) => {
 
@@ -132,9 +133,14 @@ const Treatment = ({treatmentId, user}) => {
         dispatch(addTransaction(user?.result?._id, financialData))
 
         //email receipt to client
+        emailSendReceipt({
+            firstName: `${patient?.firstName}`,
+            lastName: `${patient?.lastName}`,
+            email: patient?.email
+        })
         
         //electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `appointment details`,
             actionPerformed: 'appointment details modified and income transaction added to financial statement',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -148,8 +154,39 @@ const Treatment = ({treatmentId, user}) => {
         !treatments ? (
             <div></div>
         ) : (
-            <div>
-                <table className={styles.table}>
+            <div className={styles.box}>
+                <div>
+                    <label>Date:</label>
+                    <input className={styles.forminput} type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+                </div>
+                <div>
+                    <label>Time:</label>
+                    <input className={styles.forminput} type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
+                </div>
+                <div>
+                    <label>Duration:</label>
+                    <select className={styles.forminput} value={duration} onChange={(e)=>setDuration(e.target.value)}>
+                        <option value='' disabled='disabled'>Select duration</option>
+                        <option value="60">60 minutes ($100)</option>
+                        <option value="75">75 minutes ($120)</option>
+                        <option value="90">90 minutes ($140)</option>
+                    </select>                
+                </div>
+                <div>
+                    <label>Price:</label>
+                    <input className={styles.forminput} type="text" value={price} onChange={(e)=>setPrice(e.target.value)} />
+                </div>
+                <div>
+                    <label>Payment Type:</label>
+                    <select className={styles.forminput} value={paymentType} onChange={handleChange}>
+                        <option value='' disabled='disabled'>Select payment type</option>
+                        <option value='unpaid'>Unpaid</option>
+                        <option value='credit'>Credit card</option>
+                        <option value='debit'>Debit</option>
+                        <option value='cash/etransfer'>Cash/e-transfer</option>
+                    </select>                
+                </div>
+                {/* <table>
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -195,13 +232,13 @@ const Treatment = ({treatmentId, user}) => {
                             </td>
                         </tr>
                     </tbody>
-                </table>
-                <div className={styles.box} style={{justifyContent: 'left'}}>
-                    <label>Reason for massage:</label>
-                    {reasonForMassage}
+                </table> */}
+                <div>
+                    <label>Reason for massage: {reasonForMassage}</label>
+                    
                 </div>
                 <div>
-                    <table className={styles.table}>
+                    <table>
                         <thead>
                             <tr>
                                 <th>Consents given</th>
@@ -231,7 +268,7 @@ const Treatment = ({treatmentId, user}) => {
                         </tbody>
                     </table>
                 </div>
-                <div className={styles.box}>
+                <div>
                     <form onSubmit={handleSubmit}>
                         <div>
                             <label>

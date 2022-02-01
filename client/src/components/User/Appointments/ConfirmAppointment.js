@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import styles from './confirmAppointment.module.css'
 import SignatureCanvas from 'react-signature-canvas'
 import { useHistory, Link } from 'react-router-dom'
-import axios from 'axios'
 import { confirmTreatment } from '../../../actions/treatmentPlans'
+import { addToEAL, emailApptConfirmed } from '../../../api/index'
 
 const ConfirmAppointment = ({user}) => {
 
@@ -14,7 +14,7 @@ const ConfirmAppointment = ({user}) => {
     console.log(treatments)
 
     useEffect(()=>{
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: 'appointment details (date, duration, time, price)',
             actionPerformed: `viewed`,
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -125,7 +125,15 @@ const ConfirmAppointment = ({user}) => {
         dispatch(confirmTreatment(apptId, reqBody))
 
         //electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', {
+        // axios.post('https://cip-mern.herokuapp.com/electronicauditlog', {
+        //     typeOfInfo: 'appointment details (consents, covid screening, reason for massage, notes)',
+        //     actionPerformed: `modified`,
+        //     accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
+        //     whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
+        // })
+
+        //eal non-redux call
+        addToEAL({
             typeOfInfo: 'appointment details (consents, covid screening, reason for massage, notes)',
             actionPerformed: `modified`,
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -133,7 +141,7 @@ const ConfirmAppointment = ({user}) => {
         })
 
         //send email to RMT that client confirmed appt
-        axios.post('http://localhost:5000/treatmentplan/sendemailtormtforconfirmedappt', {
+        emailApptConfirmed({
             treatmentConsent,
             glutes,
             chest,
@@ -144,7 +152,11 @@ const ConfirmAppointment = ({user}) => {
             apptDate,
             apptTime,
             reasonForMassage: data.reasonForMassage,
-            pronoun
+            pronoun,
+            covidvaccinated: data.covid.vaccinated,
+            covidnoosymptoms: data.covid.noSymptoms,
+            covidnotisolating: data.covid.notIsolating,
+            notes: data.notesFromClient
         })
 
         history.push('/')
@@ -178,21 +190,21 @@ const ConfirmAppointment = ({user}) => {
                                         </div>
                                         <div>
                                             <div className={styles.initial}>
-                                                <label>Glutes </label>
+                                                <label>Glutes: intial here </label>
                                                 <SignatureCanvas ref={gluteSig} onEnd={glutesPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
                                                 <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearGlutes}>clear</i>                                            </div>
                                             <div className={styles.initial}>
-                                                <label>Chest</label>
+                                                <label>Chest: intial here</label>
                                                 <SignatureCanvas ref={chestSig} onEnd={chestPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
                                                 <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearChest}>clear</i>
                                             </div>
                                             <div className={styles.initial}>
-                                                <label>Abdomen</label>
+                                                <label>Abdomen: intial here</label>
                                                 <SignatureCanvas ref={abdomenSig} onEnd={abdomenPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
                                                 <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearAbdomen}>clear</i>
                                             </div>
                                             <div className={styles.initial}>
-                                                <label>Inner Thighs</label>                                      
+                                                <label>Inner Thighs: intial here</label>                                      
                                                 <SignatureCanvas ref={thighSig} onEnd={innerThighsPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
                                                 <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearInnerThighs}>clear</i>
                                             </div>
@@ -256,7 +268,7 @@ const ConfirmAppointment = ({user}) => {
                                         <li>Extremely short shorts - aim for knee length or lower</li>
                                         <li>Strong scents (eg. perfume, cologne)</li>
                                     </ul>
-                                    <p>I know it may seem counter-intuitive, but trust me, for this style of massage more coverage is better.</p>
+                                    <p>I know it may seem counter-intuitive, but trust me, greater coverage is more comfortable for this style of massage.</p>
                                     <h4>Payment:</h4>
                                     <p>Preferred payment methods are debit, email money transfer, and cash, but I can take credit card payments as well. Your receipt will be available on your profile within 24 hours of your appointment.</p>
                                     <h4>Medications:</h4>
@@ -264,7 +276,8 @@ const ConfirmAppointment = ({user}) => {
                                 </div>
                             </div>
                         ) : new Date(appointment?.date) < today ? (
-                            <div></div>
+                            <div>
+                            </div>
                         ) : (
                             <div></div>
                         )
@@ -274,7 +287,8 @@ const ConfirmAppointment = ({user}) => {
     } else {
         return (
             <div>
-                You have no upcoming treatments booked at the moment.
+                <label>You have no upcoming treatments booked at the moment.</label>
+                <p>If you believe this is a mistake, please text Cip de Vries at 416-258-1230.</p>.
             </div>
         )
     }

@@ -107,6 +107,11 @@ const Auth = () => {
                                 <p>
                                     All information provided will be encrypted and sent through a secure network in accordance with my <Link target="_blank" to="/privacypolicy">privacy policy</Link>.
                                 </p>
+                                <div onClick={switchMode}>
+                                    {
+                                        isRegister ? (<div>Already have an account? <button className={styles.btn2}>Login</button></div>) : (<div>First time booking a massage? <button className={styles.btn2}>Register here</button></div>)
+                                    }
+                                </div>
                                     <label>First name</label>
                                     <input className={styles.forminput} name="firstName" label="First name" type="text" value={values.firstName} onChange={handleChange} />
                                     {errors?.firstName && <p className={styles.error}>{errors?.firstName}</p>}
@@ -143,11 +148,7 @@ const Auth = () => {
                             </div>
                         )
                     }
-                <div onClick={switchMode}>
-                    {
-                        isRegister ? (<div>Already have an account? <button className={styles.btn2}>Login</button></div>) : (<div>First time booking a massage? <button className={styles.btn2}>Register here</button></div>)
-                    }
-                </div>
+                
                 </div>   
             </form>
         </div>

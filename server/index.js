@@ -10,7 +10,7 @@ import pdf from 'html-pdf'
 import {pdfFile} from './documents/index.js'
 
 //import routes
-import HHRoutes from './routes/healthHistory.js'
+import healthHistoryRoutes from './routes/healthHistory.js'
 import userRoutes from './routes/users.js'
 import appointmentRoutes from './routes/appointments.js'
 import RMTRoutes from './routes/rmt.js'
@@ -28,7 +28,7 @@ app.use(cors())
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 //routing
-app.use('/healthhistory', HHRoutes)
+app.use('/healthhistory', healthHistoryRoutes)
 app.use('/user', userRoutes)
 app.use('/appointments', appointmentRoutes)
 app.use('/rmt', RMTRoutes )
@@ -71,8 +71,8 @@ app.get('/fetchpdf', (req, res)=>{
 app.get('/sendgrid', (req, res)=> {
 
     const msg = {
-        to: 'cip.devries@gmail.com', // Change to your recipient
-        from: 'cip@cip.gay', // Change to your verified sender
+        to: 'cipdevries@ciprmt.com', // Change to your recipient
+        from: 'cipdevries@ciprmt.com', // Change to your verified sender
         subject: 'Sending with SendGrid is Fun',
         text: 'and easy to do anywhere, even with Node.js',
         html: '<strong>and easy to do anywhere, even with Node.js</strong>',

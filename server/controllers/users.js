@@ -33,14 +33,14 @@ export const register = async (req, res) => {
 
         //send email to RMT to let them know a new user has registered
         const msg = {
-            to: 'cip.devries@gmail.com', // Change to your recipient
-            from: 'cip@cip.gay', // Change to your verified sender
+            to: 'cipdevries@ciprmt.com', // Change to your recipient
+            from: 'cipdevries@ciprmt.com', // Change to your verified sender
             subject: `A new patient has registered`,
             text: `${firstName} ${lastName} has registered as a new user.`,
             html: `
               <p>${firstName} ${lastName} has registered as a new user.</p>
               <p>Email: ${email}</p>
-              <a href="http://localhost:3000/rmt/auth">Login to see their profile</a>
+              <a href="https://www.ciprmt.com/rmt/auth">Login to see their profile</a>
             `,
           }
     

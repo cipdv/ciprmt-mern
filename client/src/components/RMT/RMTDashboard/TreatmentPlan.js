@@ -6,6 +6,7 @@ import TreatmentPlanList from './TreatmentPlanList';
 import Treatment from './Treatment';
 import { getTreatmentPlanById, getTreatmentsByClientId, getTreatmentsByTreatmentPlanId } from '../../../actions/treatmentPlans';
 import { getUser } from '../../../actions/healthHistory';
+import styles from './rmtdashboard.module.css'
 
 const TreatmentPlans = ({user}) => {
 
@@ -21,7 +22,7 @@ const TreatmentPlans = ({user}) => {
     }, [])
 
     return (
-        <div>
+        <div style={{maxWidth: '350px'}}>
             <TreatmentPlanDetails />
             <TreatmentPlanList setTreatmentId={setTreatmentId} />
             <Treatment treatmentId={treatmentId} user={user}/>

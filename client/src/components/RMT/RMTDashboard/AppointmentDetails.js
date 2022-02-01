@@ -6,6 +6,7 @@ import { addTransaction } from '../../../actions/financials'
 import styles from './rmtdashboard.module.css'
 import axios from 'axios'
 import FileBase from 'react-file-base64';
+import { addToEAL } from '../../../api'
 
 
 const AppointmentDetails = ({appointments, userState, user}) => {
@@ -14,7 +15,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
     const history = useHistory()
 
     useEffect(()=>{
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `appointment details`,
             actionPerformed: 'viewed',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -115,7 +116,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
             dispatch(addTransaction(user.result._id, financialData))
         }
         //electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `appointment details`,
             actionPerformed: 'appointment details modified and income transaction added to financial statement',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,

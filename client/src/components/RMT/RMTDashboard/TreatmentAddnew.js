@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { addTreatmentToTP, addTreatment } from '../../../actions/treatmentPlans'
 import styles from './rmtdashboard.module.css'
+import { sendConfirmEmail } from '../../../api/index'
 
 const TreatmentAddnew = () => {
 
@@ -26,7 +27,7 @@ const TreatmentAddnew = () => {
     const handleSubmit = () => {
         dispatch(addTreatment(form))
         history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
-        axios.post(`http://localhost:5000/treatmentplan/sendconfirmemail/${params?.clientid}`, form)
+        sendConfirmEmail(params?.clientid, form)
     }
 
     return (

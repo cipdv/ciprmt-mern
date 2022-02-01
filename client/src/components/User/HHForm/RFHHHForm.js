@@ -6,12 +6,13 @@ import moment from 'moment'
 import { useForm, Controller } from 'react-hook-form'
 import styles from './hhform.module.css'
 import axios from 'axios'
+import { addToEAL } from '../../../api/index'
 
 const RFHHHForm = ({user}) => {
 
     useEffect(()=>{
 
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `health history record`,
             actionPerformed: 'viewed',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -30,7 +31,7 @@ const RFHHHForm = ({user}) => {
 
     const onSubmit = (data) => {
         dispatch(submitHH(data))
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `health history record`,
             actionPerformed: 'modified',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,

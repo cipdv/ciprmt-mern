@@ -131,13 +131,19 @@ export const sendConfirmEmail = async (req, res) => {
     try {
         const msg = {
             to: `${user.email}`, // Change to your recipient
-            from: 'cip@cip.gay', // Change to your verified sender
+            from: 'cipdevries@ciprmt.com', // Change to your verified sender
             subject: `Please confirm your appointment with Cip de Vries, RMT`,
             text: `Please login to your account at www.ciprmt.com to confirm your appointment`,
             html: `
+            <h4>Hi ${user?.firstName},</h4>
             <p>
-                Please <a href="https://ciprmt.netlify.app/">login to your account</a> to provide some details and to confirm your appointment on ${req.body.date} at ${req.body.time}.
+                Please login to your account at <a href="https://www.ciprmt.com/auth">www.ciprmt.com</a> to confirm your massage therapy appointment on ${req.body.date} at ${req.body.time}.
             </p>
+            <p>
+                Trouble logging in? Please text Cip de Vries at 416-258-1230.
+            </p>
+            <p>Thanks for checking out my new website! I've worked really hard to create this over the past year, and I'm continuing to learn more about coding to add new features including sending your receipts directly to your email.</p>
+            <p>If you have any ideas how to improve the website, notice any performance issues, or have an idea for a cool feature, feel free to text me at 416-258-1230 or send me an email at cip.devries@gmail.com.</p>
             `
         }
 
@@ -167,7 +173,7 @@ export const updateTreatment = async (req, res) => {
 
 export const clientConfirmedTreatment = async (req, res) => {
 
-    const { name, apptDate, apptTime, reasonForMassage, glutes, chest, abdomen, innerThighs, areasToAvoid, pronoun } = req.body
+    const { name, apptDate, apptTime, reasonForMassage, glutes, chest, abdomen, innerThighs, areasToAvoid, pronoun, covidvaccinated, covidnoosymptoms, covidnotisolating, notes } = req.body
     
     let gluteConsent = ''
     let chestConsent = ''
@@ -199,13 +205,13 @@ export const clientConfirmedTreatment = async (req, res) => {
    }
 
     const msg = {
-        to: `cip@cip.gay`,
-        from: 'cip@cip.gay', // Change to your verified sender
+        to: `cipdevries@ciprmt.com`,
+        from: 'cipdevries@ciprmt.com', // Change to your verified sender
         subject: `Confirmed: ${name} on ${apptDate} at ${apptTime} `,
         text: `${name} has confirmed their appointment on ${apptDate} at ${apptTime}`,
         html: `
           <p>${name} has confirmed ${pronoun} appointment on ${apptDate} at ${apptTime}</p>
-          <p>Their reason for massage is: ${reasonForMassage}</p> 
+          <p>Reason for booking a massage is: ${reasonForMassage}</p> 
           <p>Consents given:</p>
           <ul>
             <li>Glutes: ${gluteConsent}</li>
@@ -214,6 +220,13 @@ export const clientConfirmedTreatment = async (req, res) => {
             <li>Inner Thighs: ${innerThighsConsent}</li>
           </ul>
           <p>Areas to avoid: ${areasToAvoid}</p>
+          <p>Notes provided: ${notes}</p>
+          <p>Covid Screening</p>
+          <ul>
+            <li>Vaccinated: ${covidvaccinated}</li>
+            <li>No symptoms: ${covidnoosymptoms}</li>
+            <li>Not isolating: ${covidnotisolating}</li>
+          </ul>
         `,
       }
 
@@ -229,5 +242,40 @@ export const clientConfirmedTreatment = async (req, res) => {
         }) 
     } catch (error) {
         console.log(error.message)
+    }
+}
+
+export const sendReceipt = async (req, res) => {
+    const {firstName, email} = req.body
+    try {
+        const msg = {
+            to: `${email}`, // Change to your recipient
+            from: 'cipdevries@ciprmt.com', // Change to your verified sender
+            subject: `Your Massage Therapy Treatment Receipt is Ready to Download`,
+            text: `Please login to your account at www.ciprmt.com to download your receipt.`,
+            html: `
+            <h4>Hi ${firstName},</h4>
+            <p>
+                Your receipt is ready to download. Login at <a href="https://www.ciprmt.com/auth">www.ciprmt.com</a> to view and download receipts.
+            </p>
+            <p>
+                Trouble logging in? Please text Cip de Vries at 416-258-1230.
+            </p>
+            <p>Thanks for checking out my new website! I've worked really hard to create this over the past year, and I'm continuing to learn more about coding to add new features including sending your receipts directly to your email.</p>
+            <p>If you have any ideas how to improve the website, notice any performance issues, or have an idea for a cool feature, feel free to text me at 416-258-1230 or send me an email at cip.devries@gmail.com.</p>
+            `
+        }
+
+        sgMail
+            .send(msg)
+            .then(() => {
+                console.log('Email sent')
+                res.send('email sent')
+            })
+            .catch((error) => {
+                console.error(error)
+            }) 
+    } catch (error) {
+        console.log(console.error)
     }
 }

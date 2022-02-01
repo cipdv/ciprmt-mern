@@ -7,6 +7,7 @@ import styles from './rmtdashboard.module.css'
 import { addTreatmentToTP, getTreatmentById } from '../../../actions/treatmentPlans'
 import { addTransaction } from '../../../actions/financials'
 import { updateTreatment } from '../../../actions/treatmentPlans';
+import { addToEAL } from '../../../api/index'
 
 const Treatment = ({user, patient}) => {
 
@@ -16,7 +17,7 @@ const Treatment = ({user, patient}) => {
 
     useEffect(()=>{
         //electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `appointment details`,
             actionPerformed: 'viewed',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -120,7 +121,7 @@ const Treatment = ({user, patient}) => {
             dispatch(addTransaction(user?.result?._id, financialData))
         }
         // //electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: `appointment details`,
             actionPerformed: 'appointment details modified and income transaction added to financial statement',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,

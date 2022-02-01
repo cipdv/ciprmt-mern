@@ -8,6 +8,7 @@ import moment from 'moment'
 import styles from './rmtdashboard.module.css'
 import axios from 'axios'
 import { FiDivideSquare } from 'react-icons/fi'
+import { addToEAL } from '../../../api/index'
 
 const PatientProfile = ({user}) => {
 
@@ -26,7 +27,7 @@ const PatientProfile = ({user}) => {
         dispatch(getUser(params.id))
         dispatch(getTreatmentPlans(params.id))
         //add to electronic audit log
-        axios.post('http://localhost:5000/electronicauditlog', eal)
+        addToEAL(eal)
 
     }, [dispatch, params.id])
 

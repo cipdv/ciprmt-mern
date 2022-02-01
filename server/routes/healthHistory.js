@@ -1,7 +1,7 @@
 import express from 'express'
 
 //controllers
-import { createHealthHistory, getAllUsers, getHH, getUserBySearch, updateUser } from '../controllers/healthHistory.js'
+import { createHealthHistory, getAllUsers, getHH, getUserBySearch } from '../controllers/healthHistory.js'
 
 //middleware
 import auth from '../middleware/auth.js'
@@ -22,7 +22,6 @@ router.post('/:id', getHH)
 router.get('/search', getUserBySearch)
 //DELETE the HH (admin only)
 // router.delete('/:id', deleteHH)
-//UPDATE USER WITH SIGNATURE
-router.put(`/:id/update`, updateUser)
+
 
 export default router

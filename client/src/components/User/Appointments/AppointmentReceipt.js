@@ -6,11 +6,13 @@ import { saveAs } from 'file-saver'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { PDFReceipt } from './PDFReceipt'
 import { useSelector } from 'react-redux'
+import whitesignature from '../Appointments/rmtsignature/signature (3).png'
+import { addToEAL } from '../../../api/index'
 
 const AppointmentReceipt = ({user}) => {
 
     useEffect(()=>{
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: 'appointment details (date, duration, time, price)',
             actionPerformed: 'viewed',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -24,7 +26,7 @@ const AppointmentReceipt = ({user}) => {
 
     const appointmentArray = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
 
-    const appointment = appointmentArray.find(({_id}) => _id === params?.id)
+    const appointment = appointmentArray?.find(({_id}) => _id === params?.id)
 
     const apptId = appointment?._id
     const receiptNumber = apptId?.toUpperCase()
@@ -61,7 +63,7 @@ const AppointmentReceipt = ({user}) => {
     // }
     
     const addDownloadPDFToEAL = () => {
-        axios.post('http://localhost:5000/electronicauditlog', {
+        addToEAL({
             typeOfInfo: 'appointment details (date, duration, time, price)',
             actionPerformed: 'PDF downloaded',
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
@@ -71,7 +73,13 @@ const AppointmentReceipt = ({user}) => {
 
     return (
         <div className={styles.box}>
-        <div >
+            <div style={{textAlign: 'center'}}>
+                <h4>Download an official receipt in PDF format: </h4>
+                <PDFDownloadLink document={<PDFReceipt appointment={appointment} user={user} />} fileName={appointment?.date}>
+                    {({loading}) => loading ? <div>Loading...</div> : <button onClick={addDownloadPDFToEAL} className={styles.btn}>Download PDF</button>}
+                </PDFDownloadLink>
+            </div>
+        <div className={styles.box}>
             <p style={{textAlign: 'center'}}>
                 <h4>Cip de Vries, RMT</h4>
                 268 Shuter Street, Toronto ON, M5A 1W3
@@ -85,39 +93,31 @@ const AppointmentReceipt = ({user}) => {
             </p>
             <h5 style={{textAlign: 'center'}}>Appointment Details</h5>
             <div style={{display: 'grid',  justifyContent:'center', textAlign: 'left'}}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date of treatment:</th>
-                            <td>{appointment.date}</td>
-                        </tr>
-                        <tr>
-                            <th>Time of treatment:</th>
-                            <td>{appointment.time}</td>
-                        </tr>
-                        <tr>
-                            <th>Duration:</th>
-                            <td>{appointment.duration} minutes</td>
-                        </tr>
-                        <tr>
-                            <th>Payment received:</th>
-                            <td>${appointment.price}</td>
-                        </tr>
-                        <tr>
-                            <th>Payment received from:</th>
-                            <td>{user.result.firstName} {user.result.lastName}</td>
-                        </tr>
-                        <tr>
-                            <th>Receipt number:</th>
-                            <td>{receiptNumber}</td>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div>
-                <PDFDownloadLink document={<PDFReceipt appointment={appointment} user={user} />} fileName={appointment?.date}>
-                    {({loading}) => loading ? <div>Loading...</div> : <button onClick={addDownloadPDFToEAL} className={styles.btn}>Download PDF</button>}
-                </PDFDownloadLink>
+                <div style={{textAlign: 'center'}}>
+                    Payment of ${appointment?.price} received for Massage Therapy Treatment for {user?.result?.firstName} {user?.result?.lastName}
+                </div>
+                <div style={{textAlign: 'center', marginTop: '2rem'}}>
+                    Date of Treatment: {appointment?.date}
+                </div>
+                <div style={{textAlign: 'center'}}>
+                    Time of Treatment: {appointment?.time}
+                </div>
+                <div style={{textAlign: 'center'}}>
+                    Duration: {appointment?.duration} minutes
+                </div>
+                
+                <div style={{textAlign: 'center'}}>
+                    Payment received from: {user?.result?.firstName} {user?.result?.lastName}
+                </div>
+                <div style={{textAlign: 'center'}}>
+                    Receipt Number: {receiptNumber}
+                </div>
+            </div>  
+            <div style={{textAlign: 'center', marginTop: '1rem'}}>
+                <div> 
+                    RMT Signature:
+                </div>
+                <img src={whitesignature} style={{width: '14rem', height: '7rem'}} />
             </div>
         </div>
         </div>

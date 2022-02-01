@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
-const HHSchema = mongoose.Schema({
+const HealthHistorySchema = mongoose.Schema({
+    clientId: String,
     createdAt: {type: Date, default: new Date()},
     pronouns: {type: String, required: [true, 'pronouns blank']},
     occupation: String,
@@ -69,16 +70,4 @@ const HHSchema = mongoose.Schema({
     sourceOfReferral: String
 })
 
-const userSchema = mongoose.Schema({
-    id: {type: String},
-    firstName: {type: String, required: [true, 'no first name']},
-    lastName: {type: String, required: [true, 'no last name']},
-    email: {type: String, required: [true, 'no email']},
-    emailReceiptOptIn: {type: Boolean},
-    password: {type: String, required: [true, 'no password']},
-    userType: {type: String},
-    healthHistory: [HHSchema],
-    signature: String
-})
-
-export default mongoose.model('User', userSchema) 
+export default mongoose.model('HealthHistory', HealthHistorySchema) 

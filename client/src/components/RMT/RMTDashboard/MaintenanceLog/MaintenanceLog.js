@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios'
 import styles from '../rmtdashboard.module.css'
 import { useHistory } from 'react-router-dom'
+import { addToMaintenanceLog } from '../../../../api/index'
 
 const MaintenanceLog = ({user}) => {
 
@@ -25,7 +26,7 @@ const MaintenanceLog = ({user}) => {
     }
 
     const submitMaintenanceLog = () => {
-        axios.post('http://localhost:5000/maintenancelog', data)
+        addToMaintenanceLog(data)
         history.push('/')
     }
 

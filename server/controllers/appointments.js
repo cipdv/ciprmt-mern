@@ -70,7 +70,7 @@ export const updateAppointment = async (req, res) => {
     ) {
       const msg = {
         to: `${user?.email}`, // Change to your recipient
-        from: 'cip@cip.gay', // Change to your verified sender
+        from: 'cipdevries@ciprmt.com', // Change to your verified sender
         subject: `Cip de Vries, RMT Receipt for ${date}`,
         text: `Official Receipt`,
         html: `
@@ -106,7 +106,7 @@ export const updateAppointment = async (req, res) => {
     } else if (appointment?.paymentType === 'unpaid' && paymentType !== undefined && paymentType !== 'unpaid' ) {
       const msg = {
         to: `${user.email}`, // Change to your recipient
-        from: 'cip@cip.gay', // Change to your verified sender
+        from: 'cipdevries@ciprmt.com', // Change to your verified sender
         subject: `Cip de Vries, RMT Receipt for ${date}`,
         text: `Official Receipt`,
         html: `
@@ -189,7 +189,7 @@ export const addAppointment = async (req, res) => {
         //send email confirmation to patient
         const msg = {
           to: `${result.email}`, // Change to your recipient
-          from: 'cip@cip.gay', // Change to your verified sender
+          from: 'cipdevries@ciprmt.com', // Change to your verified sender
           subject: `Please confirm your appointment with Cip de Vries, RMT`,
           text: `Please login to your account at www.ciprmt.com to confirm your appointment`,
           html: `
@@ -283,8 +283,8 @@ if (innerThighs !== '' && innerThighs !== undefined) {
       })
 
       const msg = {
-        to: 'cip@cip.gay', // Change to your recipient
-        from: 'cip@cip.gay', // Change to your verified sender
+        to: 'cipdevries@ciprmt.com', // Change to your recipient
+        from: 'cipdevries@ciprmt.com', // Change to your verified sender
         subject: `Confirmed: ${name} on ${apptDate} at ${apptTime} `,
         text: `${name} has confirmed their appointment on ${apptDate} at ${apptTime}`,
         html: `
