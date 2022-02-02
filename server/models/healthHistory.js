@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const HealthHistorySchema = mongoose.Schema({
     clientId: String,
     createdAt: {type: Date, default: new Date()},
-    pronouns: {type: String, required: [true, 'pronouns blank']},
+    pronouns: String,
     occupation: String,
     phoneNumber: {type: String, required: [true, 'phone number blank']},
     address: {

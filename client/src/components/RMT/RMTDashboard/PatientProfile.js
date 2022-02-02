@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { getUser } from '../../../actions/healthHistory'
+import { getClientHealthHistory, getUser } from '../../../actions/healthHistory'
 import { getTreatmentPlans } from '../../../actions/treatmentPlans'
 import moment from 'moment'
 import styles from './rmtdashboard.module.css'
@@ -25,14 +25,17 @@ const PatientProfile = ({user}) => {
 
     useEffect(()=>{
         dispatch(getUser(params.id))
-        dispatch(getTreatmentPlans(params.id))
+        dispatch(getTreatmentPlans(params?.id))
+        dispatch(getClientHealthHistory(params?.id))
         //add to electronic audit log
         addToEAL(eal)
 
     }, [dispatch, params.id])
 
     const patient = useSelector((state)=>state.usersReducer.user.data)
-    const HHCreatedOn = useSelector((state)=>state.usersReducer.user.data?.healthHistory[0]?.createdAt)
+    const clientsHealthHistoryData = useSelector((state)=>state?.healthHistoryReducer?.healthHistoryData)
+    const mostRecentHealthHistory = clientsHealthHistoryData?.at(-1)
+    const HHCreatedOn = mostRecentHealthHistory?.createdAt
     const treatmentPlans = useSelector((state)=>state.treatmentPlanReducer.treatmentPlans)
 
     const selectAppoinment = (appointmentId) => {
@@ -59,11 +62,11 @@ const PatientProfile = ({user}) => {
                 {(today - new Date(HHCreatedOn)) / (1000 * 3600 * 24 * 365) > 1 ? (
                     <div className={styles.box}>
                         <h3>This patient's health history was created more than one year ago.</h3>
-                        <h5>Last updated: {patient?.healthHistory[0]?.createdAt}</h5>
+                        <h5>Last updated: {mostRecentHealthHistory?.createdAt}</h5>
                     </div>
                 ) : (
                     <div>
-                        <h5>Last updated: {patient?.healthHistory[0]?.createdAt}</h5>
+                        <h5>Last updated: {mostRecentHealthHistory?.createdAt}</h5>
                     </div>
                 )}
                 <h4>Personal Info</h4>
@@ -79,20 +82,20 @@ const PatientProfile = ({user}) => {
                     <tbody>
                         <tr>
                             <td>{patient?.firstName} {patient?.lastName}</td>
-                            {!patient?.healthHistory[0]?.pronouns ? (
+                            {!mostRecentHealthHistory?.pronouns ? (
                                 <td style={{color: 'red'}}>No pronoun indicated</td>
                             ) : (
-                                <td>{patient?.healthHistory[0]?.pronouns}</td>
+                                <td>{mostRecentHealthHistory?.pronouns}</td>
                             )}
-                            {!patient?.healthHistory[0]?.dateOfBirth ? (
+                            {!mostRecentHealthHistory?.dateOfBirth ? (
                                 <td style={{color: 'red'}}>No info</td>
                             ) : (
-                                <td>{moment.utc(patient.healthHistory[0].dateOfBirth).format("YYYY-MM-DD")}</td>
+                                <td>{moment.utc(mostRecentHealthHistory?.dateOfBirth).format("YYYY-MM-DD")}</td>
                             )}
-                            {!patient?.healthHistory[0]?.occupation ? (
+                            {!mostRecentHealthHistory?.occupation ? (
                                 <td style={{color: 'red'}}>No info</td>
                             ) : (
-                                <td>{patient.healthHistory[0].occupation}</td>
+                                <td>{mostRecentHealthHistory?.occupation}</td>
                             )}
                         </tr>
                     </tbody>
@@ -109,16 +112,8 @@ const PatientProfile = ({user}) => {
                     <tbody>
                         <tr>
                             <td>{patient.email}</td>
-                            {!patient?.healthHistory[0]?.phoneNumber ? (
-                                <td style={{color: 'red'}}>No info</td>
-                            ) : (
-                                <td>{patient.healthHistory[0].phoneNumber}</td>
-                            )}
-                            {!patient.healthHistory[0] ? (
-                                <td style={{color: 'red'}}>No info</td>
-                            ) : (
-                                <td>{patient.healthHistory[0].address.streetNumber} {patient.healthHistory[0].address.streetName} {patient.healthHistory[0].address.city} {patient.healthHistory[0].address.province}</td>
-                            )}                          
+                            <td>{mostRecentHealthHistory?.phoneNumber}</td>
+                            <td>{mostRecentHealthHistory?.address.streetNumber} {mostRecentHealthHistory?.address.streetName} {mostRecentHealthHistory?.address.city} {mostRecentHealthHistory?.address.province}</td>                         
                         </tr>
                     </tbody>
                 </table>
@@ -130,7 +125,7 @@ const PatientProfile = ({user}) => {
                     <div className={styles.box}>
                         <ul>
                             {treatmentPlans?.map((tp)=>(
-                                <li className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{tp.startDate} - {!tp.endDate ? ('current') : (`${tp.endDate}`)}</li>
+                                <li id={tp._id} className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{tp.startDate} - {!tp.endDate ? ('current') : (`${tp.endDate}`)}</li>
                             ))}
                         </ul>
                     </div>
@@ -178,15 +173,15 @@ const PatientProfile = ({user}) => {
                     </thead>
                     <tbody>
                         <tr>
-                            {!patient.healthHistory[0] ? (
+                            {!mostRecentHealthHistory ? (
                                 <td style={{color: 'red'}}>No doctor information</td>
                             ) : (
-                                <td>{patient.healthHistory[0].doctor.doctorName}</td>
+                                <td>{mostRecentHealthHistory?.doctor.doctorName}</td>
                             )}
-                            {!patient.healthHistory[0] ? (
+                            {!mostRecentHealthHistory ? (
                                 <td style={{color: 'red'}}>No doctor information</td>
                             ) : (
-                                <td>{patient.healthHistory[0].doctor.doctorAddress.doctorStreetNumber} {patient.healthHistory[0].doctor.doctorAddress.doctorStreetName} {patient.healthHistory[0].doctor.doctorAddress.doctorCity} {patient.healthHistory[0].doctor.doctorAddress.doctorProvince}</td>
+                                <td>{mostRecentHealthHistory?.doctor.doctorAddress.doctorStreetNumber} {mostRecentHealthHistory?.doctor.doctorAddress.doctorStreetName} {mostRecentHealthHistory?.doctor.doctorAddress.doctorCity} {mostRecentHealthHistory?.doctor.doctorAddress.doctorProvince}</td>
                             )}
                         </tr>
                             
@@ -201,15 +196,15 @@ const PatientProfile = ({user}) => {
                     </thead>
                     <tbody>
                         <tr>
-                            {!patient?.healthHistory[0]?.generalHealth ?  (
+                            {!mostRecentHealthHistory?.generalHealth ?  (
                                 <td style={{color: 'red'}}>No general health info</td>
                             ) : (
-                                <td>{patient.healthHistory[0].generalHealth}</td>
+                                <td>{mostRecentHealthHistory?.generalHealth}</td>
                             )}  
-                            {!patient?.healthHistory[0]?.historyOfMassage ?  (
-                                <td style={{color: 'red'}}>No history with massage info</td>
+                            {!mostRecentHealthHistory?.historyOfMassage ?  (
+                                <td>No history with massage info</td>
                             ) : (
-                                <td>{patient.healthHistory[0].historyOfMassage}</td>
+                                <td>{mostRecentHealthHistory?.historyOfMassage}</td>
                             )}                            
                         </tr>
                     </tbody>
@@ -222,10 +217,10 @@ const PatientProfile = ({user}) => {
                     </thead>
                     <tbody>
                         <tr>
-                            {!patient?.healthHistory[0]?.otherHCP ? (
-                                <td style={{color: 'red'}}>No other treatment from a HCP listed</td>
+                            {!mostRecentHealthHistory?.otherHCP ? (
+                                <td>No other treatment from a HCP listed</td>
                             ) : (
-                                <td>{patient.healthHistory[0].otherHCP}</td>
+                                <td>{mostRecentHealthHistory?.otherHCP}</td>
                             )}
                         </tr>
                     </tbody>
@@ -242,62 +237,62 @@ const PatientProfile = ({user}) => {
                         <tbody>
                             <tr>
                                 <td>
-                                    {!patient?.healthHistory[0] ? (
+                                    {!mostRecentHealthHistory ? (
                                         <div style={{color: 'red'}}>
                                             No health history data
                                         </div>
                                     ) : (
                                         <div className="ui list">
-                                            {patient?.healthHistory[0]?.highBloodPressure === true ? <div className="ui item">High blood pressure</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.lowBloodPressure === true ? <div className="ui item">Low blood pressure</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.heartAttack === true ? <div className="ui item">History of heart attacks</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.vericoseVeins === true ? <div className="ui item">Vericose Veins</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.stroke === true ? <div className="ui item">Stroke</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.pacemaker === true ? <div className="ui item" style={{color: 'red'}}>Pacemaker</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.heartDisease === true ? <div className="ui item">Heart disease</div> : <div></div>}
+                                            {mostRecentHealthHistory?.highBloodPressure === true ? <div className="ui item">High blood pressure</div> : <div></div>}
+                                            {mostRecentHealthHistory?.lowBloodPressure === true ? <div className="ui item">Low blood pressure</div> : <div></div>}
+                                            {mostRecentHealthHistory?.heartAttack === true ? <div className="ui item">History of heart attacks</div> : <div></div>}
+                                            {mostRecentHealthHistory?.vericoseVeins === true ? <div className="ui item">Vericose Veins</div> : <div></div>}
+                                            {mostRecentHealthHistory?.stroke === true ? <div className="ui item">Stroke</div> : <div></div>}
+                                            {mostRecentHealthHistory?.pacemaker === true ? <div className="ui item" style={{color: 'red'}}>Pacemaker</div> : <div></div>}
+                                            {mostRecentHealthHistory?.heartDisease === true ? <div className="ui item">Heart disease</div> : <div></div>}
                                         </div>
                                     )}
                                 </td>
                                 <td>
-                                    {!patient?.healthHistory[0] ? (
+                                    {!mostRecentHealthHistory ? (
                                         <div style={{color: 'red'}}>
                                             No health history data
                                         </div>
                                     ) : (
                                         <div className="ui list">
-                                            {patient?.healthHistory[0]?.chronicCough === true ? <div className="ui item">Chronic cough</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.bronchitis === true ? <div className="ui item">Bronchitis</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.asthma === true ? <div className="ui item">Asthma</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.emphysema === true ? <div className="ui item">Emphysema</div> : <div></div>}
+                                            {mostRecentHealthHistory?.chronicCough === true ? <div className="ui item">Chronic cough</div> : <div></div>}
+                                            {mostRecentHealthHistory?.bronchitis === true ? <div className="ui item">Bronchitis</div> : <div></div>}
+                                            {mostRecentHealthHistory?.asthma === true ? <div className="ui item">Asthma</div> : <div></div>}
+                                            {mostRecentHealthHistory?.emphysema === true ? <div className="ui item">Emphysema</div> : <div></div>}
                                         </div>
                                     )}
                                 </td>
                                 <td>
-                                    {!patient?.healthHistory[0] ? (
+                                    {!mostRecentHealthHistory ? (
                                         <div>
                                             No health history data
                                         </div>
                                     ) : (
                                         <div className="ui list">
-                                            {patient?.healthHistory[0]?.otherMedicalConditions ? <div className="ui item" style={{color: 'green'}}>{patient?.healthHistory[0]?.otherMedicalConditions}</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.epilepsy === true ? <div className="ui item">Epilepsy</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.diabetes === true ? <div className="ui item">Diabetes</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.cancer === true ? <div className="ui item" style={{color: 'red'}}>Cancer</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.arthritis === true ? <div className="ui item">Arthritis</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.arthritisFamilyHistory === true ? <div className="ui item">Family history of arthritis</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.chronicHeadaches === true ? <div className="ui item">Chronic Headaches</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.migraineHeadaches === true ? <div className="ui item">Migraine Headaches</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.visionLoss === true ? <div className="ui item" style={{color: 'orange'}}>Vision Loss</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.hearingLoss === true ? <div className="ui item" style={{color: 'orange'}}>Hearing Loss</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.osteoporosis === true ? <div className="ui item" style={{color: 'orange'}}>Osteoporosis</div> : <div></div>}
-                                            {patient?.healthHistory[0]?.haemophilia === true ? <div className="ui item">Haemophilia</div> : <div></div>}                      
+                                            {mostRecentHealthHistory?.otherMedicalConditions ? <div className="ui item" style={{color: 'green'}}>{mostRecentHealthHistory?.otherMedicalConditions}</div> : <div></div>}
+                                            {mostRecentHealthHistory?.epilepsy === true ? <div className="ui item">Epilepsy</div> : <div></div>}
+                                            {mostRecentHealthHistory?.diabetes === true ? <div className="ui item">Diabetes</div> : <div></div>}
+                                            {mostRecentHealthHistory?.cancer === true ? <div className="ui item" style={{color: 'red'}}>Cancer</div> : <div></div>}
+                                            {mostRecentHealthHistory?.arthritis === true ? <div className="ui item">Arthritis</div> : <div></div>}
+                                            {mostRecentHealthHistory?.arthritisFamilyHistory === true ? <div className="ui item">Family history of arthritis</div> : <div></div>}
+                                            {mostRecentHealthHistory?.chronicHeadaches === true ? <div className="ui item">Chronic Headaches</div> : <div></div>}
+                                            {mostRecentHealthHistory?.migraineHeadaches === true ? <div className="ui item">Migraine Headaches</div> : <div></div>}
+                                            {mostRecentHealthHistory?.visionLoss === true ? <div className="ui item" style={{color: 'orange'}}>Vision Loss</div> : <div></div>}
+                                            {mostRecentHealthHistory?.hearingLoss === true ? <div className="ui item" style={{color: 'orange'}}>Hearing Loss</div> : <div></div>}
+                                            {mostRecentHealthHistory?.osteoporosis === true ? <div className="ui item" style={{color: 'orange'}}>Osteoporosis</div> : <div></div>}
+                                            {mostRecentHealthHistory?.haemophilia === true ? <div className="ui item">Haemophilia</div> : <div></div>}                      
                                         </div>
                                     )}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    {patient?.healthHistory[0]?.injuries ? (
+                    {mostRecentHealthHistory?.injuries ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -306,14 +301,25 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{patient?.healthHistory[0]?.injuries}</td>
+                                <td>{mostRecentHealthHistory?.injuries}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Injuries</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No recent injuries indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
-                    {patient?.healthHistory[0]?.surgeries ? (
+                    {mostRecentHealthHistory?.surgeries ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -322,30 +328,52 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{patient?.healthHistory[0]?.surgeries}</td>
+                                <td>{mostRecentHealthHistory?.surgeries}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
-                    )}
-                    {patient?.healthHistory[0]?.lossOfFeeling ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
-                                <th>Loss of feeling</th>
+                                <th>Recent Surgeries</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td >{patient?.healthHistory[0]?.lossOfFeeling}</td>
+                                <td>No recent surgeries indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    )}
+                    {mostRecentHealthHistory?.lossOfFeeling ? (
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Loss of feeling/sensation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td >{mostRecentHealthHistory?.lossOfFeeling}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Loss of feeling/sensation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td >No loss of feeling or sensation indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
-                    {patient?.healthHistory[0]?.allergies ? (
+                    {mostRecentHealthHistory?.allergies ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -354,14 +382,25 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td >{patient?.healthHistory[0]?.allergies}</td>
+                                <td >{mostRecentHealthHistory?.allergies}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Allergies</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No allergies indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
-                    {patient?.healthHistory[0]?.medications ? (
+                    {mostRecentHealthHistory?.medications ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -370,13 +409,24 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{patient?.healthHistory[0]?.medications}</td>
+                                <td>{mostRecentHealthHistory?.medications}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
-                    )}{patient?.healthHistory[0]?.skinConditions ? (
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Medications</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No medications indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    )}{mostRecentHealthHistory?.skinConditions ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -385,14 +435,25 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{patient?.healthHistory[0]?.skinConditions}</td>
+                                <td>{mostRecentHealthHistory?.skinConditions}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Skin Conditions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No skin conditions indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
-                    {patient?.healthHistory[0]?.infectiousConditions ? (
+                    {mostRecentHealthHistory?.infectiousConditions ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -401,14 +462,25 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td >{patient?.healthHistory[0]?.infectiousConditions}</td>
+                                <td>{mostRecentHealthHistory?.infectiousConditions}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Infectious Conditions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No infectious conditions indicated</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
-                    {patient?.healthHistory[0]?.otherMedicalConditions ? (
+                    {mostRecentHealthHistory?.otherMedicalConditions ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -417,14 +489,25 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td >{patient?.healthHistory[0]?.otherMedicalConditions}</td>
+                                <td >{mostRecentHealthHistory?.otherMedicalConditions}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Other Medical Conditions indicated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>No other medical conditions</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
-                    {patient?.healthHistory[0]?.pregnant === 'Yes' ? (
+                    {mostRecentHealthHistory?.pregnant === 'Yes' ? (
                         <table className={styles.table}>
                         <thead>
                             <tr>
@@ -433,12 +516,23 @@ const PatientProfile = ({user}) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td style={{color: 'red'}}>{patient?.healthHistory[0]?.pregnant}</td>
+                                <td style={{color: 'red'}}>{mostRecentHealthHistory?.pregnant}</td>
                             </tr>
                         </tbody>
                         </table>
                     ) : (
-                        <div></div>
+                        <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Pregnant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{mostRecentHealthHistory?.pregnant}</td>
+                            </tr>
+                        </tbody>
+                        </table>
                     )}
                 </div>
             </div>

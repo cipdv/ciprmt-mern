@@ -11,7 +11,6 @@ import { addToEAL, emailApptConfirmed } from '../../../api/index'
 const ConfirmAppointment = ({user}) => {
 
     const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
-    console.log(treatments)
 
     useEffect(()=>{
         addToEAL({
@@ -23,16 +22,16 @@ const ConfirmAppointment = ({user}) => {
     }, [])
 
     const { _id, firstName, lastName } = user?.result
-    let pronoun = ''
-    if (user?.result?.healthHistory[0]?.pronouns === 'he/him') {
-        pronoun = 'his'
-    } else if (user?.result?.healthHistory[0]?.pronouns === 'she/her') {
-        pronoun = 'her'
-    } else if (user?.result?.healthHistory[0]?.pronouns === 'they/them') {
-        pronoun = 'their'
-    } else {
-        pronoun = 'their'
-    }
+    // let pronoun = ''
+    // if (user?.result?.healthHistory[0]?.pronouns === 'he/him') {
+    //     pronoun = 'his'
+    // } else if (user?.result?.healthHistory[0]?.pronouns === 'she/her') {
+    //     pronoun = 'her'
+    // } else if (user?.result?.healthHistory[0]?.pronouns === 'they/them') {
+    //     pronoun = 'their'
+    // } else {
+    //     pronoun = 'their'
+    // }
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -152,7 +151,7 @@ const ConfirmAppointment = ({user}) => {
             apptDate,
             apptTime,
             reasonForMassage: data.reasonForMassage,
-            pronoun,
+            // pronoun,
             covidvaccinated: data.covid.vaccinated,
             covidnoosymptoms: data.covid.noSymptoms,
             covidnotisolating: data.covid.notIsolating,
@@ -256,22 +255,25 @@ const ConfirmAppointment = ({user}) => {
                                     You have an upcoming appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
                                 </h3>
                                 <div>
-                                    <h4>Location:</h4>
-                                    <p>268 Shuter Street, Toronto ON. There is parking available at the side of the building, on Berkeley Street and free street parking availale on Shuter Street and Berkeley Street. Please plan to arrive no earlier than 10 minutes before your appointment as I may still need time to clean and disinfect after the previous appointment.</p>
-                                    <h4>What to wear:</h4>
-                                    <p>Bring comfortable pants/shorts and a short or long-sleeved t-shirt. Clothing that you will be able to stretch in, made from soft natural fabric like cotton, bamboo, hemp. Clothing you could wear to practice yoga. More coverage is better, so aim for longer short/pant and sleeve lengths. You may change clothing here, or come fully dressed.</p>
-                                    <h4>What NOT to wear:</h4>
+                                    <h3>Location:</h3>
+                                    <p>268 Shuter Street, Toronto ON.</p>
+                                    <p>Please plan to arrive no earlier than 10 minutes before your appointment as I may still need time to clean and disinfect after the previous appointment.</p>
+                                    <p>There is parking available at the side of the building, on Berkeley Street and free street parking availale on Shuter Street and Berkeley Street.</p>
+                                    <h3>What to wear:</h3>
+                                    <p>Thai massage is practiced over clothing, so please bring comfortable, loose fitting clothing that you will be able to stretch in, including pants or shorts, and a short or long-sleeved t-shirt made from soft natural fabric like cotton, bamboo, or hemp.</p>
+                                    <p>It may seem counter-intuitive, but more coverage is better for this style of massage.</p>
+                                    <p>You may change clothing here, or come fully dressed.</p>
+                                    <h3>What NOT to wear:</h3>
                                     <ul>
                                         <li>Clothing with zippers</li>
-                                        <li>Slippery fabrics like polyester (eg. UnderArmour)</li>
-                                        <li>Shirts without sleeves (eg. tank tops)</li>
+                                        <li>Slippery fabrics like polyester (For example: UnderArmour)</li>
+                                        <li>Shirts without sleeves (For example: tank tops)</li>
                                         <li>Extremely short shorts - aim for knee length or lower</li>
-                                        <li>Strong scents (eg. perfume, cologne)</li>
+                                        <li>Strong scents (For example: perfume, cologne)</li>
                                     </ul>
-                                    <p>I know it may seem counter-intuitive, but trust me, greater coverage is more comfortable for this style of massage.</p>
-                                    <h4>Payment:</h4>
+                                    <h3>Payment:</h3>
                                     <p>Preferred payment methods are debit, email money transfer, and cash, but I can take credit card payments as well. Your receipt will be available on your profile within 24 hours of your appointment.</p>
-                                    <h4>Medications:</h4>
+                                    <h3>Medications:</h3>
                                     <p>It is important that you can fully feel what is happening during the massage, so please refrain from taking any pain medications at least 2 hours before your appointment start-time.</p>
                                 </div>
                             </div>

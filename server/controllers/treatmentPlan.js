@@ -173,7 +173,7 @@ export const updateTreatment = async (req, res) => {
 
 export const clientConfirmedTreatment = async (req, res) => {
 
-    const { name, apptDate, apptTime, reasonForMassage, glutes, chest, abdomen, innerThighs, areasToAvoid, pronoun, covidvaccinated, covidnoosymptoms, covidnotisolating, notes } = req.body
+    const { name, apptDate, apptTime, reasonForMassage, glutes, chest, abdomen, innerThighs, areasToAvoid, covidvaccinated, covidnoosymptoms, covidnotisolating, notes } = req.body
     
     let gluteConsent = ''
     let chestConsent = ''
@@ -210,7 +210,7 @@ export const clientConfirmedTreatment = async (req, res) => {
         subject: `Confirmed: ${name} on ${apptDate} at ${apptTime} `,
         text: `${name} has confirmed their appointment on ${apptDate} at ${apptTime}`,
         html: `
-          <p>${name} has confirmed ${pronoun} appointment on ${apptDate} at ${apptTime}</p>
+          <p>${name} has confirmed an appointment on ${apptDate} at ${apptTime}</p>
           <p>Reason for booking a massage is: ${reasonForMassage}</p> 
           <p>Consents given:</p>
           <ul>

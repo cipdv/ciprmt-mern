@@ -9,7 +9,7 @@ const HHUpdateRequired = () => {
                 It's time to update your health history. 
             </h3>
             <div>
-                It's important to keep your health history up-to-date and accurate so that your massage therapy treatment is safe and effective for your needs. <a href='https://www.cmto.com/rmts/standards-and-rules/' target="_blank">The CMTO</a> requires your health history to be updated at least once per year.
+                It's important to keep your health history up-to-date and accurate so that your massage therapy treatment is safe and effective for your needs. <a href='https://www.cmto.com/rules/record-keeping/' target="_blank">The CMTO</a> requires your health history to be updated at least once per year.
             </div>
             <Link to={'/healthhistory/update'}>
                 <button style={{marginTop: '1rem'}} className={styles.btn}>Update Health History</button>

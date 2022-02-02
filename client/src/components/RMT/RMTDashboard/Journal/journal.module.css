@@ -1,3 +1,24 @@
 .journalEntry {
-    height: 30rem
+    height: 30rem;
+    display: grid;
+    color: rgb(255, 253, 245);
+    justify-content: center;
+    border:2px solid #d8a64a;
+    border-radius: 10px;
+    background-color: rgb(33, 48, 39);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 1rem
+}
+
+.btn {
+    background-color: #d8a64a;
+    border: none;
+    color: rgb(255, 253, 245);
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+.btn:hover {
+    background-color: #8fbc8f65;
 }

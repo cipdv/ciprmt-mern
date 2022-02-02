@@ -77,8 +77,8 @@ const userSchema = mongoose.Schema({
     emailReceiptOptIn: {type: Boolean},
     password: {type: String, required: [true, 'no password']},
     userType: {type: String},
-    healthHistory: [HHSchema],
-    signature: String
+    // healthHistory: [HHSchema],
+    // signature: String
 })
 
 export default mongoose.model('User', userSchema) 

@@ -27,11 +27,6 @@ const Patients = () => {
                         <tr key={patient?._id} onClick={()=>selectPatient(patient?._id)} className={styles.tablerow}>
                             <td className={styles.tablerow}>{patient?.firstName} {patient?.lastName}</td>
                             <td className={styles.tablerow}>{patient?.email}</td>
-                            {!patient?.healthHistory[0] ? (
-                                <td className={styles.tablerow}>No phone number</td>
-                            ) : (
-                                <td className={styles.tablerow}>{patient?.healthHistory[0]?.phoneNumber}</td>
-                            )}
                         </tr>
                     ))}
                 </tbody>

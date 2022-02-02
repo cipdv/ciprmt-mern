@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 
 //models
 import User from '../models/user.js'
+import HealthHistory from "../models/healthHistory.js"
+
 
 const router = express.Router()
 
@@ -92,6 +94,28 @@ export const updateUser = async (req, res) => {
     res.status(200).json(result)
   } catch (error) {
     res.status(400).json({message: error.message})
+  }
+}
+
+export const addNewHealthHistory = async (req, res) => {
+    const healthHistoryData = req.body
+    const newHealthHistory = new HealthHistory({...healthHistoryData, clientId: req.userId})
+    try {
+        await newHealthHistory.save()
+        res.status(200).json(newHealthHistory)
+    } catch (error) {
+        res.status(404).json({message: error.message})
+        console.log(error)
+    }
+}
+
+export const getClientHealthHistory = async (req, res) => {
+  const clientId = req.params.clientId
+  try {
+    const healthHistoryData = await HealthHistory.find({clientId: clientId})
+    res.status(200).json(healthHistoryData)
+  } catch (error) {
+    res.status(404).json({message: error.message})
   }
 }
 
