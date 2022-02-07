@@ -24,6 +24,11 @@ const Home = () => {
                     <Link to="/auth">
                         <button className={homestyles.bookmassagebtn}>Book a massage</button>
                     </Link>
+                    <div style={{marginTop: '10px'}}>
+                        <Link className={homestyles.link} to="/prices" target='_blank'>
+                            Click here for prices
+                        </Link>
+                    </div>
                 </div>   
             </div>     
     )

@@ -1,21 +1,13 @@
 import axios from 'axios'
 //PRODUCTION
-// const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
+const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
 //DEVELOPMENT
-const API = axios.create({ baseURL: 'http://localhost:5000/'})
-
-// API.interceptors.request.use((req)=>{
-//     if (localStorage.getItem('profile')) {
-//         req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
-//     }
-//     return req
-// })
+// const API = axios.create({ baseURL: 'http://localhost:5000/'})
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
       req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
     }
-  
     return req;
   });
 
@@ -61,11 +53,11 @@ export const getTreatmentsByClientId = (clientid) => API.post(`/treatmentplan/ge
 export const getTreatmentsByTreatmentPlanId = (tpid) => API.post(`/treatmentplan/${tpid}/gettreatments`)
 export const addTreatment = (form) => API.post('/treatmentplan/addtreatment', form)
 export const updateTreatment = (tid, form) => API.put(`/treatmentplan/treatment/${tid}/updatetreatment`, form)
+export const getAllTreatments = () => API.get('/treatmentplan/getalltreatments')
 
 //new health history routes
 export const getClientHealthHistory = (clientId) => API.post(`/healthhistory/gethealthhistorybyclientid/${clientId}`)
 export const addNewHealthHistory = (form) => API.post('/healthhistory/addnewhealthhistory', form)
-
 
 //non-redux calls
 export const emailApptConfirmed = (data) => API.post('/treatmentplan/sendemailtormtforconfirmedappt', data)

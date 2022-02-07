@@ -35,14 +35,12 @@ const Appointments = ({user}) => {
                             <th>Date</th>
                             <th>Duration</th>
                             <th>Price</th>
-                            {/* <th>Download</th> */}
                         </tr>
                         </div>
                     </thead>                      
                     <tbody>
                         {appointments && appointments?.map((appointment) => (
                             appointment?.paymentType !== undefined ? (
-                            // <tr key={appointment?._id} onClick={()=>selectAppointment(appointment?._id)}>
                             <div className={cssstyle.tr}>
                             <tr  key={appointment?._id} onClick={()=>selectAppointment(appointment?._id)}>
                                 <td>{appointment?.date}</td>

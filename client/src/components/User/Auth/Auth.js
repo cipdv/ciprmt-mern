@@ -154,6 +154,85 @@ const Auth = () => {
         </div>
         
     )
+
+    // return (
+    //     <div className={styles.main}>
+    //         <form onSubmit={handleSubmit}>
+    //             <div>
+    //                 {
+    //                     isRegister ? (
+    //                         <>
+    //                             <div className={styles.form} style={{marginTop: '2rem'}}>
+    //                                 <h3>To book a massage, please register:</h3>
+    //                                 <p>
+    //                                     By registering, you will be able to access your receipts, confirm appointments, and manage your health history file.
+    //                                 </p>
+    //                                 <p>
+    //                                     All information provided will be encrypted and sent through a secure network in accordance with my <Link target="_blank" to="/privacypolicy">privacy policy</Link>.
+    //                                 </p>
+    //                             <div onClick={switchMode}>
+    //                                 {
+    //                                     isRegister ? (<div>Already have an account? <button className={styles.btn2}>Login here</button></div>) : (<div>First time booking a massage? <button className={styles.btn2}>Register here</button></div>)
+    //                                 }
+    //                             </div>
+    //                                 <label>First name</label>
+    //                                 <input className={styles.forminput} name="firstName" label="First name" type="text" value={values.firstName} onChange={handleChange} />
+    //                                 {errors?.firstName && <p className={styles.error}>{errors?.firstName}</p>}
+    //                                 <label>Last name</label>
+    //                                 <input className={styles.forminput} name="lastName" label="Last name" type="text" value={values.lastName} onChange={handleChange} />
+    //                                 {errors?.lastName && <p className={styles.error}>{errors?.lastName}</p>}
+                                
+    //                                 <label>Email</label>
+    //                                 <input className={styles.forminput} name="email" label="Email" type="email" value={values.email} onChange={handleChange} />
+    //                                 {errors?.email && <p className={styles.error}>{errors?.email}</p>}
+    //                                 {/* <input type="checkbox" name="emailReceiptOptIn" value={values.emailReceiptOptIn} onChange={handleChange} />
+    //                                 <label>Check here to receive your RMT receipts via email</label> */}
+                                
+    //                                 <label>Password</label>
+    //                                 <input className={styles.forminput} name="password" label="Password" type="password" value={values.password} onChange={handleChange} />
+    //                                 {errors?.password && <p className={styles.error}>{errors?.password}</p>}
+                                
+    //                                 <label>Confirm Password</label>
+    //                                 <input className={styles.forminput} name="confirmPassword" label="Confirm Password" value={values.confirmPassword} type="password" onChange={handleChange} />
+    //                                 {errors?.confirmPassword && <p className={styles.error}>{errors?.confirmPassword}</p>}
+    //                             </div>          
+    //                             <button type="submit" className={styles.btn}>Register</button>
+    //                         </>
+    //                     ) : (
+    //                         <div className={styles.form} style={{marginTop: '2rem'}}>
+    //                             <div onClick={switchMode}>
+    //                                 {
+    //                                     isRegister ? (
+    //                                         <div>
+    //                                             Already have an account? <button className={styles.btn2}>Login</button>
+    //                                         </div>
+    //                                         ) : (
+    //                                         <div>
+    //                                             <h3>Is this your first time booking a massage with Cip?</h3>
+    //                                             <div>
+    //                                                 <button className={styles.btn2}>Register here</button>
+    //                                             </div>
+    //                                         </div>
+    //                                         )
+    //                                 }
+    //                             </div>
+    //                             <h3>Otherwise, login here</h3>
+    //                             <label>Email</label>
+    //                             <input className={styles.forminput} name="email" type="text" label="Email" value={values.email} onChange={handleChange} />
+    //                             {errors?.email && <p className={styles.error}>{errors?.email}</p>}
+    //                             <label>Password</label>
+    //                             <input className={styles.forminput} name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
+    //                             {errors?.password && <p className={styles.error}>{errors?.password}</p>}
+    //                             <button type="submit" className={styles.btn}>Login</button>
+    //                         </div>
+    //                     )
+    //                 }
+                
+    //             </div>   
+    //         </form>
+    //     </div>
+        
+    // )
 }
 
 export default Auth

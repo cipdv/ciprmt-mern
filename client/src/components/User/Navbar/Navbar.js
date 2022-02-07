@@ -3,7 +3,6 @@ import { Link, useLocation, useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import './styles.css'
 import decode from 'jwt-decode'
-import SearchProfiles from '../../RMT/RMTDashboard/SearchProfiles'
 import { FiMenu, FiX } from 'react-icons/fi'
 
 const Navbar = ({user, setUser}) => {
@@ -65,6 +64,11 @@ const Navbar = ({user, setUser}) => {
                             <li className='nav-item'>
                                 <Link to="/rmt/maintenancelog" className="nav-rmt-link" onClick={() => setOpen(false)}>
                                     Maintenance Log             
+                                </Link>
+                            </li>
+                            <li className='nav-item'>
+                                <Link to="/rmt/dashboard/journal" className="nav-rmt-link" onClick={() => setOpen(false)}>
+                                    Journal             
                                 </Link>
                             </li>
                             <li className="nav-item" onClick={() => setOpen(false)}>

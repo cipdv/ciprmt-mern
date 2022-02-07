@@ -5,7 +5,7 @@ import styles from './rmtdashboard.module.css'
 
 const Patients = () => {
 
-    const patients = useSelector((state)=>state?.usersReducer?.users)
+    const patients = useSelector((state)=>state?.usersReducer?.searchResults)
     const history = useHistory()
 
     const selectPatient = (id) => {
@@ -19,7 +19,6 @@ const Patients = () => {
                     <tr className={styles.row}>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Phone</th>
                     </tr>
                 </thead>
                 <tbody>

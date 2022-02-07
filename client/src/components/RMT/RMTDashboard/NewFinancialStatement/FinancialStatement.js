@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 const FinancialStatement = ({FSyear}) => {
 
     const financialStatements = useSelector((state)=>state?.financialsReducer?.financialStatements)
-    console.log('financials', financialStatements)
 
     const [income, setIncome] = useState('')
     const [expenses, setExpenses] = useState('')

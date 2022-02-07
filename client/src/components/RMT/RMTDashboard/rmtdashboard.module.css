@@ -81,10 +81,9 @@ table  {
     font-family: 'Mukta', sans-serif;
     font-size: 16px;
     border-collapse: collapse;
-    border:2px solid #d8a64a;
+    /* border:2px solid #d8a64a; */
     border-radius: 5px;
     margin-top: 1rem;
-
 }
 
 /* tbody tr:hover {

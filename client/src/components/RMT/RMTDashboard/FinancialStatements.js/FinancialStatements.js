@@ -8,8 +8,6 @@ import styles from '../rmtdashboard.module.css'
 
 const FinancialStatements = ({year, setYear, financialData, user}) => {
 
-    console.log(user)
-
     const dispatch = useDispatch()
     const history = useHistory()
 

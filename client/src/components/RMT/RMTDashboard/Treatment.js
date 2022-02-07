@@ -39,6 +39,7 @@ const Treatment = ({treatmentId, user}) => {
     const [innerThighs, setInnerThighs] = useState(false)
     const [areasToAvoid, setAreasToAvoid] = useState('')
     const [receiptNumber, setReceiptNumber] = useState('')
+    const [notesFromClient, setNotesFromClient] = useState('')
 
     useEffect(()=>{
         if (treatments?.length > 0) {
@@ -52,7 +53,7 @@ const Treatment = ({treatmentId, user}) => {
             setSubjectiveResults(treatment?.results?.subjectiveResults !== undefined ? (treatment?.results?.subjectiveResults) : (""))
             setObjectiveResults(treatment?.results?.objectiveResults !== undefined ? (treatment?.results?.objectiveResults) : (""))
             setRemex(treatment?.remex !== undefined ? (treatment?.remex) : (""))
-            setPaymentType(treatment?.paymentType !== undefined ? (treatment?.paymentType) : (""))
+            setPaymentType(treatment?.paymentType !== undefined ? (treatment?.paymentType) : (undefined))
             setPrice(treatment?.price !== undefined ? (treatment?.price) : (""))
             setPaymentFee(treatment?.paymentFee !== undefined ? (treatment?.paymentFee) : (""))
             setReferToHCP(treatment?.referToHCP !== undefined ? (treatment?.referToHCP) : (""))
@@ -65,6 +66,7 @@ const Treatment = ({treatmentId, user}) => {
             setInnerThighs(treatment?.consents?.innerThighs !== undefined ? (treatment?.consents?.innerThighs) : (""))
             setAreasToAvoid(treatment?.consents?.areasToAvoid !== undefined ? (treatment?.consents?.areasToAvoid) : (""))
             setReceiptNumber(treatment?._id !== undefined ? (treatment?._id) : (''))
+            setNotesFromClient(treatment?.notesFromClient !== undefined ? (treatment?.notesFromClient) : (''))
         }
     }, [treatmentId])
 
@@ -133,11 +135,14 @@ const Treatment = ({treatmentId, user}) => {
         dispatch(addTransaction(user?.result?._id, financialData))
 
         //email receipt to client
-        emailSendReceipt({
-            firstName: `${patient?.firstName}`,
-            lastName: `${patient?.lastName}`,
-            email: patient?.email
-        })
+        if(findings !== '') {
+            emailSendReceipt({
+                firstName: `${patient?.firstName}`,
+                lastName: `${patient?.lastName}`,
+                email: patient?.email
+            })
+        }
+        
         
         //electronic audit log
         addToEAL({
@@ -235,7 +240,7 @@ const Treatment = ({treatmentId, user}) => {
                 </table> */}
                 <div>
                     <label>Reason for massage: {reasonForMassage}</label>
-                    
+                    <label>Notes from client: {notesFromClient}</label>
                 </div>
                 <div>
                     <table>
@@ -273,7 +278,7 @@ const Treatment = ({treatmentId, user}) => {
                         <div>
                             <label>
                                 Consent for treatment given
-                                <input type="checkbox" />
+                                <input type="checkbox" checked={treatmentConsent} onChange={(e)=>setTreatmentConsent(e.target.checked)} />
                             </label>
                         </div>
                         

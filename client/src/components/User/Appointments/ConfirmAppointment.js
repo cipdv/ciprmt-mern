@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { confirmAppointment } from '../../../actions/appointment'
 import { useForm } from 'react-hook-form'
 import styles from './confirmAppointment.module.css'
 import SignatureCanvas from 'react-signature-canvas'
@@ -21,17 +20,7 @@ const ConfirmAppointment = ({user}) => {
         })
     }, [])
 
-    const { _id, firstName, lastName } = user?.result
-    // let pronoun = ''
-    // if (user?.result?.healthHistory[0]?.pronouns === 'he/him') {
-    //     pronoun = 'his'
-    // } else if (user?.result?.healthHistory[0]?.pronouns === 'she/her') {
-    //     pronoun = 'her'
-    // } else if (user?.result?.healthHistory[0]?.pronouns === 'they/them') {
-    //     pronoun = 'their'
-    // } else {
-    //     pronoun = 'their'
-    // }
+    const { firstName, lastName } = user?.result
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -43,7 +32,7 @@ const ConfirmAppointment = ({user}) => {
 
     const { register, handleSubmit, control, formState: { errors } } = useForm()
     
-    const today = new Date()
+    const today = new Date().toISOString()
     
     const [treatmentConsent, setTreatmentConsent] = useState(false)
     const [glutes, setGlutes] = useState('')
@@ -166,7 +155,7 @@ const ConfirmAppointment = ({user}) => {
         return (
             <div className={styles.box} >           
                 {treatments && treatments?.map((appointment) => (
-                    new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent !== true ? (                  
+                    new Date(appointment?.date).toISOString() >= today && appointment?.consents?.treatmentConsent !== true ? (                  
                         <div className={styles.box} key={appointment._id} >
                             <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>
                             <div>
@@ -248,13 +237,13 @@ const ConfirmAppointment = ({user}) => {
                             </form>
                             </div>                                
                         </div>
-                        ) : new Date(appointment?.date) >= today && appointment?.consents?.treatmentConsent === true ? 
+                        ) : new Date(appointment?.date).toISOString() >= today && appointment?.consents?.treatmentConsent === true ? 
                         (                              
                             <div className={styles.box2} key={appointment._id}>
                                 <h3>
                                     You have an upcoming appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.
                                 </h3>
-                                <div>
+                                <div style={{marginTop: '1rem'}}>
                                     <h3>Location:</h3>
                                     <p>268 Shuter Street, Toronto ON.</p>
                                     <p>Please plan to arrive no earlier than 10 minutes before your appointment as I may still need time to clean and disinfect after the previous appointment.</p>
@@ -277,7 +266,7 @@ const ConfirmAppointment = ({user}) => {
                                     <p>It is important that you can fully feel what is happening during the massage, so please refrain from taking any pain medications at least 2 hours before your appointment start-time.</p>
                                 </div>
                             </div>
-                        ) : new Date(appointment?.date) < today ? (
+                        ) : new Date(appointment?.date).toISOString() < today ? (
                             <div>
                             </div>
                         ) : (
@@ -289,8 +278,8 @@ const ConfirmAppointment = ({user}) => {
     } else {
         return (
             <div>
-                <label>You have no upcoming treatments booked at the moment.</label>
-                <p>If you believe this is a mistake, please text Cip de Vries at 416-258-1230.</p>.
+                <label>Thanks for registering with Cip de Vries, RMT.</label>
+                <p>To set up an appointment, please text Cip de Vries at 416-258-1230.</p>.
             </div>
         )
     }

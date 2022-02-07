@@ -66,7 +66,7 @@ const PatientProfile = ({user}) => {
                     </div>
                 ) : (
                     <div>
-                        <h5>Last updated: {mostRecentHealthHistory?.createdAt}</h5>
+                        <h5>Health history last updated: {moment.utc(mostRecentHealthHistory?.createdAt).format("YYYY-MM-DD")}</h5>
                     </div>
                 )}
                 <h4>Personal Info</h4>
@@ -118,14 +118,14 @@ const PatientProfile = ({user}) => {
                     </tbody>
                 </table>
                 <div>
-                    <h4>Treatment Plans</h4>
+                    <h4 style={{marginTop: '2rem', marginBottom: '0'}}>Treatment Plans</h4>
                     <Link to={`/rmt/dashboard/patient/${patient?._id}/addtreatmentplan`}>
                         <button className={styles.btn}>New Treatment Plan</button>
                     </Link>
-                    <div className={styles.box}>
+                    <div className={styles.box} style={{justifyContent: 'left'}}>
                         <ul>
                             {treatmentPlans?.map((tp)=>(
-                                <li id={tp._id} className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{tp.startDate} - {!tp.endDate ? ('current') : (`${tp.endDate}`)}</li>
+                                <li id={tp._id} className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{moment.utc(tp.startDate).format("YYYY-MM-DD")} - {!tp.endDate ? ('current') : (`${moment.utc(tp.endDate).format("YYYY-MM-DD")}`)}</li>
                             ))}
                         </ul>
                     </div>

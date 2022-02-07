@@ -1,6 +1,6 @@
 import { UPDATE_USER, SUBMIT_HH, GET_ALL_USERS, GET_USER, SUBMIT_APPOINTMENT_FORM, SEARCH_USERS, GET_APPOINTMENT, UPDATE_APPOINTMENT, ADD_APPOINTMENT, GET_APPOINTMENTS } from '../constants/actionTypes'
 
-const usersReducer = (state={ users: [], user: [], appointment: []}, action) => {
+const usersReducer = (state={ users: [], user: [], searchResults: [], appointment: []}, action) => {
     switch (action.type) {
         case SUBMIT_HH:
             return { ...state, users: action.payload}
@@ -11,7 +11,7 @@ const usersReducer = (state={ users: [], user: [], appointment: []}, action) => 
         case SUBMIT_APPOINTMENT_FORM:
             return { ...state, users: action.payload }
         case SEARCH_USERS: 
-            return { ...state, users: action.payload }
+            return { ...state, searchResults: action.payload }
         case GET_APPOINTMENT:
             return { ...state, appointment: action.payload }
         case UPDATE_APPOINTMENT: 

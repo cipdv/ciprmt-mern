@@ -5,7 +5,6 @@ const router = express.Router()
 
 export const addJournalEntry = async (req, res) => {
 
-    console.log(req.body)
     const entry = req.body
     const newEntry = new Journal({...entry, dateCreated: new Date().toISOString()})
 

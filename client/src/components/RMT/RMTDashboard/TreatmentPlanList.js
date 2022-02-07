@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams  } from 'react-router-dom'
-import { getTreatmentPlanById, getTreatmentById } from '../../../actions/treatmentPlans'
-import { getUser } from '../../../actions/healthHistory'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import {  useSelector } from 'react-redux'
 import styles from './rmtdashboard.module.css'
 
 const TreatmentPlanList = ({setTreatmentId}) => {
 
-    const params = useParams()
-    const dispatch = useDispatch()
-    const history = useHistory()
-
     const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
 
-    const selectTreatment = (tid, clientId, tpid) => {
-        // history.push(`/rmt/dashboard/patient/${clientId}/treatmentplan/${tpid}/treatment/${tid}`)
+    const selectTreatment = (tid) => {
         setTreatmentId(tid)     
     }
 
@@ -25,7 +16,7 @@ const TreatmentPlanList = ({setTreatmentId}) => {
                 Loading...
             </div>
         ) : (
-            <div>
+            <div className={styles.box}>
                 <table>
                     <thead>
                         <tr>
@@ -36,7 +27,7 @@ const TreatmentPlanList = ({setTreatmentId}) => {
                     </thead>
                     <tbody>
                     {treatments?.map((t)=>(
-                        <tr onClick={()=>selectTreatment(t?._id, t?.clientId, t?.treatmentPlanId)}>
+                        <tr onClick={()=>selectTreatment(t?._id)}>
                             <td>{t?.date}</td>
                             <td>{t?.time}</td>
                             <td>{t?.duration} minutes</td>

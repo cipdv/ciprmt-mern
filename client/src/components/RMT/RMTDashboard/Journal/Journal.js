@@ -14,7 +14,6 @@ const Journal = ({user}) => {
     }
 
     const submitJournalEntry = (data) => {
-        console.log(data)
         addJournalEntry(data)
         history.push('/rmt/dashboard')
     }

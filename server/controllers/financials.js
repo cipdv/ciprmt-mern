@@ -55,7 +55,6 @@ export const getFinancialData = async (req, res) => {
 
 export const addFinancials = async (req, res) => {
     const {type} = req.body
-    console.log(req.body)
     if (type === 'Expense') {
         const financialData = await FinancialStatement.findOne({year: 2022})
         financialData?.expenses?.push(req.body)

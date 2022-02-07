@@ -28,6 +28,7 @@ import TreatmentPlan from './components/RMT/RMTDashboard/TreatmentPlan'
 import Treatment from './components/RMT/RMTDashboard/Treatment'
 import TreatmentPlanAddNew from './components/RMT/RMTDashboard/TreatmentPlanAddNew'
 import TreatmentAddnew from './components/RMT/RMTDashboard/TreatmentAddnew'
+import Prices from './components/User/Home/Prices'
 //references
 import HealthHistoryForm from './components/References/HealthHistoryForm'
 import AppointmentConfirmation from './components/References/AppointmentConfirmation'
@@ -51,7 +52,7 @@ const App = () => {
                     <Route path="/welcome" exact component={Home} />
                     <Route path="/auth" exact render={() => !user ? (<Auth />) : (<Redirect to="/dashboard" />)} />
                     <Route path="/healthhistory" exact render={() => user ?  (<HealthHistory user={user} />) : (<Redirect to="/auth" />)} />
-                    <Route path="/healthhistory/update" exact render={() => user ? (<HealthHistory user={user} />) : (<Redirect to="/auth" />)} />
+                    <Route path="/healthhistory/update" exact render={() => user ? (<RFHHHForm user={user} />) : (<Redirect to="/auth" />)} />
                     <Route path="/dashboard" exact render={() => user?.result?.userType === 'patient' ? (<Dashboard user={user} setUser={setUser} />) : (<Redirect to="/auth" />)} />
                     <Route path="/bookappointment" exact render={()=> user?.result?.userType === 'patient' ? (<AppointmentForm />) : (<Redirect to="/auth" />) } />
                     <Route path="/dashboard/receipts" exact render={()=> user?.result?.userType === 'patient' ? (<Appointments user={user} />) : (<Redirect to="/auth" />) } />
@@ -59,6 +60,7 @@ const App = () => {
                     <Route path="/privacypolicy" exact component={PrivacyPolicy} />
                     <Route path="/dashboard/consentinfo" exact component={ConsentInfo} />
                     <Route path="/covidmeasures" exact component={CovidMeasures} />
+                    <Route path="/prices" exact component={Prices} />
                     {/* RMT Routes */}
                     <Route path="/rmt/auth" exact render={()=> user?.result?.userType !== 'rmt' ? (<RMTAuth />) : (<Redirect to="/rmt/dashboard" />)} />
                     <Route path="/rmt/dashboard" exact render={()=> user?.result?.userType === 'rmt' ? (<RMTDashboard />) : (<Redirect to="/rmt/auth" />) } />

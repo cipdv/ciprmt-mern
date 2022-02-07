@@ -1,6 +1,6 @@
 import { ADD_HEALTH_HISTORY, GET_HEALTH_HISTORY } from "../constants/actionTypes";
 
-const healthHistoryReducer = (state = { currentHealthHistory: null, healthHistoryData: null }, action) => {
+const healthHistoryReducer = (state = { currentHealthHistory: [], healthHistoryData: [] }, action) => {
     switch (action.type) {
         case ADD_HEALTH_HISTORY:
             return { ...state, currentHealthHistory: action.payload }
