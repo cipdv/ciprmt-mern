@@ -209,3 +209,17 @@ width: 0;
 .sigbox {
     display: inline-block;
 }
+
+.modal {
+    position: absolute;
+    color: rgb(255, 253, 245);
+    justify-content: center;
+    border:2px solid #d7c8f0;
+    border-radius: 10px;
+    background-color: rgb(18, 27, 24);
+    margin-left: 10%;
+    margin-top: 10%;
+    padding: 1rem;
+    height: 25%;
+    width: 75%;
+}

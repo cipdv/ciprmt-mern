@@ -163,6 +163,7 @@ export const sendConfirmEmail = async (req, res) => {
 
 export const updateTreatment = async (req, res) => {
     const { tid } = req.params
+
     try {
         const updatedTreatment = await Treatment.findByIdAndUpdate(tid, req.body, {new: true})
         res.status(200).json(updatedTreatment)

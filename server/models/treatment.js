@@ -4,6 +4,8 @@ const treatmentSchema = mongoose.Schema({
     id: String,
     treatmentPlanId: String,
     clientId: String,
+    firstName: String,
+    lastName: String,
     date: String,
     time: String,
     price: String,

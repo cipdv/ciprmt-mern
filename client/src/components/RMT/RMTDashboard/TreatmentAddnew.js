@@ -1,10 +1,11 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { addTreatmentToTP, addTreatment } from '../../../actions/treatmentPlans'
 import styles from './rmtdashboard.module.css'
 import { sendConfirmEmail } from '../../../api/index'
+import { getUser } from '../../../actions/healthHistory';
 
 const TreatmentAddnew = () => {
 
@@ -16,12 +17,20 @@ const TreatmentAddnew = () => {
     const [time, setTime] = useState('')
     const [duration, setDuration] = useState('')
 
+    useEffect(()=>{
+        dispatch(getUser(params?.clientid))
+    }, [])
+
+    const client = useSelector((state)=>state.usersReducer.user.data)
+
     const form = {
         date,
         time,
         duration,
         treatmentPlanId: params?.tpid,
-        clientId: params?.clientid
+        clientId: params?.clientid,
+        firstName: client?.firstName,
+        lastName: client?.lastName
     }
 
     const handleSubmit = () => {

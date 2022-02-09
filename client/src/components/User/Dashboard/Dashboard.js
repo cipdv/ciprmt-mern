@@ -32,7 +32,7 @@ const Dashboard = ({user}) => {
                 </div>
             )}
             {treatments?.length > 0 ? (
-                <ConfirmAppointment user={user} />
+                <ConfirmAppointment user={user} treatments={treatments} />
             ) : treatments?.length === 0 && clientsHealthHistoryData?.length > 0 ? (
                 <div className={styles.box}>
                     <p>You have no upcoming treatments scheduled yet.</p>

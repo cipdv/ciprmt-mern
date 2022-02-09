@@ -61,16 +61,29 @@ const Navbar = ({user, setUser}) => {
                                     Financial Statements              
                                 </Link>
                             </li>
-                            <li className='nav-item'>
-                                <Link to="/rmt/maintenancelog" className="nav-rmt-link" onClick={() => setOpen(false)}>
-                                    Maintenance Log             
-                                </Link>
-                            </li>
-                            <li className='nav-item'>
-                                <Link to="/rmt/dashboard/journal" className="nav-rmt-link" onClick={() => setOpen(false)}>
-                                    Journal             
-                                </Link>
-                            </li>
+                            <div className='dropdown'>
+                                <li className='nav-item-dropdown'>
+                                    Logs
+                                </li>
+                                <div className='dropdown-content'>
+                                    <li>
+                                        <Link to="/rmt/dashboard/dailylog" className="nav-rmt-link" onClick={() => setOpen(false)}>
+                                            Daily log             
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/rmt/maintenancelog" className="nav-rmt-link" onClick={() => setOpen(false)}>
+                                            Maintenance Log             
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/rmt/dashboard/journal" className="nav-rmt-link" onClick={() => setOpen(false)}>
+                                            Journal             
+                                        </Link>
+                                    </li>
+                                </div>
+                                
+                            </div>
                             <li className="nav-item" onClick={() => setOpen(false)}>
                                 <a className="nav-rmt-link" onClick={handleLogout}>Logout</a>
                             </li>                                            

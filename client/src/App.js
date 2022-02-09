@@ -36,6 +36,7 @@ import AppointmentConfirmation from './components/References/AppointmentConfirma
 //financials practice
 import Finances from './components/RMT/RMTDashboard/NewFinancialStatement/Finances'
 import Journal from './components/RMT/RMTDashboard/Journal/Journal'
+import DailyLog from './components/RMT/RMTDashboard/DailyLog/DailyLog'
 
 
 const App = () => {
@@ -76,6 +77,7 @@ const App = () => {
                     <Route path='/rmt/dashboard/patient/:clientid/addtreatmentplan' exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentPlanAddNew user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                     <Route path="/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/addtreatment" exact render={()=>user?.result?.userType === 'rmt' ? (<TreatmentAddnew user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                     <Route path="/rmt/dashboard/journal" exact render={()=>user?.result?.userType === 'rmt' ? (<Journal user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
+                    <Route path="/rmt/dashboard/dailylog" exact render={()=>user?.result?.userType === 'rmt' ? (<DailyLog user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                     {/* <Route path="/rmt/dashboard/patient/:clientid/treatmentplan/:tpid/treatment/:tid" exact render={()=>user?.result?.userType === 'rmt' ? (<Treatment user={user} />) : (<Redirect to="/rmt/dashboard" />)} /> */}
                     {/* References */}
                     <Route path="/references/healthhistoryform" exact component={HealthHistoryForm} />

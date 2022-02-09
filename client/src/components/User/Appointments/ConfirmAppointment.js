@@ -6,10 +6,12 @@ import SignatureCanvas from 'react-signature-canvas'
 import { useHistory, Link } from 'react-router-dom'
 import { confirmTreatment } from '../../../actions/treatmentPlans'
 import { addToEAL, emailApptConfirmed } from '../../../api/index'
+import Modal from 'react-modal'
 
-const ConfirmAppointment = ({user}) => {
+const ConfirmAppointment = ({user, treatments}) => {
 
-    const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
+    // const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
+    Modal.setAppElement('#root')
 
     useEffect(()=>{
         addToEAL({
@@ -33,6 +35,10 @@ const ConfirmAppointment = ({user}) => {
     const { register, handleSubmit, control, formState: { errors } } = useForm()
     
     const today = new Date().toISOString()
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() -1)
+    yesterday.toISOString()
+    console.log(yesterday)
     
     const [treatmentConsent, setTreatmentConsent] = useState(false)
     const [glutes, setGlutes] = useState('')
@@ -43,6 +49,18 @@ const ConfirmAppointment = ({user}) => {
     const [apptDate, setApptDate] = useState('')
     const [apptTime, setApptTime] = useState('')
     const [apptId, setApptId] = useState('')
+    //modal state
+    const [modalIsOpen, setModalisOpen] = useState(false)
+
+    const openModal = () => {
+        setModalisOpen(true)
+    }
+
+    const closeModal = () => {
+        setModalisOpen(false)
+        history.push('/')
+        window.location.reload(false)
+    }
 
     const otherData = {
         consents: {
@@ -147,8 +165,10 @@ const ConfirmAppointment = ({user}) => {
             notes: data.notesFromClient
         })
 
-        history.push('/')
-        window.location.reload(false)
+        openModal()
+
+        // history.push('/')
+        // window.location.reload(false)
     }
 
     if (treatments?.length > 0) {
@@ -156,6 +176,8 @@ const ConfirmAppointment = ({user}) => {
             <div className={styles.box} >           
                 {treatments && treatments?.map((appointment) => (
                     new Date(appointment?.date).toISOString() >= today && appointment?.consents?.treatmentConsent !== true ? (                  
+                    // appointment?.consents?.treatmentConsent !== true ? (                  
+
                         <div className={styles.box} key={appointment._id} >
                             <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>
                             <div>
@@ -272,7 +294,17 @@ const ConfirmAppointment = ({user}) => {
                         ) : (
                             <div></div>
                         )
-                    ))}                 
+                    ))}       
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    className={styles.modal}
+                >
+                    <div>
+                        <h3>Thanks for confirming your appointment</h3>
+                        <button className={styles.btn} onClick={closeModal}>Close</button>
+                    </div>
+                </Modal>
             </div>
         )
     } else {
