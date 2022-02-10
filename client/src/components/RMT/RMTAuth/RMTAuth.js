@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { RMTRegister, RMTLogin } from '../../../actions/auth'
 import { useHistory } from 'react-router-dom'
 import styles from './rmtauth.module.css'
+import { showLoader } from '../../../actions/auth'
+import LoadingSpinner from '../../User/Auth/LoadingSpinner/LoadingSpinner'
 
 const RMTAuth = () => {
     const dispatch = useDispatch()
@@ -51,6 +53,10 @@ const RMTAuth = () => {
         setIsRegister((prevIsRegister)=> !prevIsRegister)
     }
 
+    const showLoadingSpinner = () => {
+        dispatch(showLoader())
+    }
+
     return (
         <div>
             <form className="ui form" onSubmit={handleSubmit}>
@@ -88,12 +94,13 @@ const RMTAuth = () => {
                             </>
                         ) : (
                             <div className={styles.form}>
+                                <LoadingSpinner />
                                 <h3>RMT Login</h3>
                                 <label>Email</label>
                                 <input className={styles.forminput} name="email" type="text" label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
                                 <label>Password</label>
                                 <input className={styles.forminput} name="password" type="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
-                                <button type="submit" className={styles.btn}>Login</button>
+                                <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Login</button>
                             </div>
                         )
                     }

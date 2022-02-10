@@ -12,7 +12,7 @@
     font-size: 16px;
     border-radius: 5px;
     line-height: 18px;
-    background-color: rgb(18, 27, 24);
+    background-color: #121b18;
     border:2px solid #d7c8f0;
     transition: all 0.3s;
     margin-bottom: 0.3.rem;
@@ -21,7 +21,7 @@
 }
 
 .table .header {
-    background-color: rgb(33, 48, 39);
+    background-color: #213027;
     color: rgb(255, 253, 245);
 }
 

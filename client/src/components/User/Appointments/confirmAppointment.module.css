@@ -212,7 +212,7 @@ width: 0;
 
 .modal {
     position: absolute;
-    color: rgb(255, 253, 245);
+    color: #fffdf5;
     justify-content: center;
     border:2px solid #d7c8f0;
     border-radius: 10px;

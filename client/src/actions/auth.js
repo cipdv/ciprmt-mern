@@ -1,6 +1,6 @@
 import * as api from '../api'
 
-import { AUTH, RMT_AUTH, USER_TYPE_VERIFICATION } from '../constants/actionTypes'
+import { AUTH, RMT_AUTH, USER_TYPE_VERIFICATION, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes'
 
 export const register = (formData, history) => async (dispatch) => {
     try {
@@ -50,4 +50,16 @@ export const userTypeVerification = () => async (dispatch) => {
     } catch (error) {
         console.log(error)
     }
+}
+
+export const showLoader = () => async (dispatch) => {
+    dispatch({
+        type: SHOW_LOADER,
+    })
+}
+
+export const hideLoader = () => async (dispatch) => {
+    dispatch({
+        type: HIDE_LOADER,
+    })
 }

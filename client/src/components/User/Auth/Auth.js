@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { register, login } from '../../../actions/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { register, login, showLoader, hideLoader } from '../../../actions/auth'
 import { Link } from 'react-router-dom'
 import useForm from './UseForm'
 import validate from './validate'
 import styles from './auth.module.css'
+import LoadingSpinner from './LoadingSpinner/LoadingSpinner'
 
 // const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 
 const Auth = () => {
 
     const { handleChange, values, handleSubmit, isRegister, switchMode, errors } = useForm(validate)
+
+    // const dispatch = useDispatch()
+
+    // const showLoadingSpinner = () => {
+    //     dispatch(showLoader())
+
+    //     setTimeout(()=>{
+    //         dispatch(hideLoader())
+    //     }, 3000)
+    // }
 
     // const dispatch = useDispatch()
     // const history = useHistory()
@@ -92,8 +103,15 @@ const Auth = () => {
     //     setIsRegister((prevIsRegister)=> !prevIsRegister)
     // }
 
+    const dispatch = useDispatch()
+
+    const showLoadingSpinner = () => {
+        dispatch(showLoader())
+    }
+    
     return (
         <div className={styles.main}>
+            <LoadingSpinner />
             <form onSubmit={handleSubmit}>
                 <div>
                     {
@@ -105,7 +123,7 @@ const Auth = () => {
                                     By registering, you will be able to access your receipts, confirm appointments, and manage your health history file.
                                 </p>
                                 <p>
-                                    All information provided will be encrypted and sent through a secure network in accordance with my <Link target="_blank" to="/privacypolicy">privacy policy</Link>.
+                                    All information provided is sent through a secure network in accordance with my <Link target="_blank" to="/privacypolicy">privacy policy</Link>.
                                 </p>
                                 <div onClick={switchMode}>
                                     {
@@ -133,7 +151,7 @@ const Auth = () => {
                                     <input className={styles.forminput} name="confirmPassword" label="Confirm Password" value={values.confirmPassword} type="password" onChange={handleChange} />
                                     {errors?.confirmPassword && <p className={styles.error}>{errors?.confirmPassword}</p>}
                                 </div>          
-                                <button type="submit" className={styles.btn}>Register</button>
+                                <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Register</button>
                             </>
                         ) : (
                             <div className={styles.form}>
@@ -144,7 +162,7 @@ const Auth = () => {
                                 <label>Password</label>
                                 <input className={styles.forminput} name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
                                 {errors?.password && <p className={styles.error}>{errors?.password}</p>}
-                                <button type="submit" className={styles.btn}>Login</button>
+                                <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Login</button>
                             </div>
                         )
                     }
