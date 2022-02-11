@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import TreatmentDetails from './TreatmentDetails'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { getTreatmentById, updateTreatment } from '../../../actions/treatmentPlans';
-import { addTransaction } from '../../../actions/financials';
+import { updateTreatment } from '../../../actions/treatmentPlans';
+import { addIncome, addExpense } from '../../../actions/financials';
 import styles from './rmtdashboard.module.css'
-import axios from 'axios'
 import { addToEAL, emailSendReceipt } from '../../../api/index'
 
 const Treatment = ({treatmentId, user}) => {
@@ -70,27 +68,22 @@ const Treatment = ({treatmentId, user}) => {
         }
     }, [treatmentId])
 
-    const financialData = {
-        year: 2022,
-        expenses: [
-            {
-                category: 'bank fees',
-                //advertising, travel, licenses, insurance, interest paid, repairs and maintenance, supplies, office supplies, bank fees, adminstrative fees
-                amount: paymentFee,
-                details: 'payment processing fee',
-                date: date,
-                receiptNumber: receiptNumber
-            }
-        ],
-        income: [
-            {
-                category: 'revenue',
-                amount: price/1.13,
-                date: date,
-                details: `${patient?.firstName} ${patient?.lastName}`,
-                receiptNumber: receiptNumber
-            }  
-        ]
+    const income = {
+        date: date,
+        treatmentId: receiptNumber,
+        //revenue, governemnt credit, other
+        category: 'revenue',
+        amount: price/1.13,
+        details: `${patient?.firstName} ${patient?.lastName}`
+    }
+
+    const expense = {
+        date: date,
+        category: 'bank fees',
+        //advertising, travel, licenses, insurance, interest paid, repairs and maintenance, supplies, office supplies, bank fees, adminstrative fees
+        amount: paymentFee,
+        details: 'payment processing fee',
+        treatmentId: receiptNumber
     }
 
 
@@ -132,7 +125,8 @@ const Treatment = ({treatmentId, user}) => {
         dispatch(updateTreatment(treatmentId, form))
 
         //add transaction to financials
-        dispatch(addTransaction(user?.result?._id, financialData))
+        dispatch(addIncome(user?.result?._id, income))
+        dispatch(addExpense(user?.result?._id, expense))
 
         //email receipt to client
         if(findings !== '') {
@@ -172,9 +166,9 @@ const Treatment = ({treatmentId, user}) => {
                     <label>Duration:</label>
                     <select className={styles.forminput} value={duration} onChange={(e)=>setDuration(e.target.value)}>
                         <option value='' disabled='disabled'>Select duration</option>
-                        <option value="60">60 minutes ($100)</option>
-                        <option value="75">75 minutes ($120)</option>
-                        <option value="90">90 minutes ($140)</option>
+                        <option value="60">60 minutes ($105)</option>
+                        <option value="75">75 minutes ($125)</option>
+                        <option value="90">90 minutes ($145)</option>
                     </select>                
                 </div>
                 <div>

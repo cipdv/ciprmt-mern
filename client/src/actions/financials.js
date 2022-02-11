@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { ADD_TRANSACTION, GET_FINANCIAL_DATA, ADD_NEW_FINANCIAL_STATEMENT, GET_FINANCIAL_STATEMENTS } from '../constants/actionTypes'
+import { GET_INCOMES, GET_EXPENSES, ADD_TRANSACTION, GET_FINANCIAL_DATA, ADD_NEW_FINANCIAL_STATEMENT, GET_FINANCIAL_STATEMENTS, ADD_INCOME, ADD_EXPENSE } from '../constants/actionTypes'
 
 export const addTransaction = (RMTid, financialData) => async (dispatch) => {
     try {
@@ -50,5 +50,41 @@ export const addTransactionToFinancialStatement = (fsid) => async (dispatch) => 
         
     } catch (error) {
         
+    }
+}
+
+export const addIncome = (rmtid, financialData) => async (dispatch) => {
+    try {
+        const {data} = await api.addIncome(rmtid, financialData)
+        dispatch({type: ADD_INCOME, payload: data})
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const addExpense = (rmtid, financialData) => async (dispatch) => {
+    try {
+        const {data} = await api.addExpense(rmtid, financialData)
+        dispatch({type: ADD_EXPENSE, payload: data})
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const getIncomes = (year) => async (dispatch) => {
+    try {
+        const {data} = await api.getIncomes(year)
+        dispatch({type: GET_INCOMES, payload: data})
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const getExpenses = (year) => async (dispatch) => {
+    try {
+        const {data} = await api.getExpenses(year)
+        dispatch({type: GET_EXPENSES, payload: data})
+    } catch (error) {
+        console.log(error.message)
     }
 }

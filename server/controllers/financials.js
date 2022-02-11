@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 
 //models
 import FinancialStatement from '../models/financials.js'
+import Income from '../models/FinancialModels/income.js'
+import Expense from "../models/FinancialModels/expense.js"
 
 const router = express.Router()
 
@@ -85,5 +87,59 @@ export const getFinancialStatementsByRMTId = async (req, res) => {
         res.status(200).json(result)
     } catch (error) {
         res.status(400).json({message: error.message})
+    }
+}
+
+export const addIncome = async (req, res) => {
+    const income = req.body
+    //check first if it has already been added
+    const alreadyAddded = await Income.find({treatmentId: income?.treatmentId})
+    if(alreadyAddded?.length === 0) {
+        const newIncome = new Income({...income, RMTid: req.params.rmtid, year: new Date(income?.date).getFullYear()})
+        try {
+            await newIncome.save()
+            res.status(200).json(newIncome)
+        } catch (error) {
+            res.status(404).json({message: error.message})
+        }
+    } else {
+        res.status(200).json(income)
+    }
+    
+}
+
+export const addExpense = async (req, res) => {
+    const expense = req.body
+    const alreadyAddded = await Expense.find({treatmentId: expense?.treatmentId})
+    if(alreadyAddded?.length === 0) {
+        const newExpense = new Expense({...expense, RMTid: req.params.rmtid, year: new Date(expense?.date).getFullYear()})
+        try {
+            await newExpense.save()
+            res.status(200).json(newExpense)
+        } catch (error) {
+            res.status(404).json({message: error.message})
+        }
+    } else {
+        res.status(200).json(expense)
+    }
+}
+
+export const getAllIncomes = async (req, res) => {
+    const {year} = req.body
+    try {
+        const incomeData = await Income.find({year: year})
+        res.status(200).json(incomeData)
+    } catch (error) {
+        res.status(404).json(error.message)
+    }
+}
+
+export const getAllExpenses = async (req, res) => {
+    const {year} = req.body
+    try {
+        const expenseData = await Expense.find({year: year})
+        res.status(200).json(expenseData)
+    } catch (error) {
+        res.status(404).json(error.message)
     }
 }
