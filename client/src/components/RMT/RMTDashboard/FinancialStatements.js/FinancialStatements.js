@@ -1,36 +1,79 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import styles from './financialstyle.module.css'
 
 const FinancialStatement = ({year, setYear}) => {
 
     const incomeData = useSelector((state)=>state?.financialsReducer?.income)
     const expensesData = useSelector((state)=>state?.financialsReducer?.expenses)
 
-    const janIncomeArray = incomeData?.map((i)=>{
-        if(new Date(i.date).getMonth() === 0) {
-            return i.amount
-        }
-    })
-    const janIncome = janIncomeArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
+    const monthlyIncome = (m) => {
+        const incomeArray = incomeData?.map((i)=>{
+            if(new Date(i.date).getMonth() === m) {
+                return i.amount
+            }
+        })
+        return incomeArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
+    }
 
-    const febIncomeArray = incomeData?.map((i)=>{
-        if(new Date(i.date).getMonth() === 1) {
-            return i.amount
-        }
-    })
-    const febIncome = febIncomeArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
+    const monthlyExpenses = (m) => {
+        const expenseArray = expensesData?.map((i)=>{
+            if(new Date(i.date).getMonth() === m) {
+                return i.amount
+            }
+        })
+        return expenseArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
+    }
 
+    const januaryIncome = monthlyIncome(0)
+    const januaryExpenses = monthlyExpenses(0)
+    const januaryNetIncome = januaryIncome - januaryExpenses
+    const februaryIncome = monthlyIncome(1)
+    const februaryExpenses = monthlyExpenses(1)
+    const februaryNetIncome = februaryIncome - februaryExpenses
+    const marchIncome = monthlyIncome(2)
+    const marchExpenses = monthlyExpenses(2)
+    const marchNetIncome = marchIncome - marchExpenses
+    const aprilIncome = monthlyIncome(3)
+    const aprilExpenses = monthlyExpenses(3)
+    const aprilNetIncome = aprilIncome - aprilExpenses
+    const mayIncome = monthlyIncome(4)
+    const mayExpenses = monthlyExpenses(4)
+    const mayNetIncome = mayIncome - mayExpenses
+    const juneIncome = monthlyIncome(5)
+    const juneExpenses = monthlyExpenses(5)
+    const juneNetIncome = juneIncome - juneExpenses
+    const julyIncome = monthlyIncome(6)
+    const julyExpenses = monthlyExpenses(6)
+    const julyNetIncome = julyIncome - julyExpenses
+    const augustIncome = monthlyIncome(7)
+    const augustExpenses = monthlyExpenses(7)
+    const augustNetIncome = augustIncome - augustExpenses
+    const septemberIncome = monthlyIncome(8)
+    const septemberExpenses = monthlyExpenses(8)
+    const septemberNetIncome = septemberIncome - septemberExpenses
+    const octoberIncome = monthlyIncome(9)
+    const octoberExpenses = monthlyExpenses(9)
+    const octoberNetIncome = octoberIncome - octoberExpenses
+    const novemberIncome = monthlyIncome(10)
+    const novemberExpenses = monthlyExpenses(10)
+    const novemberNetIncome = novemberIncome - novemberExpenses
+    const decemberIncome = monthlyIncome(11)
+    const decemberExpenses = monthlyExpenses(11)
+    const decemberNetIncome = decemberIncome - decemberExpenses
 
     const totalIncome = incomeData?.reduce((accumulator, current)=> accumulator + current.amount, 0).toFixed(2)
     const totalExpenses = expensesData?.reduce((accumulator, current)=> accumulator + current.amount, 0).toFixed(2)
     const netIncome = totalIncome - totalExpenses
     const taxes = netIncome * 0.15
     const incomeAfterTax = netIncome - taxes
+    const HSTCollected = (totalIncome * 0.13).toFixed(2)
+    const HSTPaid = (totalIncome * 0.088).toFixed(2)
 
     return (
         <div>
             <div>
-                <select value={year} onChange={(e)=>setYear(e.target.value)}>
+                <select className={styles.forminput} value={year} onChange={(e)=>setYear(e.target.value)}>
                     <option value="" disabled='disabled'>Select year</option>
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
@@ -45,11 +88,13 @@ const FinancialStatement = ({year, setYear}) => {
                     <thead>
                         <tr>
                             <th>Period</th>
-                            <th>Income</th>
+                            <th>Revenue</th>
                             <th>Expenses</th>
                             <th>Net Income</th>
-                            <th>Taxes</th>
+                            <th>Taxes (15%)</th>
                             <th>Income After Tax</th>
+                            <th>HST Collected (13%)</th>
+                            <th>HST Quick Method (8.8%)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,42 +115,132 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>
                                 {incomeAfterTax?.toFixed(2)}
                             </td>
+                            <td>
+                                {HSTCollected}
+                            </td>
+                            <td>
+                                {HSTPaid}
+                            </td>
                         </tr>
                         <tr>
                             <td>January</td>
-                            <td>
-                                {janIncome}
-                            </td>
-                            <td>
-                                {totalExpenses}
-                            </td>
-                            <td>
-                                {(janIncome - totalExpenses).toFixed(2)}
-                            </td>
-                            <td>
-                                {taxes?.toFixed(2)}
-                            </td>
-                            <td>
-                                {incomeAfterTax?.toFixed(2)}
-                            </td>
+                            <td>{januaryIncome}</td>
+                            <td>{januaryExpenses}</td>
+                            <td>{januaryNetIncome.toFixed(2)}</td>
+                            <td>{(januaryNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(januaryNetIncome - (januaryNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(januaryIncome * 0.13).toFixed(2)}</td>
+                            <td>{(januaryIncome * 0.088).toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td>February</td>
-                            <td>
-                                {febIncome === 'NaN' ? ('0') : (febIncome)}
-                            </td>
-                            <td>
-                                {totalExpenses}
-                            </td>
-                            <td>
-                                {(febIncome - totalExpenses).toFixed(2)}
-                            </td>
-                            <td>
-                                {taxes?.toFixed(2)}
-                            </td>
-                            <td>
-                                {incomeAfterTax?.toFixed(2)}
-                            </td>
+                            <td>{februaryIncome}</td>
+                            <td>{februaryExpenses}</td>
+                            <td>{februaryNetIncome.toFixed(2)}</td>
+                            <td>{(februaryNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(februaryNetIncome - (februaryNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(februaryIncome * 0.13).toFixed(2)}</td>
+                            <td>{(februaryIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>March</td>
+                            <td>{marchIncome}</td>
+                            <td>{marchExpenses}</td>
+                            <td>{marchNetIncome.toFixed(2)}</td>
+                            <td>{(marchNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(marchNetIncome - (marchNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(marchIncome * 0.13).toFixed(2)}</td>
+                            <td>{(marchIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>April</td>
+                            <td>{aprilIncome}</td>
+                            <td>{aprilExpenses}</td>
+                            <td>{aprilNetIncome.toFixed(2)}</td>
+                            <td>{(aprilNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(aprilNetIncome - (aprilNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(aprilIncome * 0.13).toFixed(2)}</td>
+                            <td>{(aprilIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>May</td>
+                            <td>{mayIncome}</td>
+                            <td>{mayExpenses}</td>
+                            <td>{mayNetIncome.toFixed(2)}</td>
+                            <td>{(mayNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(mayNetIncome - (mayNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(mayIncome * 0.13).toFixed(2)}</td>
+                            <td>{(mayIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>June</td>
+                            <td>{juneIncome}</td>
+                            <td>{juneExpenses}</td>
+                            <td>{juneNetIncome.toFixed(2)}</td>
+                            <td>{(juneNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(juneNetIncome - (juneNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(juneIncome * 0.13).toFixed(2)}</td>
+                            <td>{(juneIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>July</td>
+                            <td>{julyIncome}</td>
+                            <td>{julyExpenses}</td>
+                            <td>{julyNetIncome.toFixed(2)}</td>
+                            <td>{(julyNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(julyNetIncome - (julyNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(julyIncome * 0.13).toFixed(2)}</td>
+                            <td>{(julyIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>August</td>
+                            <td>{augustIncome}</td>
+                            <td>{augustExpenses}</td>
+                            <td>{augustNetIncome.toFixed(2)}</td>
+                            <td>{(augustNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(augustNetIncome - (augustNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(augustIncome * 0.13).toFixed(2)}</td>
+                            <td>{(augustIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>September</td>
+                            <td>{septemberIncome}</td>
+                            <td>{septemberExpenses}</td>
+                            <td>{septemberNetIncome.toFixed(2)}</td>
+                            <td>{(septemberNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(septemberNetIncome - (septemberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(septemberIncome * 0.13).toFixed(2)}</td>
+                            <td>{(septemberIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>October</td>
+                            <td>{octoberIncome}</td>
+                            <td>{octoberExpenses}</td>
+                            <td>{octoberNetIncome.toFixed(2)}</td>
+                            <td>{(octoberNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(octoberNetIncome - (octoberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(octoberIncome * 0.13).toFixed(2)}</td>
+                            <td>{(octoberIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>November</td>
+                            <td>{novemberIncome}</td>
+                            <td>{novemberExpenses}</td>
+                            <td>{novemberNetIncome.toFixed(2)}</td>
+                            <td>{(novemberNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(novemberNetIncome - (novemberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(novemberIncome * 0.13).toFixed(2)}</td>
+                            <td>{(novemberIncome * 0.088).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>December</td>
+                            <td>{decemberIncome}</td>
+                            <td>{decemberExpenses}</td>
+                            <td>{decemberNetIncome.toFixed(2)}</td>
+                            <td>{(decemberNetIncome * 0.15).toFixed(2)}</td>
+                            <td>{(decemberNetIncome - (decemberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(decemberIncome * 0.13).toFixed(2)}</td>
+                            <td>{(decemberIncome * 0.088).toFixed(2)}</td>
                         </tr>                
                     </tbody>
                 </table>

@@ -28,25 +28,25 @@ const Appointments = ({user}) => {
     return (
         appointments?.length !== 0 ? (
             <div className={cssstyle.container}>
-                <table className={cssstyle.table} style={{maxWidth: '80rem'}}>
+                <table >
                     <thead>
-                        <div>
+                        
                         <tr>
                             <th>Date</th>
                             <th>Duration</th>
                             <th>Price</th>
                         </tr>
-                        </div>
+                        
                     </thead>                      
                     <tbody>
                         {appointments && appointments?.map((appointment) => (
                             appointment?.paymentType !== undefined ? (
-                            <div className={cssstyle.tr}>
-                            <tr  key={appointment?._id} onClick={()=>selectAppointment(appointment?._id)}>
+                            
+                            <tr key={appointment?._id} onClick={()=>selectAppointment(appointment?._id)}>
                                 <td>{appointment?.date}</td>
                                 <td>{appointment?.duration} minutes</td>
                                 <td>${appointment?.price}</td>
-                                <td>
+                                
                                     <PDFDownloadLink document={<PDFReceipt appointment={appointment} user={user} />} fileName={appointment?.date}>
                                         {({loading}) => (loading ? 
                                         (<div className={cssstyle.loading}>
@@ -56,9 +56,9 @@ const Appointments = ({user}) => {
 
                                         </div>))}
                                     </PDFDownloadLink>
-                                </td>
+                                
                             </tr>
-                            </div>
+                            
                             ) : (
                             <div></div>
                             )

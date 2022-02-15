@@ -32,11 +32,12 @@ import Prices from './components/User/Home/Prices'
 //references
 import HealthHistoryForm from './components/References/HealthHistoryForm'
 import AppointmentConfirmation from './components/References/AppointmentConfirmation'
-
 //financials practice
 import Finances from './components/RMT/RMTDashboard/NewFinancialStatement/Finances'
 import Journal from './components/RMT/RMTDashboard/Journal/Journal'
 import DailyLog from './components/RMT/RMTDashboard/DailyLog/DailyLog'
+//password reset
+import PasswordReset from './components/User/Auth/PasswordReset/PasswordReset'
 
 
 const App = () => {
@@ -82,8 +83,9 @@ const App = () => {
                     {/* References */}
                     <Route path="/references/healthhistoryform" exact component={HealthHistoryForm} />
                     <Route path="/references/appointmentconfirmation" exact component={AppointmentConfirmation} />
-
-                    New financial stuff
+                    {/* Password Reset */}
+                    <Route path="/auth/resetpassword" exact component={PasswordReset} />
+                    {/* New financial stuff */}
                     <Route path="/rmt/dashboard/financialstatements" exact render={()=>user?.result?.userType === 'rmt' ? (<Finances user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
                 </Switch>
             </BrowserRouter>

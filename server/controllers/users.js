@@ -2,8 +2,10 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import sgMail from '@sendgrid/mail'
+import crypto from 'crypto'
 
 import User from '../models/user.js'
+import PasswordReset from '../models/passwordReset.js'
 
 //configs
 dotenv.config()
@@ -93,10 +95,57 @@ export const login = async (req, res) => {
 
 //sends the userType to verifiy if it's a RMT or patient
 export const userTypeVerification = async (req, res) => {
-    try 
-    {
+    try {
         res.json(req.userType)
     } catch (error) {
       console.error(error.message)
     }
   }
+
+//reset user password
+export const sendPasswordResetLink = async (req, res) => {
+
+    const {email} = req.body
+
+    try {
+        const user = await User.find({email: email})
+        if (!user) {
+            return res.status(404).json({message: `user doesn't exist`})
+        } else {
+            const passwordResetToken = crypto.randomBytes(20).toString('hex')
+            await PasswordReset.create({email: email, token: passwordResetToken})
+
+            const msg = {
+                to: `${email}`, // Change to your recipient
+                from: 'cipdevries@ciprmt.com', // Change to your verified sender
+                subject: `Your password reset link for ciprmt.com`,
+                text: `Copy and paste this link to reset your password: https://www.ciprmt.com/passwordreset/${passwordResetToken}`,
+                html: `
+                    <p><a href="https://www.ciprmt.com/passwordreset/${passwordResetToken}">Click here</a> to reset your password for www.ciprmt.com.</p>    
+                    <p>If you did not request your password to be reset, please <a href="LINK TO SEND ME AN EMAIL TO LET ME KNOW THIS HAS HAPPENED">click here.</a></p>
+                  `,
+              }
+
+            sgMail
+                .send(msg)
+                .then(() => {
+                console.log('Email sent')
+            })
+                .catch((error) => {
+                console.error(error)
+            }) 
+
+            return res.status(200).json({message: 'email sent'})
+        }
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+export const verifyResetToken = async (req, res) => {
+    
+}
+
+export const resetPassword = async (req, res) => {
+
+}

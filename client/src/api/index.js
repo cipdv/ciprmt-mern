@@ -70,3 +70,5 @@ export const emailSendReceipt = (data) => API.post('/treatmentplan/sendreceipt',
 export const sendConfirmEmail = (clientid, data) => API.post(`/treatmentplan/sendconfirmemail/${clientid}`, data)
 export const addToMaintenanceLog = (data) => API.post('/maintenancelog', data)
 export const addJournalEntry = (data) => API.post('/journal/addentry', data)
+//password reset
+export const emailResetPassword = (data) => API.post('/user/resetpassword', data)
