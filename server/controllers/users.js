@@ -119,10 +119,9 @@ export const sendPasswordResetLink = async (req, res) => {
                 to: `${email}`, // Change to your recipient
                 from: 'cipdevries@ciprmt.com', // Change to your verified sender
                 subject: `Your password reset link for ciprmt.com`,
-                text: `Copy and paste this link to reset your password: https://www.ciprmt.com/passwordreset/${passwordResetToken}`,
+                text: `Copy and paste this link to reset your password: https://www.ciprmt.com/passwordreset/${email}/${passwordResetToken}`,
                 html: `
-                    <p><a href="https://www.ciprmt.com/passwordreset/${passwordResetToken}">Click here</a> to reset your password for www.ciprmt.com.</p>    
-                    <p>If you did not request your password to be reset, please <a href="LINK TO SEND ME AN EMAIL TO LET ME KNOW THIS HAS HAPPENED">click here.</a></p>
+                    <p><a href="https://www.ciprmt.com/passwordreset/${email}/${passwordResetToken}">Click here</a> to reset your password for www.ciprmt.com.</p> 
                   `,
               }
 
@@ -142,10 +141,49 @@ export const sendPasswordResetLink = async (req, res) => {
     }
 }
 
-export const verifyResetToken = async (req, res) => {
-    
+export const validateResetToken = async (req, res) => {
+    const { token, email } = req.params
+    try {
+        const result = await PasswordReset.find({token: token})
+        if (result?.length > 0 && email === result[0]?.email) {
+            res.status(200).json({
+                email: result[0]?.email,
+                message: 'reset token is valid'
+            })
+        } else {
+            res.status(410).json('reset token not found')
+        }
+    } catch (error) {
+        console.error(error.message)
+    }
 }
 
 export const resetPassword = async (req, res) => {
+    const {newPassword, email} = req.body
+    const hashPassword = await bcrypt.hash(newPassword, 12)
+    try {
+        const updatedUser = await User.findOneAndUpdate({email: email}, {password: hashPassword})
 
+        const msg = {
+            to: `${email}`, // Change to your recipient
+            from: 'cipdevries@ciprmt.com', // Change to your verified sender
+            subject: `Your password for ciprmt.com has been reset`,
+            text: `Your password for www.ciprmt.com has been reset. Login with your new password here: www.ciprmt.com`,
+            html: `
+                <p>Your password for ciprmt.com has been reset. <a href="https://www.ciprmt.com/auth">Click here</a> to login with your new password.</p> 
+              `,
+          }
+
+        sgMail
+            .send(msg)
+            .then(() => {
+            console.log('Email sent')
+        })
+
+        res.status(200).json({
+            message: 'user updated'
+        })
+    } catch (error) {
+        console.error(error.message)
+    }
 }

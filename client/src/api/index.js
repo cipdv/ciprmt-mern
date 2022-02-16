@@ -1,8 +1,8 @@
 import axios from 'axios'
 //PRODUCTION
-// const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
+const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
 //DEVELOPMENT
-const API = axios.create({ baseURL: 'http://localhost:5000/'})
+// const API = axios.create({ baseURL: 'http://localhost:5000/'})
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
@@ -71,4 +71,4 @@ export const sendConfirmEmail = (clientid, data) => API.post(`/treatmentplan/sen
 export const addToMaintenanceLog = (data) => API.post('/maintenancelog', data)
 export const addJournalEntry = (data) => API.post('/journal/addentry', data)
 //password reset
-export const emailResetPassword = (data) => API.post('/user/resetpassword', data)
+export const emailResetPassword = (data) => API.post('/user/sendpasswordresetlink', data)
