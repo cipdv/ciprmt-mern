@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const passwordResetSchema = mongoose.Schema({
-    createdAt: {type: Date, default: new Date(), expires: 3600},
+    createdAt: {type: Date, default: new Date(), expires: '60m'},
     token: String,
     email: String
 })
