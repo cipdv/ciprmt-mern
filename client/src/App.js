@@ -39,6 +39,8 @@ import DailyLog from './components/RMT/RMTDashboard/DailyLog/DailyLog'
 //password reset
 import PasswordReset from './components/User/Auth/PasswordReset/PasswordReset'
 import NewPassword from './components/User/Auth/PasswordReset/NewPassword'
+import Login from './components/User/Auth/Login'
+import Register from './components/User/Auth/Register'
 
 
 const App = () => {
@@ -89,6 +91,9 @@ const App = () => {
                     <Route path="/passwordreset/:email/:token" exact component={NewPassword} />
                     {/* New financial stuff */}
                     <Route path="/rmt/dashboard/financialstatements" exact render={()=>user?.result?.userType === 'rmt' ? (<Finances user={user} />) : (<Redirect to="/rmt/dashboard" />)} />
+                    {/* Login and register */}
+                    <Route path="/login" exact render={()=>!user ? (<Login />) : (<Redirect to="/dashboard" />)} />
+                    <Route path="/register" exact render={()=>!user ? (<Register />) : (<Redirect to="/dashboard" />)} />
                 </Switch>
             </BrowserRouter>
         </div>       

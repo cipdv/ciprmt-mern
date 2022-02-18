@@ -21,7 +21,7 @@ const Home = () => {
                     <p>
                     As your Massage Therapist, I promise to give you 100% of my attention while focusing on your needs to give you the best treatment possible. Your health and well-being are just as important to me as my own. 
                     </p>
-                    <Link to="/auth">
+                    <Link to="/login">
                         <button className={homestyles.bookmassagebtn}>Book a massage</button>
                     </Link>
                     <div style={{marginTop: '10px'}}>

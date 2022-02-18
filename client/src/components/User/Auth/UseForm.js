@@ -10,7 +10,7 @@ const useForm = (validate) => {
     const history = useHistory()
 
     //states
-    const [isRegister, setIsRegister] = useState(false)
+    const [isRegister, setIsRegister] = useState(true)
 
     const [ values, setValues ] = useState({
         firstName: '', 
@@ -47,6 +47,18 @@ const useForm = (validate) => {
             }   
     }
 
+    const handleLogin = (e) => {
+        e.preventDefault()
+        setErrors(validate(values))
+        dispatch(login(values, history, setErrors))  
+    }
+
+    const handleRegister = (e) => {
+        e.preventDefault()
+        setErrors(validate(values))
+        dispatch(register(values, history, setErrors))
+    }
+
     // useEffect(
     //     () => {
     //       if (Object.keys(errors).length === 0) {
@@ -56,7 +68,7 @@ const useForm = (validate) => {
     //     [errors]
     //   );
 
-    return { handleChange, values, handleSubmit, isRegister, switchMode, errors }
+    return { handleChange, values, handleSubmit, handleLogin, handleRegister, isRegister, switchMode, errors }
 
 }
 

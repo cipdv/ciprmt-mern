@@ -32,7 +32,7 @@ const Navbar = ({user, setUser}) => {
     }
 
     const toLogin = () => {
-        history.push('/auth')
+        history.push('/login')
     }
 
     useEffect(()=>{
@@ -96,7 +96,7 @@ const Navbar = ({user, setUser}) => {
                         </Link>
                         <ul className={open ? "nav-links active" : "nav-links"}>
                             <li className="nav-item" onClick={() => setOpen(false)}>
-                                <Link to="/auth" className="nav-rmt-link">
+                                <Link to="/login" className="nav-rmt-link">
                                     <li className="nav-item">Login</li>
                                 </Link>
                             </li>
