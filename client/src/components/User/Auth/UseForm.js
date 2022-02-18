@@ -10,7 +10,7 @@ const useForm = (validate) => {
     const history = useHistory()
 
     //states
-    const [isRegister, setIsRegister] = useState(true)
+    const [isRegister, setIsRegister] = useState(false)
 
     const [ values, setValues ] = useState({
         firstName: '', 
@@ -43,7 +43,7 @@ const useForm = (validate) => {
         if (isRegister) {       
                 dispatch(register(values, history)) 
             } else {
-                dispatch(login(values, history))
+                dispatch(login(values, history, setErrors))
             }   
     }
 

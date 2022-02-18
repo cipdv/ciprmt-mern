@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
+import styles from '../auth.module.css'
 
 const NewPassword = () => {
 
@@ -36,7 +37,6 @@ const NewPassword = () => {
         if (newPassword === newPassword2) {
             await axios.post(`https://cip-mern.herokuapp.com/user/resetpassword`, data)
                 .then(response=>{
-                    console.log(response)
                     if(response?.data?.message === 'user updated') {
                         alert('password successfully updated')
                         history.push('/auth')
@@ -56,13 +56,13 @@ const NewPassword = () => {
             {isValid ? (
                 <form onSubmit={resetPassword}>
                 <label>Email</label>
-                <input type="text" value={email} onChange={e=>setEmail(e.target.value)} />
+                <input className={styles.forminput} type="text" value={email} onChange={e=>setEmail(e.target.value)} />
                 <label>New password</label>
-                <input type="password" value={newPassword} onChange={e=>setNewPassword(e.target.value)} />
+                <input className={styles.forminput} type="password" value={newPassword} onChange={e=>setNewPassword(e.target.value)} />
                 <label>Confirm new password</label>
-                <input type="password" value={newPassword2} onChange={e=>setNewPassword2(e.target.value)} />
+                <input className={styles.forminput} type="password" value={newPassword2} onChange={e=>setNewPassword2(e.target.value)} />
                 {error ? (<div>{error}</div>) : (<div></div>)}
-                <button type="submit">Reset password</button>
+                <button className={styles.btn} type="submit">Reset password</button>
             </form>
             ) : updateFailed ? (
                 <div>
@@ -70,7 +70,8 @@ const NewPassword = () => {
                 </div>
             ) : (
                 <div>
-                    This password reset link has expired. Click here to send new password reset link.
+                    <p>This password reset link may have expired - try refreshing this page.</p>
+                    <p>If this does not work, <Link to="/auth/resetpassword">click here</Link> to send a new link.</p>
                 </div>
             )}
         </div>

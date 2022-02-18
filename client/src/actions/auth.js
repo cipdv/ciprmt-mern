@@ -10,14 +10,22 @@ export const register = (formData, history) => async (dispatch) => {
     } catch (error) {
         console.log(error)
     }
-    
 }
 
-export const login = (formData, history) => async (dispatch) => {
+export const login = (formData, history, setErrors) => async (dispatch) => {
     try {
        const {data} = await api.login(formData)
-       dispatch({ type: AUTH, data })
-       history.push('/dashboard')
+       if (data.message === 'login successful') {
+            dispatch({ type: AUTH, data })
+            history.push('/dashboard')
+       } else if (data.message === 'invalid password') {
+            setErrors({password: 'Password is incorrect'})
+            dispatch({type: HIDE_LOADER})
+       } else if (data.message === `user doesn't exist`) {
+            setErrors({email: 'Login is incorrect'})
+            dispatch({type: HIDE_LOADER})
+       }
+       
     } catch (error) {
         console.log(error)
     }

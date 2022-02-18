@@ -114,6 +114,19 @@ const Auth = () => {
             <LoadingSpinner />
             <form onSubmit={handleSubmit}>
                 <div>
+                    <div onClick={switchMode}>
+                        {
+                            isRegister ? (
+                                <div>
+                                    Already have an account? <button className={styles.btn2}>Login here</button>
+                                </div>
+                            ) : (
+                                <div>
+                                    Is this your first time booking a massage with Cip? <button className={styles.btn2}>Register here</button>
+                                </div>
+                            )
+                        }
+                    </div>
                     {
                         isRegister ? (
                             <>
@@ -125,11 +138,6 @@ const Auth = () => {
                                 <p>
                                     All information provided is sent through a secure network in accordance with my <Link target="_blank" to="/privacypolicy">privacy policy</Link>.
                                 </p>
-                                <div onClick={switchMode}>
-                                    {
-                                        isRegister ? (<div>Already have an account? <button className={styles.btn2}>Login</button></div>) : (<div>First time booking a massage? <button className={styles.btn2}>Register here</button></div>)
-                                    }
-                                </div>
                                     <label>First name</label>
                                     <input className={styles.forminput} name="firstName" label="First name" type="text" value={values.firstName} onChange={handleChange} />
                                     {errors?.firstName && <p className={styles.error}>{errors?.firstName}</p>}
@@ -163,6 +171,11 @@ const Auth = () => {
                                 <input className={styles.forminput} name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
                                 {errors?.password && <p className={styles.error}>{errors?.password}</p>}
                                 <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Login</button>
+                                <Link to="/auth/resetpassword">
+                                    <div>
+                                        Forgot your password? Click here
+                                    </div>
+                                </Link>
                             </div>
                         )
                     }
