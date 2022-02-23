@@ -107,9 +107,10 @@ export const sendPasswordResetLink = async (req, res) => {
 
     const {email} = req.body
 
+    const user = await User.find({email: email})
+
     try {
-        const user = await User.find({email: email})
-        if (!user) {
+        if (user?.length === 0) {
             return res.status(404).json({message: `user doesn't exist`})
         } else {
             const passwordResetToken = crypto.randomBytes(20).toString('hex')

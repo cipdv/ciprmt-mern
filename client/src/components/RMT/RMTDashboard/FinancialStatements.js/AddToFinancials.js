@@ -42,10 +42,10 @@ const AddToFinancials = () => {
                     <div>
                         <select value={type} onChange={(e)=>setType(e.target.value)} className={styles.forminput} placeholder="Select type">
                             <option value="" disabled="disabled">Select transaction type</option>
-                            <option>Income</option>
-                            <option>Expense</option>
-                            <option>RRSP Contribution</option>
-                            <option>Donation</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                            <option value="rrsp">RRSP Contribution</option>
+                            <option value="donation">Donation</option>
                         </select>
                     </div>
                     <div>

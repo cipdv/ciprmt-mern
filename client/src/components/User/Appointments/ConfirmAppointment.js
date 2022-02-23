@@ -175,8 +175,8 @@ const ConfirmAppointment = ({user, treatments}) => {
         return (
             <div className={styles.box} >           
                 {treatments && treatments?.map((appointment) => (
-                    new Date(appointment?.date).toISOString() >= today && appointment?.consents?.treatmentConsent !== true ? (                  
-                    // appointment?.consents?.treatmentConsent !== true ? (                  
+                    // new Date(appointment?.date).toISOString() >= today && appointment?.consents?.treatmentConsent !== true ? (                  
+                    appointment?.consents?.treatmentConsent !== true ? (                  
 
                         <div className={styles.box} key={appointment._id} >
                             <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>

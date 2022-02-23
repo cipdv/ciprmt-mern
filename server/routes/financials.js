@@ -24,5 +24,6 @@ router.post('/:rmtid/addincome', addIncome)
 router.post('/:rmtid/addexpense', addExpense)
 router.post('/getincomes', getAllIncomes)
 router.post('/getexpenses', getAllExpenses)
+router.post('/addTransaction', addTransaction)
 
 export default router

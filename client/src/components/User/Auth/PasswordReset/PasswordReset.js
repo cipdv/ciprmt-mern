@@ -22,7 +22,7 @@ const PasswordReset = () => {
         <div>
             <form onSubmit={sendResetEmail}>
                 <h3>Password Reset</h3>
-                <p>Please enter the email address you used to register your account. A link to reset your password will be sent to your email.</p>
+                <p>Please enter the email address you used to register your account. If the email address is associated with an account, a link to reset your password will be sent to your email.</p>
                 <label>Email address:</label>
                 <input className={styles.forminput} type="email" value={email} onChange={(e)=>setEmail(e.target.value)} />
                 <button className={styles.btn} type="submit">Send reset link</button>

@@ -5,6 +5,8 @@ import mongoose from "mongoose"
 import FinancialStatement from '../models/financials.js'
 import Income from '../models/FinancialModels/income.js'
 import Expense from "../models/FinancialModels/expense.js"
+import RRSPContribution from '../models/FinancialModels/rrspcontributions.js'
+import Donations from "../models/FinancialModels/donations.js"
 
 const router = express.Router()
 
@@ -21,30 +23,68 @@ export const createNewFinancialStatement = async (req, res) => {
 }
 
 export const addTransaction = async (req, res) => {
-
-    const income = req.body.income[0]
-    const expenses = req.body.expenses[0]
-    const thisreceiptNumber = req.body.income[0].receiptNumber
-    const year = req.body.year
-    
-    try {
-        const financialStatement = await FinancialStatement.findOne({year: 2022})
-        
-        const alreadyAddded = financialStatement.income.find(({ receiptNumber }) => receiptNumber === thisreceiptNumber )
-    
-        if (alreadyAddded === undefined) {
-            financialStatement?.income?.push(income)
-            financialStatement?.expenses?.push(expenses)
-
-            const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialStatement, {new: true})
-            res.status(200).json(updatedFinancialStatement)
-        } else {
-            res.status(200).json(financialStatement)
-        }     
-    } catch (error) {
-        res.status(400).json(error.message)
+    const { type } = req.body
+    console.log(req.body)
+    if (type === 'rrsp') {
+        const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid})
+        try {
+            await RRSPContribution.save()
+            res.status(200).json(newRRSPContribution)
+        } catch (error) {
+            res.status(404).json({message: error.message})
+        }
+    } else if (type === 'donation') {
+        const newDonation = new Donation({...req.body, RMTid: req.params.rmtid})
+        try {
+            await Donation.save()
+            res.status(200).json(newDonation)
+        } catch (error) {
+            res.status(404).json({message: error.message})
+        }
+    } else if (type === 'income') {
+        const newIncome = new Income({...req.body, RMTid: req.params.rmtid})
+        try {
+            await Income.save()
+            res.status(200).json(newIncome)
+        } catch (error) {
+            res.status(404).json({message: error.message})
+        }
+    } else if (type === 'expense') {
+        const newExpense = new Expense({...req.body, RMTid: req.params.rmtid})
+        try {
+            await Expense.save()
+            res.status(200).json(newExpense)
+        } catch (error) {
+            res.status(404).json({message: error.message})
+        }
     }
 }
+
+// export const addTransaction = async (req, res) => {
+
+//     const income = req.body.income[0]
+//     const expenses = req.body.expenses[0]
+//     const thisreceiptNumber = req.body.income[0].receiptNumber
+//     const year = req.body.year
+    
+//     try {
+//         const financialStatement = await FinancialStatement.findOne({year: 2022})
+        
+//         const alreadyAddded = financialStatement.income.find(({ receiptNumber }) => receiptNumber === thisreceiptNumber )
+    
+//         if (alreadyAddded === undefined) {
+//             financialStatement?.income?.push(income)
+//             financialStatement?.expenses?.push(expenses)
+
+//             const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialStatement, {new: true})
+//             res.status(200).json(updatedFinancialStatement)
+//         } else {
+//             res.status(200).json(financialStatement)
+//         }     
+//     } catch (error) {
+//         res.status(400).json(error.message)
+//     }
+// }
 
 export const getFinancialData = async (req, res) => {
     try {
@@ -143,3 +183,12 @@ export const getAllExpenses = async (req, res) => {
         res.status(404).json(error.message)
     }
 }
+
+//     id: String,
+//     RMTid: String,
+//     date: {type: Date, default: new Date()},
+//     year: String,
+//     //revenue, governemnt credit, other
+//     amount: Number,
+//     details: String,
+

@@ -20,10 +20,12 @@ const Register = () => {
     return (
         <>
             <div>
-                Already have an account? 
-                <Link to="/login">
-                    <button className={styles.btn2}>Login here</button>
-                </Link>
+                <h4>Already have an account?</h4> 
+                <div>
+                    <Link to="/login">
+                        <button className={styles.btn}>Login here</button>
+                    </Link>
+                </div>
             </div>
             <form onSubmit={handleRegister}>
                 <div className={styles.form}>

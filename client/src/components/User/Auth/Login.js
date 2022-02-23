@@ -5,7 +5,7 @@ import validate from './validate'
 import { useDispatch } from 'react-redux'
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner'
 import { Link } from 'react-router-dom'
-import { register, login, showLoader, hideLoader } from '../../../actions/auth'
+import { showLoader } from '../../../actions/auth'
 
 
 const Login = () => {
@@ -22,10 +22,10 @@ const Login = () => {
         <div className={styles.main}>
             <LoadingSpinner />
             <div>
-                Is this your first time booking a massage with Cip?
+                <h4>Is this your first time booking a massage with Cip?</h4>
                 <div> 
                     <Link to="/register">
-                        <button className={styles.btn2}>Register here</button>
+                        <button className={styles.btn}>Register here</button>
                     </Link>
                 </div>
             </div>

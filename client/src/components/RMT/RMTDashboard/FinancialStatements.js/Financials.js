@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import FinancialStatements from './FinancialStatements'
 import { useDispatch } from 'react-redux'
 import { getIncomes, getExpenses } from '../../../../actions/financials'
+import AddToFinancials from './AddToFinancials'
 
 const Financials = ({user}) => {
 
@@ -26,6 +27,7 @@ const Financials = ({user}) => {
             <div>
                 {/* <AddToFinancials /> */}
                 {/* <FinancialStatements setYear={setYear} financialData={financialData} year={year} user={user}/> */}
+                <AddToFinancials />
                 <FinancialStatements setYear={setYear} year={year} user={user}/>
             </div>
         )    
