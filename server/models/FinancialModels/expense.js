@@ -4,7 +4,7 @@ const expenseSchema = new mongoose.Schema({
     id: String,
     RMTid: String,
     treatmentId: String,
-    date: {type: Date, default: new Date()},
+    date: Date,
     year: String,
     category: String,
     //advertising, travel, licenses, insurance, interest paid, repairs and maintenance, supplies, office supplies, bank fees, adminstrative fees

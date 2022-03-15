@@ -46,9 +46,9 @@ export const getTreatmentById = (tid) => async (dispatch) => {
     }
 }
 
-export const updateTreatmentPlan = (tpid, tid, formData) => async (dispatch) => {
+export const updateTreatmentPlan = (tpid, formData) => async (dispatch) => {
     try {
-        const {data} = await api.updateTreatmentPlan(tpid, tid, formData)
+        const {data} = await api.updateTreatmentPlan(tpid, formData)
         dispatch({type: UPDATE_TREATMENT, payload: data})
     } catch (error) {
         console.log(error)
@@ -97,10 +97,10 @@ export const confirmTreatment = (tid, formData) => async (dispatch) => {
         reasonForMassage: formData?.data?.reasonForMassage,
         consents: {
             treatmentConsent: formData?.otherData?.consents?.treatmentConsent,
-            glutes: formData?.otherData?.consents?.glutes,
-            chest: formData?.otherData?.consents?.chest,
-            abdomen: formData?.otherData?.consents?.abdomen,
-            innerThighs: formData?.otherData?.consents?.innerThighs,
+            glutesConsent: formData?.otherData?.consents?.glutesConsent,
+            chestConsent: formData?.otherData?.consents?.chestConsent,
+            abdomenConsent: formData?.otherData?.consents?.abdomenConsent,
+            innerThighsConsent: formData?.otherData?.consents?.innerThighsConsent,
             areasToAvoid: formData?.otherData?.consents?.areasToAvoid
         },
         covid: {

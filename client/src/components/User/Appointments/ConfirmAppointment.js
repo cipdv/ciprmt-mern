@@ -31,6 +31,7 @@ const ConfirmAppointment = ({user, treatments}) => {
     let abdomenSig = useRef({})
     let thighSig = useRef({})
     let chestSig = useRef({})
+    let sensitiveConsentSig = useRef({})
 
     const { register, handleSubmit, control, formState: { errors } } = useForm()
     
@@ -41,16 +42,25 @@ const ConfirmAppointment = ({user, treatments}) => {
     console.log(yesterday)
     
     const [treatmentConsent, setTreatmentConsent] = useState(false)
-    const [glutes, setGlutes] = useState('')
-    const [chest, setChest] = useState('')
-    const [abdomen, setAbdomen] = useState('')
-    const [innerThighs, setInnerThighs] = useState('')
+    // const [glutes, setGlutes] = useState('')
+    // const [chest, setChest] = useState('')
+    // const [abdomen, setAbdomen] = useState('')
+    // const [innerThighs, setInnerThighs] = useState('')
+
+    //trying to use checkboxes for consents
+    const [glutesConsent, setGlutes] = useState(false)
+    const [chestConsent, setChest] = useState(false)
+    const [abdomenConsent, setAbdomen] = useState(false)
+    const [innerThighsConsent, setInnerThighs] = useState(false)
+    const [sensitiveConsentSignature, setSensitiveConsentSignature] = useState('')
+
     const [areasToAvoid, setAreasToAvoid] = useState('')
     const [apptDate, setApptDate] = useState('')
     const [apptTime, setApptTime] = useState('')
     const [apptId, setApptId] = useState('')
     //modal state
     const [modalIsOpen, setModalisOpen] = useState(false)
+    
 
     const openModal = () => {
         setModalisOpen(true)
@@ -65,11 +75,12 @@ const ConfirmAppointment = ({user, treatments}) => {
     const otherData = {
         consents: {
             treatmentConsent,
-            glutes,
-            chest,
-            abdomen,
-            innerThighs,
-            areasToAvoid
+            glutesConsent,
+            chestConsent,
+            abdomenConsent,
+            innerThighsConsent,
+            areasToAvoid,
+            sensitiveConsentSignature
         },
         name: `${firstName} ${lastName}`,
         apptDate,
@@ -91,6 +102,15 @@ const ConfirmAppointment = ({user, treatments}) => {
 
     const chestPng = () => {
         setChest(chestSig.current.toDataURL())
+    }
+
+    const sensitiveConsentPng = () => {
+        setSensitiveConsentSignature(sensitiveConsentSig.current.toDataURL())
+    }
+
+    const clearSensitiveConsentSig = (e) => {
+        e.preventDefault()
+        setSensitiveConsentSignature(sensitiveConsentSig.current.clear())
     }
 
     const clearGlutes = (e) => {
@@ -127,16 +147,9 @@ const ConfirmAppointment = ({user, treatments}) => {
             otherData
         }
 
-        // // await dispatch(confirmAppointment(_id, reqBody))
-        dispatch(confirmTreatment(apptId, reqBody))
+        console.log(reqBody)
 
-        //electronic audit log
-        // axios.post('https://cip-mern.herokuapp.com/electronicauditlog', {
-        //     typeOfInfo: 'appointment details (consents, covid screening, reason for massage, notes)',
-        //     actionPerformed: `modified`,
-        //     accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
-        //     whoseInfo: `${user?.result?.firstName} ${user?.result?.lastName}`
-        // })
+        dispatch(confirmTreatment(apptId, reqBody))
 
         //eal non-redux call
         addToEAL({
@@ -149,10 +162,10 @@ const ConfirmAppointment = ({user, treatments}) => {
         //send email to RMT that client confirmed appt
         emailApptConfirmed({
             treatmentConsent,
-            glutes,
-            chest,
-            abdomen,
-            innerThighs,
+            glutesConsent,
+            chestConsent,
+            abdomenConsent,
+            innerThighsConsent,
             areasToAvoid,
             name: `${firstName} ${lastName}`,
             apptDate,
@@ -180,21 +193,25 @@ const ConfirmAppointment = ({user, treatments}) => {
 
                         <div className={styles.box} key={appointment._id} >
                             <h3>Please confirm your appointment on {appointment?.date} at {appointment?.time} for {appointment?.duration} minutes.</h3>
-                            <div>
+                            <div style={{marginTop: '1rem'}}>
                             <form onSubmit={handleSubmit(onSubmit)}  >
                                 <div>
                                     <div>
                                         <label>Reason for booking massage:</label>
-                                        <div>
-                                            <p style={{fontSize: '13px'}}>
+                                        
+                                            <p>
                                                 If you have a specific issue, please include the location and nature of the discomfort.
                                             </p>
-                                        </div>
+                                        
                                         <input className={styles.forminput} type="text" {...register('reasonForMassage', {required: true})} name="reasonForMassage" placeholder='Eg. Relaxation, pain or discomfort relief, general wellbeing' />               
                                         {errors?.reasonForMassage && <p className={styles.error}>Please indicate why you'd like to book a massage</p>}
                                     </div>
-                                    <div>
-                                        <label>Please indicate with your initials which of the following areas you give consent at this time to assess and massage:</label>
+                                    <div style={{marginTop: '2rem'}}>
+                                        <p>If there's any other information you'd like me to know before the massage, include it here:</p>
+                                        <input className={styles.forminput} type="text" {...register('notesFromClient')} name="notesFromClient" placeholder='eg. recent injuries or surgeries' />
+                                    </div>
+                                    <div >
+                                        {/* <label>Please indicate with your initials which of the following areas you give consent at this time to assess and massage:</label>
                                         <div>
                                             <p style={{fontSize: '13px'}}>*Your comfort and safety during your massage are my top priority. Consenting through this form to assess and massage the following areas during this appointment does not preculde you from revoking your consent before or during the massage. Please feel welcome to express this at any time during the massage. Your comfort is essential to a successful massage therapy session. <Link target="_blank" to="/dashboard/consentinfo">Click here to learn more about these areas, what assessment/treatment entails, and why this information is being asked.</Link></p>
                                         </div>
@@ -218,20 +235,55 @@ const ConfirmAppointment = ({user, treatments}) => {
                                                 <SignatureCanvas ref={thighSig} onEnd={innerThighsPng} penColor='rgb(255, 253, 245)' backgroundColor='rgb(18, 27, 24)' canvasProps={{width: 125, height: 60, className: 'sigCanvas'}} />
                                                 <i class="material-icons-outlined" style={{fontSize: '0.8rem'}} onClick={clearInnerThighs}>clear</i>
                                             </div>
+                                        </div> */}
+                                        <label>Consent</label>
+                                        <p style={{fontSize: '13px'}}>Your comfort and safety during your massage are my top priority. There are areas in the body that most people would consider to be sensitive, and RMTs are required to get written consent to assess and treat these areas before every treatment. Consenting through this form to assess and massage the following areas during this appointment does not preclude you from revoking your consent before or during the massage. Please feel welcome to express this at any time during the massage. Your comfort is essential to a successful massage therapy session. </p>
+                                        <p><Link target="_blank" to="/dashboard/consentinfo">Click here</Link> to learn more about these areas, what assessment/treatment entails, and why this information is being asked.</p>
+                                        <p>Please indicate which of the following areas you give consent at this time to assess and massage:</p>
+                                        <div style={{marginLeft: '2rem'}}>
+                                            <div>
+                                                <label className={styles.container}>Chest wall muscles
+                                                    <input type="checkbox" checked={chestConsent} onChange={e=>setChest(e.target.checked)}/>
+                                                    <span className={styles.checkmark}></span>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label className={styles.container}>Abdominal muscles
+                                                    <input type="checkbox" checked={abdomenConsent} onChange={e=>setAbdomen(e.target.checked)}/>
+                                                    <span className={styles.checkmark}></span>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                
+                                                <label className={styles.container}>Gluteal muscles (buttocks)
+                                                    <input type="checkbox" checked={glutesConsent} onChange={e=>setGlutes(e.target.checked)}/>
+                                                    <span className={styles.checkmark}></span>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label className={styles.container}>Upper inner thigh muscles
+                                                    <input type="checkbox" checked={innerThighsConsent} onChange={e=>setInnerThighs(e.target.checked)}/>
+                                                    <span className={styles.checkmark}></span>
+                                                </label>
+                                            </div>
                                         </div>
-                                        
                                     </div>
-                                    <div>
-                                        <label>Are there any other areas you do not want to have massaged during this session?</label>
+                                    <div style={{marginTop: '2rem'}}>
+                                        <p>Are there any other areas you do not want to have massaged during this session?</p>
                                         <input className={styles.forminput} type="text" value={areasToAvoid} onChange={(e)=>setAreasToAvoid(e.target.value)} name="consents.areasToAvoid" placeholder='eg. face, feet, hands'/>
                                     </div>
                                     <div>
-                                        <label>If there's any other information you'd like me to know before the massage, include it here:</label>
-                                        <input className={styles.forminput} type="text" {...register('notesFromClient')} name="notesFromClient" placeholder='eg. recent injuries or surgeries' />
+                                        <label>Signature</label>
+                                        <p>
+                                            By signing here, you acknowledge that you have read and understand the information regarding consent and give your informed consent at this time for the assessment and/or treatment of the areas selected above. 
+                                        </p>
+                                        <SignatureCanvas ref={sensitiveConsentSig} onEnd={sensitiveConsentPng} penColor='black' backgroundColor='white' canvasProps={{width: 300, height: 60, className: 'sigCanvas'}} />
+                                        <i class="material-icons-outlined" style={{fontSize: '1rem'}} onClick={clearSensitiveConsentSig}>clear</i>
                                     </div>
+                                    
                                 </div>
                                 <div className={styles.covidsection}>
-                                    <h2>Covid-19 Risk Assessment</h2>
+                                    <h3>Covid-19 Risk Assessment</h3>
                                     <div style={{marginTop: '1rem'}}>
                                         <Link target="_blank" to={'/covidmeasures'}>Click here</Link> to review the current measures Cip de Vries, RMT will be taking to reduce the risk of spreading infectious diseases including Covid-19.
                                     </div>

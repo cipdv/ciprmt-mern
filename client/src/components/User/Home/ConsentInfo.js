@@ -24,7 +24,7 @@ const ConsentInfo = () => {
                     <h4>Chest wall muscles</h4>
                     <img src={chestwall} style={{maxWidth: '20rem', maxHeight: '20rem'}}/>
                     <p>
-                        The chest wall musculature can include the pectoralis muscles, serratus muscles, and abdominis muscles. These muscles are involved in the movement and stability of your shoulders and upper torso, and they can often cause postural imbalances which can lead to pain and aching muscles in other areas such are your chest, upper back and lower back, neck and shoulders, and between your shoulder blades. Assessing these areas could include touching and stretching of these muscles to feel for tightness or specific points that may be causing pain in any of these areas.
+                        The chest wall musculature can include the pectoralis muscles, serratus muscles, and abdominis muscles. These muscles are involved in the movement and stability of your shoulders and upper torso, and they can often cause postural imbalances which can lead to pain and aching muscles in other areas such are your chest, upper back and lower back, neck and shoulders, and between your shoulder blades. Assessing these areas could include touching and stretching of these muscles to feel for tightness or specific points that may be causing pain in any of these areas. Note: this does not include breast tissue. If you do require breast tissue massage for a medical reason, please text Cip de Vries at 416-258-1230 directly to discuss this further.
                     </p>    
                 </div> 
                 <div style={{marginTop: '1rem'}}>
@@ -43,15 +43,21 @@ const ConsentInfo = () => {
                 </div>    
             </div>
             <div style={{marginTop: '1rem'}}>
+                <h3>What are the risks and benefits of having these areas assessed and/or treated?</h3>
+                <div>
+                    When our muscles are overworked, overstretched, strained or damaged in some way, they can ache and cause pain in the area and throughout the body. Assessing these areas helps RMTs discover what may be causing you pain or discomfort and provide proper treatment to help get rid of this pain, and rule out other possibilities that may require treatment from other health care professionals. The goal of the assessment/treatment is not to hurt you, but some of the assessments and treatment techniques may cause pain or discomfort as the tissues are being stretched or compressed, and may have lingering effects. There is also the risk that the tissues can be further damaged, causing more pain or loss of function. You can ask to stop or modify the assessment/treatment anytime, so please be vocal if you feel that your body is not responding well.  
+                </div>    
+            </div>
+            <div style={{marginTop: '1rem'}}>
                 <h3>What if I don't consent to these areas being assessed and treated?</h3>
                 <div>
-                    Alternatives can be made if you do not feel comfortable with any or all of these areas being touched or stretched for the purposes of assessing and treating these areas, including performing self-stretching or self-massage without direct contact from a Massage Therapist.
+                    Giving consent to treat these areas is completely voluntary. Alternatives can be made if you do not feel comfortable with any or all of these areas being touched or stretched for the purposes of assessing and treating these areas, including performing self-stretching or self-massage without direct contact from a Massage Therapist.
                 </div>    
             </div>
             <div style={{marginTop: '1rem'}}>
                 <h3>What if I change my mind to these areas being assessed and treated?</h3>    
                 <div>
-                    Giving your consent now does not mean that you cannot change your mind any time before or even during the massage. If you feel uncomfortable with any parts of the assessing or treating of any part of your body, please feel welcome to express this in writing via text (416-258-1230) or email (cip.devries@gmail.com) or verbally to Cip de Vries, RMT. Your comfort is extremely important to receiving the best treatment possible for you, and alternatives can be given to assessing and treating these areas, and other areas in your body that you consider to be sensitive. 
+                    Giving your consent now does not mean that you cannot change your mind any time before or even during the massage. If you feel uncomfortable with any parts of the assessing or treating of any part of your body, please feel welcome to express this in writing via text (416-258-1230) or email (cip.devries@gmail.com) or verbally to Cip de Vries, RMT. Your comfort is extremely important to receiving the best treatment possible for you, and I will check in with you throughout the massage to ensure that you are still comfortable with the proposed assessment and treatment. If you do change your mind, alternatives can be given to assessing and treating these areas, and other areas in your body that you consider to be sensitive. 
                 </div>
             </div>
         </div>

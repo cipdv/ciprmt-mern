@@ -16,7 +16,7 @@ router.put('/:id', auth, addTransaction)
 router.post('/addnewfinancialstatement/:rmtid', createNewFinancialStatement)
 //retrieve financial data per year
 router.post('/getfinancialdata', auth, getFinancialData)
-router.patch('/addfinancials', auth, addFinancials)
+router.post('/addfinancials', auth, addFinancials)
 router.get('/getfinancialstatementsbyrmtid/:rmtid', getFinancialStatementsByRMTId)
 
 //new financial routes

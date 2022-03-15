@@ -5,7 +5,12 @@ const treatmentPlanSchema = mongoose.Schema({
     clientId: String,
     startDate: Date,
     clientGoals: String,
-    objectivesOfTreatmentPlan: String,
+    typeAndFocusOfTreatments: String,
+    areasToBeTreated: String,
+    durationAndFrequency: String,
+    scheduleForReassessment: String,  
+    anticipatedClientResponse: String,
+    recommendedSelfCare: String,
     conclusionOfTreatmentPlan: String,
     endDate: Date,
 })

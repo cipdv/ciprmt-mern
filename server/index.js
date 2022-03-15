@@ -6,6 +6,10 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import sgMail from '@sendgrid/mail'
 import pdf from 'html-pdf'
+//for google calendar
+import fs  from 'fs'
+import readline from 'readline'
+import {google} from 'googleapis'
 
 import {pdfFile} from './documents/index.js'
 
@@ -27,6 +31,13 @@ app.use(bodyParser.json({limit: "30mb", extended: true}))
 app.use(bodyParser.urlencoded({limit: "30mb", extended: true}))
 app.use(cors())
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+//google calendar
+const SCOPES = ['https://www.googleapis.com/auth/calendar']
+const TOKEN_PATH = 'token.json'
+const client_secret = process.env.GoogleClientSecret
+const client_id = process.env.GoogleClientId
+
 
 //routing
 app.use('/healthhistory', healthHistoryRoutes)

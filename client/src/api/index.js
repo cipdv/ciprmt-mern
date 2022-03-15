@@ -1,8 +1,8 @@
 import axios from 'axios'
 //PRODUCTION
-const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
+// const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
 //DEVELOPMENT
-// const API = axios.create({ baseURL: 'http://localhost:5000/'})
+const API = axios.create({ baseURL: 'http://localhost:5000/'})
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
@@ -36,7 +36,7 @@ export const userTypeVerification = () => API.get('/user/usertype')
 export const addTransaction = (RMTid, financialData) => API.put(`/financials/${RMTid}`, financialData)
 export const getFinancialStatementsByRMTId = (rmtid) => API.get(`/financials/getfinancialstatementsbyrmtid/${rmtid}`)
 export const getFinancialData = (year) => API.post('/financials/getfinancialdata', year)
-export const addFinancials = (formData) => API.patch(`/financials/addFinancials`, formData)
+export const addFinancials = (formData) => API.post(`/financials/addFinancials`, formData)
 export const createNewFinancialStatement = (rmtid, year) => API.post(`/financials/addnewfinancialstatement/${rmtid}`, year)
 //new financial routes
 export const addIncome = (rmtid, financialData) => API.post(`/financials/${rmtid}/addincome`, financialData)
@@ -53,7 +53,7 @@ export const getTreatmentPlans = (userId) => API.post(`/treatmentplan/getallfort
 export const addTreatmentToTP = (formData) => API.post('/treatmentplan/addTreatment', formData)
 export const getTreatmentPlanById = (tpid) => API.post(`/treatmentplan/gettreatmentplanbyid/${tpid}`)
 export const getTreatmentById = (tid) => API.post(`/treatmentplan/gettreatmentbyid/${tid}`)
-export const updateTreatmentPlan = (tpid, tid, formData) => API.put(`/treatmentplan/${tpid}/treatment/${tid}/update`, formData)
+export const updateTreatmentPlan = (tpid, formData) => API.put(`/treatmentplan/${tpid}/update`, formData)
 export const getTreatmentsByClientId = (clientid) => API.post(`/treatmentplan/getTreatmentsByClientId/${clientid}`)
 export const getTreatmentsByTreatmentPlanId = (tpid) => API.post(`/treatmentplan/${tpid}/gettreatments`)
 export const addTreatment = (form) => API.post('/treatmentplan/addtreatment', form)

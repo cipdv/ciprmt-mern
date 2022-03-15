@@ -30,7 +30,12 @@ const treatmentSchema = mongoose.Schema({
         chest: String,
         abdomen: String,
         innerThighs: String,
-        areasToAvoid: String
+        areasToAvoid: String,
+        glutesConsent: Boolean,
+        chestConsent: Boolean,
+        innerThighsConsent: Boolean,
+        abdomenConsent: Boolean,
+        sensitiveConsentSignature: String
     },
     notesFromClient: String,
     notes: String,

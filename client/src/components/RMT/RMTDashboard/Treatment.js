@@ -38,6 +38,10 @@ const Treatment = ({treatmentId, user}) => {
     const [areasToAvoid, setAreasToAvoid] = useState('')
     const [receiptNumber, setReceiptNumber] = useState('')
     const [notesFromClient, setNotesFromClient] = useState('')
+    const [glutesConsent, setGlutesConsent] = useState(false)
+    const [chestConsent, setChestConsent] = useState(false)
+    const [innerThighsConsent, setInnerThighsConsent] = useState(false)
+    const [abdomenConsent, setAbdomenConsent] = useState(false)
 
     useEffect(()=>{
         if (treatments?.length > 0) {
@@ -58,13 +62,17 @@ const Treatment = ({treatmentId, user}) => {
             setNotes(treatment?.notes !== undefined ? (treatment?.notes) : (""))
             setReasonForMassage(treatment?.reasonForMassage !== undefined ? (treatment?.reasonForMassage) : (""))
             setTreatmentConsent(treatment?.consents?.treatmentConsent !== undefined ? (treatment?.consents?.treatmentConsent) : (""))
-            setGlutes(treatment?.consents?.glutes !== undefined ? (treatment?.consents?.glutes) : (""))
-            setChest(treatment?.consents?.chest !== undefined ? (treatment?.consents?.chest) : (""))
-            setAbdomen(treatment?.consents?.abdomen !== undefined ? (treatment?.consents?.abdomen) : (""))
-            setInnerThighs(treatment?.consents?.innerThighs !== undefined ? (treatment?.consents?.innerThighs) : (""))
+            setGlutes(treatment?.consents?.glutes !== undefined ? (treatment?.consents?.glutes) : (null))
+            setChest(treatment?.consents?.chest !== undefined ? (treatment?.consents?.chest) : (null))
+            setAbdomen(treatment?.consents?.abdomen !== undefined ? (treatment?.consents?.abdomen) : (null))
+            setInnerThighs(treatment?.consents?.innerThighs !== undefined ? (treatment?.consents?.innerThighs) : (null))
             setAreasToAvoid(treatment?.consents?.areasToAvoid !== undefined ? (treatment?.consents?.areasToAvoid) : (""))
             setReceiptNumber(treatment?._id !== undefined ? (treatment?._id) : (''))
             setNotesFromClient(treatment?.notesFromClient !== undefined ? (treatment?.notesFromClient) : (''))
+            setGlutesConsent(treatment?.consents?.glutesConsent ? (true) : (false))
+            setChestConsent(treatment?.consents?.chestConsent ? (true) : (false))
+            setInnerThighsConsent(treatment?.consents?.innerThighsConsent ? (true) : (false))
+            setAbdomenConsent(treatment?.consents?.abdomenConsent ? (true) : (false))
         }
     }, [treatmentId])
 
@@ -248,18 +256,18 @@ const Treatment = ({treatmentId, user}) => {
                             <tr>
                                 <td>
                                     <div className="ui list">
-                                        {glutes !== "" ? <div className="ui item" >Glutes</div> : <div></div>}
-                                        {chest !== "" ? <div className="ui item" >Chest</div> : <div></div>}
-                                        {innerThighs !== "" ? <div className="ui item" >Inner thighs</div> : <div></div>}
-                                        {abdomen !== "" ? <div className="ui item" >Abdomen</div> : <div></div>}
+                                        {glutesConsent  ? <div className="ui item" >Glutes</div> : <div></div>}
+                                        {chestConsent ? <div className="ui item" >Chest</div> : <div></div>}
+                                        {innerThighsConsent ? <div className="ui item" >Inner thighs</div> : <div></div>}
+                                        {abdomenConsent ? <div className="ui item" >Abdomen</div> : <div></div>}
                                     </div>
                                 </td>
                                 <td>
                                     <div className="ui list">
-                                        {glutes === "" ? <div className="ui item" style={{color: 'red'}}>Glutes</div> : <div></div>}
-                                        {chest === "" ? <div className="ui item" style={{color: 'red'}}>Chest</div> : <div></div>}
-                                        {innerThighs === "" ? <div className="ui item" style={{color: 'red'}}>Inner thighs</div> : <div></div>}
-                                        {abdomen === "" ? <div className="ui item" style={{color: 'red'}}>Abdomen</div> : <div></div>}
+                                        {!glutesConsent ? <div className="ui item" style={{color: 'red'}}>Glutes</div> : <div></div>}
+                                        {!chestConsent ? <div className="ui item" style={{color: 'red'}}>Chest</div> : <div></div>}
+                                        {!innerThighsConsent  ? <div className="ui item" style={{color: 'red'}}>Inner thighs</div> : <div></div>}
+                                        {!abdomenConsent  ? <div className="ui item" style={{color: 'red'}}>Abdomen</div> : <div></div>}
                                         {areasToAvoid ? <div className="ui item" style={{color: 'red'}}>{areasToAvoid}</div> : <div></div>}
                                     </div>
                                 </td>

@@ -58,41 +58,22 @@ export const getTreatmentById = async (req, res) => {
 
 export const updateTreatmentPlan = async (req, res) => {
 
-    const { tpid, tid } = req.params
-    const { findings, remex, treatmentPlan, price, paymentType, referToHCP} = req.body
-    const { generalTreatment, specificTreatment } = req.body.treatment
-    const { subjectiveResults, objectiveResults } = req.body.results
+    const { tpid } = req.params
+    const { conclusionOfTreatmentPlan } = req.body
+    let endDate = ''
+
+    if (conclusionOfTreatmentPlan !== '') {
+        endDate = new Date()
+    } else {
+        endDate = ''
+    }
 
     try {
-        const updatedTreatment = await TreatmentPlan.findByIdAndUpdate(tpid,
-          {$set:
-            {
-              "treatments.$[i].findings": findings,
-              "treatments.$[i].treatment.generalTreatment": generalTreatment,
-              "treatments.$[i].treatment.specificTreatment": specificTreatment,
-              "treatments.$[i].results.subjectiveResults": subjectiveResults,
-              "treatments.$[i].results.objectiveResults": objectiveResults,
-              "treatments.$[i].remex": remex,
-              "treatments.$[i].treatmentPlan": treatmentPlan,
-              "treatments.$[i].price": price,
-              "treatments.$[i].paymentType": paymentType,
-              "treatments.$[i].referToHCP": referToHCP,
-            //   "treatments.$[i].documentation.file1": file1,
-            //   "treatments.$[i].documentation.file2": file2,
-            //   "treatments.$[i].documentation.file3": file3,
-            //   "treatments.$[i].documentation.file4": file4,
-            //   "treatments.$[i].documentation.file5": file5,
-            //   "treatments.$[i].documentation.file6": file6,
-            }
-          },{
-              new:true,
-              arrayFilters: [{ 'i._id': tid }],
-            })
-            
-            res.status(200).json(updatedTreatment)
-          } catch (error) {
-            console.log(error.message)
-          }
+        const updatedTreatmentPlan = await TreatmentPlan.findByIdAndUpdate(tpid, {...req.body, endDate}, {new: true})
+        res.status(200).json(updatedTreatmentPlan)
+    } catch (error) {
+        console.log(error.message)
+    }
 }
 
 export const getTreatmentsByClientId = async (req, res) => {
@@ -164,6 +145,8 @@ export const sendConfirmEmail = async (req, res) => {
 export const updateTreatment = async (req, res) => {
     const { tid } = req.params
 
+    console.log(req.body)
+
     try {
         const updatedTreatment = await Treatment.findByIdAndUpdate(tid, req.body, {new: true})
         res.status(200).json(updatedTreatment)
@@ -174,35 +157,35 @@ export const updateTreatment = async (req, res) => {
 
 export const clientConfirmedTreatment = async (req, res) => {
 
-    const { name, apptDate, apptTime, reasonForMassage, glutes, chest, abdomen, innerThighs, areasToAvoid, covidvaccinated, covidnoosymptoms, covidnotisolating, notes } = req.body
-    
-    let gluteConsent = ''
-    let chestConsent = ''
-    let abdomenConsent = ''
-    let innerThighsConsent = ''
+    const { name, apptDate, apptTime, reasonForMassage, glutesConsent, chestConsent, abdomenConsent, innerThighsConsent, areasToAvoid, covidvaccinated, covidnoosymptoms, covidnotisolating, notes } = req.body
 
-    if (glutes !== '' && glutes !== undefined) {
-        gluteConsent = 'yes'
+    let glutes = ''
+    let chest = ''
+    let abdomen = ''
+    let innerThighs = ''
+
+    if (glutesConsent) {
+        glutes = 'yes'
      } else {
-        gluteConsent = 'no'
+        glutes = 'no'
      }
    
-     if (chest !== '' && chest !==  undefined) {
-        chestConsent = 'yes'
+     if (chestConsent) {
+        chest = 'yes'
     } else {
-        chestConsent = 'no'
+        chest = 'no'
     }
    
-    if (abdomen !== '' && abdomen !== undefined) {
-        abdomenConsent = 'yes'
+    if (abdomenConsent) {
+        abdomen = 'yes'
    } else {
-        abdomenConsent = 'no'
+        abdomen = 'no'
    }
    
-   if (innerThighs !== '' && innerThighs !== undefined) {
-        innerThighsConsent = 'yes'
+   if (innerThighsConsent) {
+        innerThighs = 'yes'
    } else {
-        innerThighsConsent = 'no'
+        innerThighs = 'no'
    }
 
     const msg = {
@@ -215,10 +198,10 @@ export const clientConfirmedTreatment = async (req, res) => {
           <p>Reason for booking a massage is: ${reasonForMassage}</p> 
           <p>Consents given:</p>
           <ul>
-            <li>Glutes: ${gluteConsent}</li>
-            <li>Chest: ${chestConsent}</li>
-            <li>Abdomen: ${abdomenConsent}</li>
-            <li>Inner Thighs: ${innerThighsConsent}</li>
+            <li>Glutes: ${glutes}</li>
+            <li>Chest: ${chest}</li>
+            <li>Abdomen: ${abdomen}</li>
+            <li>Inner Thighs: ${innerThighs}</li>
           </ul>
           <p>Areas to avoid: ${areasToAvoid}</p>
           <p>Notes provided: ${notes}</p>

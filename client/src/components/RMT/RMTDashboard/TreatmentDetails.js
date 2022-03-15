@@ -27,6 +27,8 @@ const Treatment = ({user, patient}) => {
 
     const treatment = useSelector((state)=>state?.treatmentPlanReducer?.treatment)
 
+    console.log(treatment)
+
     const [findings, setFindings] = useState(treatment?.findings)
     const [generalTreatment, setGeneralTreatment] = useState(treatment?.treatment?.generalTreatment)
     const [specificTreatment, setSpecificTreatment] = useState(treatment?.treatment?.specificTreatment)
@@ -210,7 +212,7 @@ const Treatment = ({user, patient}) => {
                                 ) : (
                                     <div className="ui list">
                                         {treatment?.consents?.treatmentConsent === true ? <div className="ui item" >Treatment consent given</div> : <div></div>}
-                                        {treatment?.consents?.glutes === true ? <div className="ui item" >Glutes</div> : <div></div>}
+                                        {treatment?.consents?.glutes === true || treatment?.consents?.glutesConsent === true ? <div className="ui item" >Glutes</div> : <div></div>}
                                         {treatment?.consents?.glutes === true ? <div className="ui item" >Glutes</div> : <div></div>}
                                         {treatment?.consents?.chest === true ? <div className="ui item" >Chest</div> : <div></div>}
                                         {treatment?.consents?.innerThighs === true ? <div className="ui item" >Inner thighs</div> : <div></div>}

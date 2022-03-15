@@ -36,21 +36,26 @@ const MaintenanceLog = ({user}) => {
                 <form className={styles.form} onSubmit={submitMaintenanceLog}>
                     <div className={styles.formfield}>
                         <h3>Massage mat</h3>
-                        <label>Check massage mat for tears
-                            <input type="checkbox" checked={massageMatNoTears} onChange={(e)=> setMassageMatNoTears(e.target.checked)} />
-                        </label>
+                        <div>
+                            <input style={{marginRight: '1rem'}} type="checkbox" checked={massageMatNoTears} onChange={(e)=> setMassageMatNoTears(e.target.checked)} />
+                            <label>Check massage mat for tears and damage</label>
+                        </div>
                         <input className={styles.forminput} type="text" value={massageMatNotes} onChange={(e)=>setMassageMatNotes(e.target.value)} />
                     </div>
                     <div className={styles.formfield}>
                         <h3>Electronics</h3>
-                        <label>Check electronics and wires (speakers, lamps) for damage</label>
-                        <input type="checkbox" checked={electronicsNoDamage} onChange={(e)=> setElectronicsNoDamage(e.target.checked)} />
+                        <div>
+                            <input style={{marginRight: '1rem'}} type="checkbox" checked={electronicsNoDamage} onChange={(e)=> setElectronicsNoDamage(e.target.checked)} />
+                            <label>Check electronics and wires (speakers, lamps) for damage</label>
+                        </div>
                         <input className={styles.forminput} type="text" value={electronicsNotes} onChange={(e)=>setElectronicsNotes(e.target.value)} />
                     </div>
                     <div className={styles.formfield}>
                         <h3>Self-care tools</h3>
-                        <label>Check self-care tools (foam roller and massage balls) for damage</label>
-                        <input type="checkbox" checked={selfCareToolsNoDamage} onChange={(e)=> setSelfCareToolsNoDamage(e.target.checked)} />
+                        <div>
+                            <input style={{marginRight: '1rem'}} type="checkbox" checked={selfCareToolsNoDamage} onChange={(e)=> setSelfCareToolsNoDamage(e.target.checked)} />
+                            <label>Check self-care tools (foam roller and massage balls) for damage</label>
+                        </div>
                         <input className={styles.forminput} type="text" value={selfCareToolsNotes} onChange={(e)=>setSelfCareToolsNotes(e.target.value)} />
                     </div>
                     <button className={styles.btn} type="submit">Submit</button>

@@ -22,37 +22,37 @@ export const createNewFinancialStatement = async (req, res) => {
     }
 }
 
-export const addTransaction = async (req, res) => {
-    const { type } = req.body
-    console.log(req.body)
+export const addFinancials = async (req, res) => {
+    const { type, date } = req.body
     if (type === 'rrsp') {
-        const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid})
+        const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+        console.log('rrsp', newRRSPContribution)
         try {
-            await RRSPContribution.save()
+            await newRRSPContribution.save()
             res.status(200).json(newRRSPContribution)
         } catch (error) {
             res.status(404).json({message: error.message})
         }
     } else if (type === 'donation') {
-        const newDonation = new Donation({...req.body, RMTid: req.params.rmtid})
+        const newDonation = new Donation({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
         try {
-            await Donation.save()
+            await newDonation.save()
             res.status(200).json(newDonation)
         } catch (error) {
             res.status(404).json({message: error.message})
         }
     } else if (type === 'income') {
-        const newIncome = new Income({...req.body, RMTid: req.params.rmtid})
+        const newIncome = new Income({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
         try {
-            await Income.save()
+            await newIncome.save()
             res.status(200).json(newIncome)
         } catch (error) {
             res.status(404).json({message: error.message})
         }
     } else if (type === 'expense') {
-        const newExpense = new Expense({...req.body, RMTid: req.params.rmtid})
+        const newExpense = new Expense({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
         try {
-            await Expense.save()
+            await newExpense.save()
             res.status(200).json(newExpense)
         } catch (error) {
             res.status(404).json({message: error.message})
@@ -60,31 +60,31 @@ export const addTransaction = async (req, res) => {
     }
 }
 
-// export const addTransaction = async (req, res) => {
+export const addTransaction = async (req, res) => {
 
-//     const income = req.body.income[0]
-//     const expenses = req.body.expenses[0]
-//     const thisreceiptNumber = req.body.income[0].receiptNumber
-//     const year = req.body.year
+    const income = req.body.income[0]
+    const expenses = req.body.expenses[0]
+    const thisreceiptNumber = req.body.income[0].receiptNumber
+    const year = req.body.year
     
-//     try {
-//         const financialStatement = await FinancialStatement.findOne({year: 2022})
+    try {
+        const financialStatement = await FinancialStatement.findOne({year: 2022})
         
-//         const alreadyAddded = financialStatement.income.find(({ receiptNumber }) => receiptNumber === thisreceiptNumber )
+        const alreadyAddded = financialStatement.income.find(({ receiptNumber }) => receiptNumber === thisreceiptNumber )
     
-//         if (alreadyAddded === undefined) {
-//             financialStatement?.income?.push(income)
-//             financialStatement?.expenses?.push(expenses)
+        if (alreadyAddded === undefined) {
+            financialStatement?.income?.push(income)
+            financialStatement?.expenses?.push(expenses)
 
-//             const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialStatement, {new: true})
-//             res.status(200).json(updatedFinancialStatement)
-//         } else {
-//             res.status(200).json(financialStatement)
-//         }     
-//     } catch (error) {
-//         res.status(400).json(error.message)
-//     }
-// }
+            const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialStatement, {new: true})
+            res.status(200).json(updatedFinancialStatement)
+        } else {
+            res.status(200).json(financialStatement)
+        }     
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
 
 export const getFinancialData = async (req, res) => {
     try {
@@ -95,30 +95,30 @@ export const getFinancialData = async (req, res) => {
     }
 }
 
-export const addFinancials = async (req, res) => {
-    const {type} = req.body
-    if (type === 'Expense') {
-        const financialData = await FinancialStatement.findOne({year: 2022})
-        financialData?.expenses?.push(req.body)
-        const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
-        res.status(200).json(updatedFinancialStatement)
-    } else if (type === 'Income') {
-        const financialData = await FinancialStatement.findOne({year: 2022})
-        financialData?.income?.push(req.body)
-        const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
-        res.status(200).json(updatedFinancialStatement)
-    } else if (type === 'RRSP Contribution') {
-        const financialData = await FinancialStatement.findOne({year: 2022})
-        financialData?.RRSPContributions?.push(req.body)
-        const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
-        res.status(200).json(updatedFinancialStatement)
-    } else if (type === 'Donation') {
-        const financialData = await FinancialStatement.findOne({year: 2022})
-        financialData?.donations?.push(req.body)
-        const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
-        res.status(200).json(updatedFinancialStatement)
-    }
-}
+// export const addFinancials = async (req, res) => {
+//     const {type} = req.body
+//     if (type === 'Expense') {
+//         const financialData = await FinancialStatement.findOne({year: 2022})
+//         financialData?.expenses?.push(req.body)
+//         const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
+//         res.status(200).json(updatedFinancialStatement)
+//     } else if (type === 'Income') {
+//         const financialData = await FinancialStatement.findOne({year: 2022})
+//         financialData?.income?.push(req.body)
+//         const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
+//         res.status(200).json(updatedFinancialStatement)
+//     } else if (type === 'RRSP Contribution') {
+//         const financialData = await FinancialStatement.findOne({year: 2022})
+//         financialData?.RRSPContributions?.push(req.body)
+//         const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
+//         res.status(200).json(updatedFinancialStatement)
+//     } else if (type === 'Donation') {
+//         const financialData = await FinancialStatement.findOne({year: 2022})
+//         financialData?.donations?.push(req.body)
+//         const updatedFinancialStatement = await FinancialStatement.findOneAndUpdate({year: 2022}, financialData, {new: true})
+//         res.status(200).json(updatedFinancialStatement)
+//     }
+// }
 
 export const getFinancialStatementsByRMTId = async (req, res) => {
     const {rmtid} = req.params
