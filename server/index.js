@@ -10,6 +10,8 @@ import pdf from 'html-pdf'
 import fs  from 'fs'
 import readline from 'readline'
 import {google} from 'googleapis'
+import passport from 'passport'
+import GoogleStrategy from 'passport-google-oauth20'
 
 import {pdfFile} from './documents/index.js'
 
@@ -35,8 +37,24 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 //google calendar
 const SCOPES = ['https://www.googleapis.com/auth/calendar']
 const TOKEN_PATH = 'token.json'
-const client_secret = process.env.GoogleClientSecret
-const client_id = process.env.GoogleClientId
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
+const googleClientId = process.env.GOOGLE_CLIENT_ID
+
+
+//google oauth with passport
+passport.use(new GoogleStrategy.Strategy({
+    clientID: googleClientId,
+    clientSecret: googleClientSecret,
+    callbackURL: '/auth/google/callback'
+}, (accessToken, refreshToken, profile, done)=>{
+    console.log('access', accessToken, 'refresh', refreshToken, 'profile', profile)
+}))
+
+app.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
+}))
+
+app.get('/auth/google/callback', passport.authenticate('google'))
 
 
 //routing
@@ -63,7 +81,6 @@ app.post('/createpdf', (req, res)=>{
         res.send(Promise.resolve())
     })
 })
-
 
 
 

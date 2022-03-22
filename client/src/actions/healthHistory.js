@@ -16,7 +16,7 @@ export const submitHH = (formData) => async (dispatch) => {
 export const addNewHealthHistory = (form) => async (dispatch) => {
     try {
         const { data } = await api.addNewHealthHistory(form)
-        console.log(data)
+        
         dispatch({type: ADD_HEALTH_HISTORY, payload: data})
     } catch (error) {
         console.log(error.message)

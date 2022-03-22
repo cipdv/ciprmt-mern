@@ -72,3 +72,6 @@ export const addToMaintenanceLog = (data) => API.post('/maintenancelog', data)
 export const addJournalEntry = (data) => API.post('/journal/addentry', data)
 //password reset
 export const emailResetPassword = (data) => API.post('/user/sendpasswordresetlink', data)
+
+//google oauth
+export const googleOauth = () => API.get('/auth/google')

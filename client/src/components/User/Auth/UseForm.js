@@ -55,7 +55,7 @@ const useForm = (validate) => {
 
     const handleRegister = (e) => {
         e.preventDefault()
-        setErrors(validate(values))
+        // setErrors(validate(values))
         dispatch(register(values, history, setErrors))
     }
 

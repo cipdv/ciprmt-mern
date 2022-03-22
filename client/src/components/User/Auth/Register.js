@@ -19,6 +19,7 @@ const Register = () => {
 
     return (
         <>
+            <LoadingSpinner />
             <div>
                 <h4>Already have an account?</h4> 
                 <div>

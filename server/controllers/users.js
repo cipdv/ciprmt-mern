@@ -19,11 +19,11 @@ export const register = async (req, res) => {
         //check if user exists
         const existingUser = await User.findOne({email})
         if (existingUser) {
-            return res.status(404).json({message: `user already exist`})
+            return res.json({message: `user already exist`})
         }
         //check if passwords match
         if (password !== confirmPassword) {
-            return res.status(400).json({ message: `passwords don't match` })
+            return res.json({ message: `passwords don't match` })
         }
         //if passwords match, hash data
         const hashPassword = await bcrypt.hash(password, 12)
@@ -55,7 +55,7 @@ export const register = async (req, res) => {
             console.error(error)
         }) 
 
-        res.status(200).json({ result, token })
+        res.status(200).json({ result, token, message: 'registration successful' })
     } catch (error) {
         res.status(500).json({ message: `something went wrong`})
         console.log(error)

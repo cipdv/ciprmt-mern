@@ -2,11 +2,32 @@ import * as api from '../api'
 
 import { AUTH, RMT_AUTH, USER_TYPE_VERIFICATION, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes'
 
-export const register = (formData, history) => async (dispatch) => {
+// export const register = (formData, history) => async (dispatch) => {
+//     try {
+//         const {data} = await api.register(formData)       
+//         dispatch({ type: AUTH, data})
+//         history.push('/healthhistory')
+
+        
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+export const register = (formData, history, setErrors) => async (dispatch) => {
     try {
         const {data} = await api.register(formData)       
-        dispatch({ type: AUTH, data})
-        history.push('/healthhistory')
+
+        if (data.message === 'registration successful') {
+            dispatch({ type: AUTH, data})
+            history.push('/healthhistory')
+        } else if (data.message === `passwords don't match`) {
+            setErrors({confirmPassword: 'Passwords do not match'})
+            dispatch({type: HIDE_LOADER})
+        } else if (data.message === 'user already exist') {
+            setErrors({email: 'User already exists'})
+            dispatch({type: HIDE_LOADER})
+        }
     } catch (error) {
         console.log(error)
     }

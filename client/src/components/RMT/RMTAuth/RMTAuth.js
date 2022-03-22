@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import styles from './rmtauth.module.css'
 import { showLoader } from '../../../actions/auth'
 import LoadingSpinner from '../../User/Auth/LoadingSpinner/LoadingSpinner'
+import { googleOauth } from '../../../api'
 
 const RMTAuth = () => {
     const dispatch = useDispatch()
@@ -45,6 +46,7 @@ const RMTAuth = () => {
             dispatch(RMTRegister(formData, history))
         } else {
             dispatch(RMTLogin(formData, history))
+            googleOauth()
         }
         clear()
     }
