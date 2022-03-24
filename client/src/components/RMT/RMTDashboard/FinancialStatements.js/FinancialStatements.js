@@ -7,11 +7,13 @@ const FinancialStatement = ({year, setYear}) => {
     const incomeData = useSelector((state)=>state?.financialsReducer?.income)
     const expensesData = useSelector((state)=>state?.financialsReducer?.expenses)
 
+    console.log('income data', incomeData)
+
     const test = (m) => {
         const incomeArray = incomeData?.filter((i)=>{
             return new Date(i.date).getMonth() === m
         })
-        console.log(`test ${m}`, incomeArray)
+        // console.log(`test ${m}`, incomeArray)
     }
 
     test(0)
@@ -26,7 +28,7 @@ const FinancialStatement = ({year, setYear}) => {
                 return null
             }
         })
-        console.log(`income array ${m}`, incomeArray)
+        // console.log(`income array ${m}`, incomeArray)
         return incomeArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
     }
 

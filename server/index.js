@@ -7,11 +7,10 @@ import dotenv from 'dotenv'
 import sgMail from '@sendgrid/mail'
 import pdf from 'html-pdf'
 //for google calendar
-import fs  from 'fs'
-import readline from 'readline'
-import {google} from 'googleapis'
 import passport from 'passport'
 import GoogleStrategy from 'passport-google-oauth20'
+import RMT from './models/rmt.js'
+import cookieSession from 'cookie-session'
 
 import {pdfFile} from './documents/index.js'
 
@@ -26,6 +25,11 @@ import maintenanceLog from './routes/maintenanceLog.js'
 import treatmentPlanRoutes from './routes/treatmentPlan.js'
 import journalRoutes from './routes/journal.js'
 
+//google calendar
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
+const googleClientId = process.env.GOOGLE_CLIENT_ID
+const cookieKey = process.env.cookieKey
+
 //configs
 const app = express()
 dotenv.config()
@@ -33,28 +37,52 @@ app.use(bodyParser.json({limit: "30mb", extended: true}))
 app.use(bodyParser.urlencoded({limit: "30mb", extended: true}))
 app.use(cors())
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+app.use(cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [cookieKey]
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
-//google calendar
-const SCOPES = ['https://www.googleapis.com/auth/calendar']
-const TOKEN_PATH = 'token.json'
-const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
-const googleClientId = process.env.GOOGLE_CLIENT_ID
+passport.serializeUser((user, done)=> {
+    done(null, user._id)
+})
 
+passport.deserializeUser(async (id, done)=>{
+    const user = await RMT.findById(id)
+    done(null, user)
+})
 
 //google oauth with passport
 passport.use(new GoogleStrategy.Strategy({
     clientID: googleClientId,
     clientSecret: googleClientSecret,
     callbackURL: '/auth/google/callback'
-}, (accessToken, refreshToken, profile, done)=>{
-    console.log('access', accessToken, 'refresh', refreshToken, 'profile', profile)
+}, async (accessToken, refreshToken, profile, done)=>{
+    console.log(accessToken)
+    const existingUser = await RMT.findOne({googleId: profile.id})
+    if (existingUser) {
+        done(null, existingUser)
+    }
 }))
 
 app.get('/auth/google', passport.authenticate('google', {
-    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
 }))
 
 app.get('/auth/google/callback', passport.authenticate('google'))
+
+
+app.get('/api/google/currentuser', (req, res)=> {
+    res.send(req.user)
+})
+
+app.get('/api/google/logout', (req, res)=> {
+    req.logout()
+    res.send(req.user)
+})
+
+//add a google calendar event
 
 
 //routing
@@ -81,7 +109,6 @@ app.post('/createpdf', (req, res)=>{
         res.send(Promise.resolve())
     })
 })
-
 
 
 // app.post('/createpdf', (req, res)=>{

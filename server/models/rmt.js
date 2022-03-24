@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const financialStatementsSchema = new mongoose.Schema({
     id: String,
+
     RMTid: String,
     year: Number,
     income: [
@@ -44,6 +45,7 @@ const financialStatementsSchema = new mongoose.Schema({
 
 const RMTSchema = new mongoose.Schema({
     id: {type: String},
+    googleId: String,
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     registrationNumber: {type: String, required: true},

@@ -46,7 +46,6 @@ const RMTAuth = () => {
             dispatch(RMTRegister(formData, history))
         } else {
             dispatch(RMTLogin(formData, history))
-            googleOauth()
         }
         clear()
     }
