@@ -54,7 +54,7 @@ const Treatment = ({treatmentId, user}) => {
             //     setDate(new Date(treatment?.dateAndTime).toLocaleDateString('en-ca'))
             //     setTime(new Date(treatment?.dateAndTime).toLocaleTimeString('en-US', {hour12: false}))
             // }
-            setDateAndTime(treatment?.dateAndTime !== undefined ? (new Date(treatment?.dateAndTime).toISOString()) : (""))
+            setDateAndTime(treatment?.dateAndTime !== undefined ? (treatment?.treatment?.dateAndTime) : (""))
             setDuration(treatment?.duration !== undefined ? (treatment?.duration) : (""))
             setFindings(treatment?.findings !== undefined ? (treatment?.findings) : (""))
             setGeneralTreatment(treatment?.treatment?.generalTreatment !== undefined ? (treatment?.treatment?.generalTreatment) : (''))
