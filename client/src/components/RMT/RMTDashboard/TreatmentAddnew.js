@@ -13,7 +13,7 @@ const TreatmentAddnew = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const [date, setDate] = useState('')
+    const [dateAndTime, setDateAndTime] = useState(null)
     const [time, setTime] = useState('')
     const [duration, setDuration] = useState('')
 
@@ -24,8 +24,8 @@ const TreatmentAddnew = () => {
     const client = useSelector((state)=>state.usersReducer.user.data)
 
     const form = {
-        date,
-        time,
+        dateAndTime: new Date(dateAndTime).toISOString(),
+        // time,
         duration,
         treatmentPlanId: params?.tpid,
         clientId: params?.clientid,
@@ -33,7 +33,8 @@ const TreatmentAddnew = () => {
         lastName: client?.lastName
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         dispatch(addTreatment(form))
         history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
         sendConfirmEmail(params?.clientid, form)
@@ -46,13 +47,13 @@ const TreatmentAddnew = () => {
                     <h5>Treatment details</h5>
                     <div className="ui fields">
                         <div className="ui field">
-                            <label>Date</label>
-                            <input type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+                            <label>Date and time</label>
+                            <input type="datetime-local" value={dateAndTime} onChange={(e)=>setDateAndTime(e.target.value)} />
                         </div>
-                        <div className="ui field">
+                        {/* <div className="ui field">
                             <label>Time</label>
                             <input type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
-                        </div>
+                        </div> */}
                         <div className="ui field">
                         <label>Duration</label>
                             <select value={duration} onChange={(e)=>setDuration(e.target.value)}>

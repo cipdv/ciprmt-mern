@@ -42,12 +42,19 @@ const Treatment = ({treatmentId, user}) => {
     const [chestConsent, setChestConsent] = useState(false)
     const [innerThighsConsent, setInnerThighsConsent] = useState(false)
     const [abdomenConsent, setAbdomenConsent] = useState(false)
+    const [dateAndTime, setDateAndTime] = useState(false)
 
     useEffect(()=>{
         if (treatments?.length > 0) {
             const treatment = treatments.find(({_id})=>_id === treatmentId)
-            setDate(treatment?.date !== undefined ? (treatment?.date) : (""))
-            setTime(treatment?.time !== undefined ? (treatment?.time) : (""))
+            // if(treatment?.dateAndTime === undefined) {
+            //     setDate(treatment?.date !== undefined ? (treatment?.date) : (""))
+            //     setTime(treatment?.time !== undefined ? (treatment?.time) : (""))
+            // } else if (treatment?.dateAndTime !== undefined) {
+            //     setDate(new Date(treatment?.dateAndTime).toLocaleDateString('en-ca'))
+            //     setTime(new Date(treatment?.dateAndTime).toLocaleTimeString('en-US', {hour12: false}))
+            // }
+            setDateAndTime(treatment?.dateAndTime !== undefined ? (new Date(treatment?.dateAndTime).toISOString()) : (""))
             setDuration(treatment?.duration !== undefined ? (treatment?.duration) : (""))
             setFindings(treatment?.findings !== undefined ? (treatment?.findings) : (""))
             setGeneralTreatment(treatment?.treatment?.generalTreatment !== undefined ? (treatment?.treatment?.generalTreatment) : (''))
@@ -169,6 +176,10 @@ const Treatment = ({treatmentId, user}) => {
                 <div>
                     <label>Time:</label>
                     <input className={styles.forminput} type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
+                </div>
+                <div>
+                    <label>Date and Time:</label>
+                    <input className={styles.forminput} type="datetime-local" value={dateAndTime} onChange={(e)=>setDateAndTime(e.target.value)} />
                 </div>
                 <div>
                     <label>Duration:</label>

@@ -43,7 +43,7 @@ import Login from './components/User/Auth/Login'
 import Register from './components/User/Auth/Register'
 //google login and calendar
 import {GoogleCalendarAuth} from './components/RMT/RMTAuth/GoogleCalendarAuth'
-
+import PracticeGoogleCalendar from './components/practice/PracticeGoogleCalendar'
 
 const App = () => {
 
@@ -98,6 +98,7 @@ const App = () => {
                     <Route path="/register" exact render={()=>!user ? (<Register />) : (<Redirect to="/dashboard" />)} />
                     Google login and calendar consent
                     <Route path="/google/auth/calendar" exact component={GoogleCalendarAuth} />
+                    <Route path="/practice/googlecalendar" exact component={PracticeGoogleCalendar} />
                 </Switch>
             </BrowserRouter>
         </div>       

@@ -6,6 +6,7 @@ const treatmentSchema = mongoose.Schema({
     clientId: String,
     firstName: String,
     lastName: String,
+    dateAndTime: String,
     date: String,
     time: String,
     price: String,

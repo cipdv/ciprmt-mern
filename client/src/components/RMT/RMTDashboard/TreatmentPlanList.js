@@ -28,8 +28,8 @@ const TreatmentPlanList = ({setTreatmentId}) => {
                     <tbody>
                     {treatments?.map((t)=>(
                         <tr onClick={()=>selectTreatment(t?._id)}>
-                            <td>{t?.date}</td>
-                            <td>{t?.time}</td>
+                            <td>{new Date(t?.dateAndTime).toLocaleDateString()}</td>
+                            <td>{new Date(t?.dateAndTime).toLocaleTimeString()}</td>
                             <td>{t?.duration} minutes</td>
                         </tr>
                     )) 

@@ -75,3 +75,5 @@ export const emailResetPassword = (data) => API.post('/user/sendpasswordresetlin
 
 //google oauth
 export const googleOauth = () => API.get('/auth/google')
+//google calendar
+export const addToCalendar = (data) => API.post('/google/auth/calendar', data)
