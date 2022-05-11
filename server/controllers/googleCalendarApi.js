@@ -6,8 +6,12 @@ const router = express.Router()
 dotenv.config()
 
 export const insertGoogleCalendarEvent = async (req, res)=> {
+    try{
+    const {firstName, lastName, date, time, duration} = req.body
 
-    const {dateTime, duration} = req.body
+    console.log(req.body)
+    const apptDate = new Date(`${date}T${time}:00.000Z`).toISOString()
+    console.log(apptDate)
 
     const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
     const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY
@@ -17,23 +21,23 @@ export const insertGoogleCalendarEvent = async (req, res)=> {
 
     let endDateTime = ''
     if (duration === '60') {
-        let date = new Date(dateTime)
-        date.setHours(date.getHours() + 1)
-        endDateTime = date.toISOString()
+        let newDate = new Date(apptDate)
+        newDate.setHours(newDate.getHours() + 1)
+        endDateTime = newDate.toISOString()
     } else if (duration === '75') {
-        let date = new Date(dateTime)
-        date.setMinutes(date.getMinutes() + 75)
-        endDateTime = date.toISOString()
+        let newDate = new Date(apptDate)
+        newDate.setMinutes(newDate.getMinutes() + 75)
+        endDateTime = newDate.toISOString()
     } else if (duration === '90') {
-        let date = new Date(dateTime)
-        date.setMinutes(date.getMinutes() + 90)
-        endDateTime = date.toISOString()
+        let newDate = new Date(apptDate)
+        newDate.setMinutes(newDate.getMinutes() + 90)
+        endDateTime = newDate.toISOString()
     }
 
     const event = {
-        'summary': 'first name',
+        'summary': `${firstName} ${lastName}`,
         'start': {
-            'dateTime': `${dateTime}`,
+            'dateTime': `${apptDate}`,
             'timeZone': 'Canada/Eastern'
         },
         'end': {
@@ -55,7 +59,7 @@ export const insertGoogleCalendarEvent = async (req, res)=> {
         auth: jwtClient
     })
 
-    try {
+    
         calendar.events.insert({
             calendarId: GOOGLE_CALENDAR_ID,
             resource: event,
