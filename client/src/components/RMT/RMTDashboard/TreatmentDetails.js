@@ -27,8 +27,6 @@ const Treatment = ({user, patient}) => {
 
     const treatment = useSelector((state)=>state?.treatmentPlanReducer?.treatment)
 
-    console.log(treatment)
-
     const [findings, setFindings] = useState(treatment?.findings)
     const [generalTreatment, setGeneralTreatment] = useState(treatment?.treatment?.generalTreatment)
     const [specificTreatment, setSpecificTreatment] = useState(treatment?.treatment?.specificTreatment)

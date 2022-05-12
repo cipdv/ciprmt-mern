@@ -1,6 +1,6 @@
 import * as api from '../api'
 
-import { GET_ALL_TREATMENTS, GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_CLIENTID, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT } from '../constants/actionTypes'
+import { DELETE_TREATMENT, GET_ALL_TREATMENTS, GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_CLIENTID, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT } from '../constants/actionTypes'
 
 export const createNewTreatmentPlan = (tpForm, userId) => async (dispatch) => {
     try {
@@ -123,6 +123,16 @@ export const getAllTreatments = () => async (dispatch) => {
     try {
         const {data} = await api.getAllTreatments()
         dispatch({type: GET_ALL_TREATMENTS, payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteTreatment = (tid) => async (dispatch) => {
+    try {
+        const {data} = await api.deleteTreatment(tid)
+        console.log(data)
+        // dispatch({type: DELETE_TREATMENT, payload: data})
     } catch (error) {
         console.log(error)
     }

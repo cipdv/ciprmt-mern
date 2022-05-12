@@ -1,4 +1,4 @@
-import { GET_ALL_TREATMENTS, CREATE_NEW_TREATMENTPLAN, GET_USER_TREATMENTPLANS, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, GET_TREATMENTS_BY_CLIENTID } from "../constants/actionTypes";
+import { DELETE_TREATMENT, GET_ALL_TREATMENTS, CREATE_NEW_TREATMENTPLAN, GET_USER_TREATMENTPLANS, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, GET_TREATMENTS_BY_CLIENTID } from "../constants/actionTypes";
 
 const treatmentPlanReducer = (state = { treatmentPlans: null, currentTreatmentPlan: null, treatment: null, treatments: null }, action) => {
     switch (action.type) {
@@ -19,6 +19,8 @@ const treatmentPlanReducer = (state = { treatmentPlans: null, currentTreatmentPl
         case GET_TREATMENTS_BY_CLIENTID:
             return { ...state, treatments: action.payload}
         case GET_ALL_TREATMENTS:
+            return { ...state, treatments: action.payload}
+        case DELETE_TREATMENT: 
             return { ...state, treatments: action.payload}
         default:
             return state

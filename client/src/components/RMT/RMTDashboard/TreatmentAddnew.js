@@ -1,11 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { addTreatmentToTP, addTreatment } from '../../../actions/treatmentPlans'
-import styles from './rmtdashboard.module.css'
-import { sendConfirmEmail, addToCalendar } from '../../../api/index'
+import { addTreatment } from '../../../actions/treatmentPlans';
+import { sendConfirmEmail, addToCalendar } from '../../../api/index';
 import { getUser } from '../../../actions/healthHistory';
+import styles from './rmtdashboard.module.css';
 
 const TreatmentAddnew = () => {
 
@@ -13,7 +12,6 @@ const TreatmentAddnew = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    // const [dateAndTime, setDateAndTime] = useState(null)
     const [time, setTime] = useState(null)
     const [date, setDate] = useState(null)
     const [duration, setDuration] = useState('')
@@ -24,10 +22,7 @@ const TreatmentAddnew = () => {
 
     const client = useSelector((state)=>state.usersReducer.user.data)
 
-
-
     const form = {
-        dateAndTime: `${date}T${time}:00.000Z`,
         date,
         time,
         duration,
@@ -39,19 +34,10 @@ const TreatmentAddnew = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
-        const apptdate = new Date(date)
-        const timeSplit = time.split(':')
-        apptdate.setUTCHours(timeSplit[0])
-        apptdate.setUTCMinutes(timeSplit[1])
-        
-        console.log('apptdate', apptdate.toISOString())
-        console.log('form', form)
-
         dispatch(addTreatment(form))
-        history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
         addToCalendar(form)
         sendConfirmEmail(params?.clientid, form)
+        history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
     }
 
     return (

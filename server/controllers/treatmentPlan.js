@@ -331,3 +331,12 @@ export const getAllTreatments = async (req, res) => {
         res.status(404).json({message: error.message})
     }
 }
+
+export const deleteTreatment = async (req, res) => {
+    try {
+        const result = await Treatment.findByIdAndDelete(req.params.tid)
+        res.status(200).json({result, message: 'treatment deleted'})
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}

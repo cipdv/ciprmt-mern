@@ -8,17 +8,14 @@ dotenv.config()
 export const insertGoogleCalendarEvent = async (req, res)=> {
     try{
     const {firstName, lastName, date, time, duration} = req.body
-
-    console.log(req.body)
-    const apptDate = new Date(`${date}T${time}:00.000Z`).toISOString()
-    console.log(apptDate)
+    const apptDate = new Date(`${date}T${time}:00-04:00`).toISOString(true)
 
     const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
     const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY
     const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
     const GOOGLE_PROJECT_NUMBER = process.env.GOOGLE_PROJECT_NUMBER
     const GOOGLE_CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID
-
+        
     let endDateTime = ''
     if (duration === '60') {
         let newDate = new Date(apptDate)
@@ -35,7 +32,7 @@ export const insertGoogleCalendarEvent = async (req, res)=> {
     }
 
     const event = {
-        'summary': `${firstName} ${lastName}`,
+        'summary': `Mx: ${firstName} ${lastName}`,
         'start': {
             'dateTime': `${apptDate}`,
             'timeZone': 'Canada/Eastern'
@@ -43,7 +40,8 @@ export const insertGoogleCalendarEvent = async (req, res)=> {
         'end': {
             'dateTime': `${endDateTime}`,
             'timeZone': 'Canada/Eastern'
-        }
+        },
+        'colorId': '2'
     }
 
     const jwtClient = new google.auth.JWT(
