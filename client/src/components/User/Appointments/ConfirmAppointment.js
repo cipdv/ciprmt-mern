@@ -39,7 +39,6 @@ const ConfirmAppointment = ({user, treatments}) => {
     const yesterday = new Date(today)
     yesterday.setDate(yesterday.getDate() -1)
     yesterday.toISOString()
-    console.log(yesterday)
     
     const [treatmentConsent, setTreatmentConsent] = useState(false)
     // const [glutes, setGlutes] = useState('')
@@ -146,8 +145,6 @@ const ConfirmAppointment = ({user, treatments}) => {
             data,
             otherData
         }
-
-        console.log(reqBody)
 
         dispatch(confirmTreatment(apptId, reqBody))
 

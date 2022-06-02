@@ -4,8 +4,6 @@ import { useHistory, Link } from 'react-router-dom'
 import { updateAppointment } from '../../../actions/appointment'
 import { addTransaction } from '../../../actions/financials'
 import styles from './rmtdashboard.module.css'
-import axios from 'axios'
-import FileBase from 'react-file-base64';
 import { addToEAL } from '../../../api'
 
 
@@ -21,7 +19,7 @@ const AppointmentDetails = ({appointments, userState, user}) => {
             accessedBy: `${user?.result?.firstName} ${user?.result?.lastName}`,
             whoseInfo: userState?._id
         })
-    }, [])
+    }, [user?.result?.firstName, user?.result?.lastName, userState?._id])
 
     const [findings, setFindings] = useState(appointments?.findings)
     const [generalTreatment, setGeneralTreatment] = useState(appointments?.treatment?.generalTreatment)

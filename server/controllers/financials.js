@@ -26,7 +26,6 @@ export const addFinancials = async (req, res) => {
     const { type, date } = req.body
     if (type === 'rrsp') {
         const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
-        console.log('rrsp', newRRSPContribution)
         try {
             await newRRSPContribution.save()
             res.status(200).json(newRRSPContribution)

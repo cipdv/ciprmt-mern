@@ -5,6 +5,8 @@ import { addTreatment } from '../../../actions/treatmentPlans';
 import { sendConfirmEmail, addToCalendar } from '../../../api/index';
 import { getUser } from '../../../actions/healthHistory';
 import styles from './rmtdashboard.module.css';
+import { showLoadingScreen } from '../../../actions/loadingScreen';
+import LoadingScreen from '../../../LoadingScreen/LoadingScreen';
 
 const TreatmentAddnew = () => {
 
@@ -15,6 +17,13 @@ const TreatmentAddnew = () => {
     const [time, setTime] = useState(null)
     const [date, setDate] = useState(null)
     const [duration, setDuration] = useState('')
+
+    const [errors, setErrors] = useState({
+        date: '',
+        time: '',
+        duration: '',
+        general: ''
+    })
 
     useEffect(()=>{
         dispatch(getUser(params?.clientid))
@@ -29,19 +38,22 @@ const TreatmentAddnew = () => {
         treatmentPlanId: params?.tpid,
         clientId: params?.clientid,
         firstName: client?.firstName,
-        lastName: client?.lastName
+        lastName: client?.lastName,
+        email: client?.email
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(addTreatment(form))
-        addToCalendar(form)
-        sendConfirmEmail(params?.clientid, form)
-        history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
+        dispatch(showLoadingScreen())
+        dispatch(addTreatment(form, setErrors, history))
+        // addToCalendar(form)
+        // sendConfirmEmail(params?.clientid, form)
+        // history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
     }
 
     return (
         <div>
+            <LoadingScreen />
             <div className={styles.box}>
                 <form className="ui form" onSubmit={handleSubmit}>
                     <h5>Treatment details</h5>
@@ -49,10 +61,12 @@ const TreatmentAddnew = () => {
                         <div className="ui field">
                             <label>Date</label>
                             <input type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+                            {errors?.date && <p>{errors?.date}</p>}
                         </div>
                         <div className="ui field">
                             <label>Time</label>
                             <input type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
+                            {errors?.time && <p>{errors?.time}</p>}
                         </div>
                         <div className="ui field">
                         <label>Duration</label>
@@ -62,8 +76,10 @@ const TreatmentAddnew = () => {
                                 <option value="75">75 minutes ($125)</option>
                                 <option value="90">90 minutes ($145)</option>
                             </select>
+                            {errors?.duration && <p>{errors?.duration}</p>}
                         </div>
                     </div>
+                    {errors?.general && <p>{errors?.general}</p>}
                     <button type="submit" className={styles.btn} style={{marginTop: '10px', marginBottom: '20px'}}>Submit</button>
                 </form>
             </div>

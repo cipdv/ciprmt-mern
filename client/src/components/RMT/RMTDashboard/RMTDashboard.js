@@ -6,8 +6,6 @@ import SearchProfiles from './SearchProfiles'
  
 const RMTDashboard = () => {   
 
-    //when dashboard loads, go through google auth flow to get accesstoken to be able to update calendar
-
     return (
         <div>
             <div className={styles.box}>

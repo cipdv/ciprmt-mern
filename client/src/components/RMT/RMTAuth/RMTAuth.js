@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom'
 import styles from './rmtauth.module.css'
 import { showLoader } from '../../../actions/auth'
 import LoadingSpinner from '../../User/Auth/LoadingSpinner/LoadingSpinner'
-import { googleOauth } from '../../../api'
 
 const RMTAuth = () => {
     const dispatch = useDispatch()
@@ -50,9 +49,9 @@ const RMTAuth = () => {
         clear()
     }
 
-    const switchMode = () => {
-        setIsRegister((prevIsRegister)=> !prevIsRegister)
-    }
+    // const switchMode = () => {
+    //     setIsRegister((prevIsRegister)=> !prevIsRegister)
+    // }
 
     const showLoadingSpinner = () => {
         dispatch(showLoader())

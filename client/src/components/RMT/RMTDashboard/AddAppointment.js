@@ -4,7 +4,6 @@ import { useParams, useHistory } from 'react-router-dom'
 import { addAppointment } from '../../../actions/appointment'
 import { createNewTreatmentPlan, getTreatmentPlans, addTreatmentToTP } from '../../../actions/treatmentPlans'
 import styles from './rmtdashboard.module.css'
-import { addToCalendar } from '../../../api'
 
 const AddAppointment = () => {
 
@@ -14,7 +13,7 @@ const AddAppointment = () => {
 
     useEffect(() => {
         dispatch(getTreatmentPlans(params.id))
-    }, [params])
+    }, [params, dispatch])
 
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')

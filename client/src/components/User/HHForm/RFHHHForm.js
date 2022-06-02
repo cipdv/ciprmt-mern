@@ -119,6 +119,12 @@ const RFHHHForm = ({user}) => {
             <div className={styles.section}>
                 <h2>Doctor's contact info:</h2>
                 <div>
+                    <label className={styles.container}>I don't currently have a family doctor
+                        <input defaultChecked={mostRecentHealthHistory?.noDoctor} name="noDoctor" type="checkbox" id="noDoctor" {...register('noDoctor')} /> 
+                        <span className={styles.checkmark}></span>
+                    </label>
+                </div>
+                <div>
                     <label>Doctor's name</label>
                     <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.doctor?.doctorName} name="doctorName" type="text" {...register('doctor.doctorName', {required: true})} id='doctorName' />
                     {errors?.doctor?.doctorName && <p className={styles.error}>Please provide your doctor's full name. If you don't currently have a doctor, put "none."</p>}

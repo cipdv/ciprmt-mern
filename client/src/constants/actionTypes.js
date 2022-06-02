@@ -34,3 +34,10 @@ export const ADD_EXPENSE = 'ADD_EXPENSE'
 export const GET_INCOMES = 'GET_INCOMES'
 export const GET_EXPENSES = 'GET_EXPENSES'
 export const DELETE_TREATMENT = 'DELETE_TREATMENT'
+
+//maintenance logs
+export const GET_MAINTENANCE_LOGS = 'GET_MAINTENANCE_LOGS'
+
+//loading screen
+export const HIDE_LOADING_SCREEN = 'HIDE_LOADING_SCREEN'
+export const SHOW_LOADING_SCREEN = 'SHOW_LOADING_SCREEN'

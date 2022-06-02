@@ -79,3 +79,6 @@ export const googleOauth = () => API.get('/auth/google')
 export const addToCalendar = (data) => API.post('/google/auth/calendar', data)
 
 export const deleteTreatment = (tid) => API.delete(`treatmentplan/deletetreatment/${tid}`)
+
+//maintenance logs 
+export const getMaintenanceLogs = () => API.get('/maintenancelog')

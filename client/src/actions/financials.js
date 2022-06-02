@@ -21,7 +21,7 @@ export const getFinancialData = (year) => async (dispatch) => {
 
 export const addFinancials = (formData) => async (dispatch) => {
     try {
-        const { data } = await api.addFinancials(formData)
+        await api.addFinancials(formData)
     } catch (error) {
         console.log(error.message)
     }

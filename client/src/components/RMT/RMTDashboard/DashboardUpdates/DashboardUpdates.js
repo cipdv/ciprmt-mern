@@ -13,7 +13,7 @@ const DashboardUpdates = () => {
     useEffect(()=>{
         dispatch(getAllTreatments())
         dispatch(getAllUsers())
-    }, [])
+    }, [dispatch])
 
     const treatments = useSelector((state)=> state?.treatmentPlanReducer?.treatments)
     const users = useSelector((state)=>state?.usersReducer?.users)

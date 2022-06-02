@@ -1,7 +1,5 @@
-import React, {  useState, useEffect } from 'react'
+import React, {  useState } from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-
 
 //components
 import Home from './components/User/Home/Home'

@@ -118,3 +118,21 @@ th {
     display: inline-block;
     margin-right: 1rem
 }
+
+.modal {
+    position: absolute;
+    color: #fffdf5;
+    justify-content: center;
+    border:2px solid #d7c8f0;
+    border-radius: 10px;
+    background-color: rgb(18, 27, 24);
+    margin-left: 10%;
+    margin-top: 10%;
+    padding: 1rem;
+    height: 25%;
+    width: 75%;
+}
+
+.modal .btn {
+    margin-right: 1rem;
+}

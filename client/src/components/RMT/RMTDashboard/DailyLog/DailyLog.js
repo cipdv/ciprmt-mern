@@ -10,7 +10,7 @@ const DailyLog = () => {
 
     useEffect(()=>{
         dispatch(getAllTreatments())
-    }, [])
+    }, [dispatch])
 
     const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
 

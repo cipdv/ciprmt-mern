@@ -1,6 +1,6 @@
 import * as api from '../api'
 
-import { DELETE_TREATMENT, GET_ALL_TREATMENTS, GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_CLIENTID, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT } from '../constants/actionTypes'
+import { GET_ALL_TREATMENTS, GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_CLIENTID, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, SHOW_LOADING_SCREEN, HIDE_LOADING_SCREEN } from '../constants/actionTypes'
 
 export const createNewTreatmentPlan = (tpForm, userId) => async (dispatch) => {
     try {
@@ -31,7 +31,7 @@ export const getTreatmentPlanById = (tpid) => async (dispatch) => {
 
 export const addTreatmentToTP = (formData) => async (dispatch) => {
     try {
-        const result = await api.addTreatmentToTP(formData)
+        await api.addTreatmentToTP(formData)
     } catch (error) {
         console.log(error)
     }
@@ -73,10 +73,34 @@ export const getTreatmentsByTreatmentPlanId = (tpid) => async (dispatch) => {
     }
 }
 
-export const addTreatment = (form) => async (dispatch) => {
+export const addTreatment = (form, setErrors, history) => async (dispatch) => {
     try {
+        const { treatmentPlanId, clientId } = form
         const { data } = await api.addTreatment(form)
-        dispatch({type: ADD_TREATMENT, payload: data})
+
+        if (data.message === 'treatment added successfully') {
+            dispatch({type: ADD_TREATMENT, payload: data})
+            dispatch({type: HIDE_LOADING_SCREEN})
+            history.push(`/rmt/dashboard/patient/${clientId}/treatments/${treatmentPlanId}`)
+        } else if (data.message === 'date is mandatory') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({date: 'date is mandatory'})
+        } else if (data.message === 'time is mandatory') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({time: 'time is mandatory'})
+        } else if (data.message === 'duration is mandatory') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({duration: 'duration is mandatory'})
+        } else if (data.message === 'something went wrong somewhere') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({general: 'something went wrong somewhere'})
+        } else if (data.message === 'something went wrong with inserting event') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({general: 'something went wrong with inserting event'})
+        } else if (data.message === 'something went wrong sending email') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({general: 'something went wrong sending email'})
+        }
     } catch (error) {
         console.log(error)
     }

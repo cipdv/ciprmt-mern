@@ -35,7 +35,7 @@ const UnfinishedTreatmentNotes = ({treatments, users}) => {
                                 <td>{fullName(t)}</td>
                             </tr>
                     ) : (
-                        <div></div>
+                        <tr></tr>
                     ))
                     )}
                 </tbody>

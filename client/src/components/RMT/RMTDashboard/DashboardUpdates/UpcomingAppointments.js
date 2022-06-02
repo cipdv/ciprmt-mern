@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 
 const UpcomingAppointments = ({treatments, users}) => {
 
@@ -26,13 +25,13 @@ const UpcomingAppointments = ({treatments, users}) => {
                 <tbody>
                     {treatments?.map((t)=>(
                         new Date(t?.date) >= today ? (                  
-                            <tr>
+                            <tr key={t?._id}>
                                 <td>{t?.date}</td>
                                 <td>{t?.time}</td>
                                 <td>{fullName(t)}</td>
                             </tr>
                     ) : (
-                        <div></div>
+                        <tr></tr>
                     ))
                     )}
                 </tbody>
