@@ -8,8 +8,6 @@ const LoadingScreen = () => {
 
   const loading = useSelector((state)=>state?.loadingReducer?.loading)
 
-  console.log('loading state status:', loading)
-
   if (!loading) {
     return null
   }

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import TreatmentPlanDetails from './TreatmentPlanDetails';
 import TreatmentPlanList from './TreatmentPlanList';
 import Treatment from './Treatment';
-import { getTreatmentPlanById, getTreatmentsByClientId, getTreatmentsByTreatmentPlanId } from '../../../actions/treatmentPlans';
+import { getTreatmentPlanById, getTreatmentsByTreatmentPlanId } from '../../../actions/treatmentPlans';
 import { getUser } from '../../../actions/healthHistory';
 import styles from './rmtdashboard.module.css'
 

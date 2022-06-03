@@ -20,6 +20,6 @@ router.post('/sendconfirmemail/:clientid', sendConfirmEmail)
 router.post('/sendemailtormtforconfirmedappt', clientConfirmedTreatment)
 router.post('/sendreceipt', sendReceipt)
 router.get('/getalltreatments', getAllTreatments)
-router.delete('/deletetreatment/:tid', deleteTreatment)
+router.delete('/deletetreatment/:pid/:tid', deleteTreatment)
 
 export default router

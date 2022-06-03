@@ -1,10 +1,12 @@
-import { DELETE_TREATMENT, GET_ALL_TREATMENTS, CREATE_NEW_TREATMENTPLAN, GET_USER_TREATMENTPLANS, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, GET_TREATMENTS_BY_CLIENTID } from "../constants/actionTypes";
+import { DELETE_TREATMENT, GET_ALL_TREATMENTS, CREATE_NEW_TREATMENTPLAN, GET_USER_TREATMENTPLANS, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, GET_TREATMENTS_BY_CLIENTID, UPDATE_TREATMENT_PLAN } from "../constants/actionTypes";
 
-const treatmentPlanReducer = (state = { treatmentPlans: null, currentTreatmentPlan: null, treatment: null, treatments: null }, action) => {
+const treatmentPlanReducer = (state = { treatmentPlans: null, currentTreatmentPlan: null, treatment: null, treatments: [] }, action) => {
     switch (action.type) {
         case CREATE_NEW_TREATMENTPLAN:
             return { ...state, currentTreatmentPlan: action.payload }
         case GET_TREATMENTPLAN_BYID: 
+            return { ...state, currentTreatmentPlan: action.payload}
+        case UPDATE_TREATMENT_PLAN:
             return { ...state, currentTreatmentPlan: action.payload}
         case GET_USER_TREATMENTPLANS: 
             return { ...state, treatmentPlans: action.payload }

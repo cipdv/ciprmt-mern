@@ -61,8 +61,11 @@ export const updateTreatmentPlan = async (req, res) => {
 
     const { tpid } = req.params
     const { conclusionOfTreatmentPlan } = req.body
-    let endDate = ''
+    
+    console.log(tpid)
 
+    //set end date
+    let endDate = ''
     if (conclusionOfTreatmentPlan !== '') {
         endDate = new Date()
     } else {
@@ -71,9 +74,14 @@ export const updateTreatmentPlan = async (req, res) => {
 
     try {
         const updatedTreatmentPlan = await TreatmentPlan.findByIdAndUpdate(tpid, {...req.body, endDate}, {new: true})
-        res.status(200).json(updatedTreatmentPlan)
+        if (updatedTreatmentPlan) {
+            res.status(200).json({message: 'treatment plan updated', updatedTreatmentPlan})
+        } else {
+            res.json({message: 'something went wrong'})
+        }
     } catch (error) {
         console.log(error.message)
+        res.json({message: 'something went wrong'})
     }
 }
 
@@ -380,10 +388,14 @@ export const getAllTreatments = async (req, res) => {
 export const deleteTreatment = async (req, res) => {
     try {
         await Treatment.findByIdAndDelete(req.params.tid)
-        const result = Treatment.find
-        res.status(200).json({result, message: 'treatment deleted'})
+        const result = await Treatment.find({clientId: req.params.pid})
+        if (result) {
+            return res.status(200).json({result, message: 'treatment deleted'})
+        } else {
+            return res.json({message: 'something went wrong'})
+        }
     } catch (error) {
-        res.status(400).json({message: error.message})
+        res.json({message: 'treatment not deleted', error})
     }
 }
 

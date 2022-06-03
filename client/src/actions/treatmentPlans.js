@@ -1,6 +1,6 @@
 import * as api from '../api'
 
-import { GET_ALL_TREATMENTS, GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_CLIENTID, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, SHOW_LOADING_SCREEN, HIDE_LOADING_SCREEN } from '../constants/actionTypes'
+import { GET_ALL_TREATMENTS, GET_USER_TREATMENTPLANS, CREATE_NEW_TREATMENTPLAN, GET_TREATMENTPLAN_BYID, GET_TREATMENT, UPDATE_TREATMENT, GET_TREATMENTS_BY_CLIENTID, GET_TREATMENTS_BY_TREATMENTPLANID, ADD_TREATMENT, SHOW_LOADING_SCREEN, HIDE_LOADING_SCREEN, DELETE_TREATMENT, UPDATE_TREATMENT_PLAN } from '../constants/actionTypes'
 
 export const createNewTreatmentPlan = (tpForm, userId) => async (dispatch) => {
     try {
@@ -46,12 +46,21 @@ export const getTreatmentById = (tid) => async (dispatch) => {
     }
 }
 
-export const updateTreatmentPlan = (tpid, formData) => async (dispatch) => {
+export const updateTreatmentPlan = (tpid, formData, setErrors) => async (dispatch) => {
     try {
         const {data} = await api.updateTreatmentPlan(tpid, formData)
-        dispatch({type: UPDATE_TREATMENT, payload: data})
+        if (data.message === 'treatment plan updated') {
+            dispatch({type: UPDATE_TREATMENT_PLAN, payload: data})
+            setErrors({general: ''})
+            dispatch({type: HIDE_LOADING_SCREEN})
+        } else if (data.message === 'something went wrong') {
+            dispatch({type: HIDE_LOADING_SCREEN})
+            setErrors({general: 'something went wrong'})
+        }
     } catch (error) {
         console.log(error)
+        dispatch({type: HIDE_LOADING_SCREEN})
+        setErrors({general: 'something went wrong somewhere'})
     }
 }
 
@@ -102,7 +111,9 @@ export const addTreatment = (form, setErrors, history) => async (dispatch) => {
             setErrors({general: 'something went wrong sending email'})
         }
     } catch (error) {
+        dispatch({type: HIDE_LOADING_SCREEN})
         console.log(error)
+        setErrors({general: `${error.message}`})
     }
 }
 
@@ -152,12 +163,25 @@ export const getAllTreatments = () => async (dispatch) => {
     }
 }
 
-export const deleteTreatment = (tid) => async (dispatch) => {
+export const deleteTreatment = (tid, setErrors, patientId) => async (dispatch) => {
     try {
-        const {data} = await api.deleteTreatment(tid)
-        console.log(data)
-        // dispatch({type: DELETE_TREATMENT, payload: data})
+        const {data} = await api.deleteTreatment(tid, patientId)
+        if (data.message === 'treatment deleted') {
+            dispatch({type: DELETE_TREATMENT, payload: data.result})
+            setErrors({})
+            dispatch({type: HIDE_LOADING_SCREEN})
+        } else if (data.message === 'treatment not deleted') {
+            setErrors({general: 'treatment not deleted, try again'})
+            console.log(data.error)
+            dispatch({type: HIDE_LOADING_SCREEN})
+        } else if (data.message === 'something went wrong') {
+            setErrors({general: 'something went wrong'})
+            console.log(data.error)
+            dispatch({type: HIDE_LOADING_SCREEN})
+        }
     } catch (error) {
+        dispatch({type: HIDE_LOADING_SCREEN})
         console.log(error)
+        setErrors({general: `${error.message}`})
     }
 }

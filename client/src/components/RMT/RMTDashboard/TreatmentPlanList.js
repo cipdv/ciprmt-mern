@@ -3,24 +3,33 @@ import {  useSelector, useDispatch } from 'react-redux'
 import { deleteTreatment } from '../../../actions/treatmentPlans'
 import Modal from 'react-modal'
 import styles from './rmtdashboard.module.css'
+import { showLoadingScreen } from '../../../actions/loadingScreen'
+import LoadingScreen from '../../../LoadingScreen/LoadingScreen'
 
 const TreatmentPlanList = ({setTreatmentId}) => {
 
     const dispatch = useDispatch()
     Modal.setAppElement('#root')
+    
     const treatments = useSelector((state)=>state?.treatmentPlanReducer?.treatments)
+    const patient = useSelector((state)=>state.usersReducer.user.data)
 
     const [modalIsOpen, setModalisOpen] = useState(false)
     const [treatId, setTreatId] = useState(null)
+    //errors
+    const [errors, setErrors] = useState({
+        general: ''
+    })
 
     const openModal = () => {
         setModalisOpen(true)
     }
 
     const confirmDelete = () => {
-        dispatch(deleteTreatment(treatId))
         closeModal()
-        window.location.reload(false)
+        dispatch(showLoadingScreen())
+        dispatch(deleteTreatment(treatId, setErrors, patient?._id))
+        // window.location.reload(false)
     }
 
     const closeModal = () => {
@@ -47,6 +56,8 @@ const TreatmentPlanList = ({setTreatmentId}) => {
             </div>
         ) : (
             <div className={styles.box}>
+                <LoadingScreen />
+                {errors?.general && <p>{errors?.general}</p>}
                 <table>
                     <thead>
                         <tr>
@@ -57,7 +68,7 @@ const TreatmentPlanList = ({setTreatmentId}) => {
                         </tr>
                     </thead>
                     <tbody>
-                    {treatments?.map((t)=>(
+                    {treatments && treatments?.map((t)=>(
                         <tr onClick={()=>selectTreatment(t?._id)}>
                             <td>{t?.date}</td>
                             <td>{t?.time}</td>

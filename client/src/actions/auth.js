@@ -43,7 +43,7 @@ export const login = (formData, history, setErrors) => async (dispatch) => {
             setErrors({password: 'Password is incorrect'})
             dispatch({type: HIDE_LOADER})
        } else if (data.message === `user doesn't exist`) {
-            setErrors({email: 'Login is incorrect'})
+            setErrors({email: 'Email address is incorrect. Check spelling and capitals.'})
             dispatch({type: HIDE_LOADER})
        }
        

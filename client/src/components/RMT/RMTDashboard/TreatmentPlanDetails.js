@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import moment from 'moment'
 import styles from './rmtdashboard.module.css'
 import { updateTreatmentPlan } from '../../../actions/treatmentPlans'
+import { showLoadingScreen } from '../../../actions/loadingScreen'
 
 const TreatmentPlanDetails = () => {
 
     const dispatch = useDispatch()
+    const params = useParams()
 
     const currentTp = useSelector((state)=>state?.treatmentPlanReducer?.currentTreatmentPlan)
     const patient = useSelector((state)=>state.usersReducer.user.data)
 
-    const tpid = currentTp?._id
+    // const tpid = currentTp?._id
+    const tpid = params?.tpid
 
     const [clientGoals, setClientGoals] = useState(currentTp?.clientGoals)
     const [typeAndFocusOfTreatments, setTypeAndFocusOfTreatments] = useState(currentTp?.typeAndFocusOfTreatments)
@@ -25,6 +28,11 @@ const TreatmentPlanDetails = () => {
     const [conclusionOfTreatmentPlan, setConclusionOfTreatmentPlan] = useState(currentTp?.conclusionOfTreatmentPlan)
     const [startDate, setStartDate] = useState(moment.utc(currentTp?.startDate).format("YYYY-MM-DD"))
     const [endDate, setEndDate] = useState(moment.utc(currentTp?.endDate).format("YYYY-MM-DD"))
+
+    //errors
+    const [errors, setErrors] = useState({
+        general: ''
+    })
 
     const data = {
         clientGoals,
@@ -39,13 +47,15 @@ const TreatmentPlanDetails = () => {
 
     const submitTreatmentPlan = (e) => {
         e.preventDefault()
-        dispatch(updateTreatmentPlan(tpid, data))
+        dispatch(showLoadingScreen())
+        dispatch(updateTreatmentPlan(tpid, data, setErrors))
     }
 
     return (
         <div>
             <h3>{patient?.firstName} {patient?.lastName}</h3>
             <div className={styles.box} style={{justifyContent: 'left', width: '100%'}}>
+                {errors?.general && <h2 style={{color: 'red', background: 'white'}}>{errors?.general}</h2>} 
                 <h3>Treatment Plan</h3>
                 <form onSubmit={submitTreatmentPlan}>
                     <div style={{columns: '2'}}>
