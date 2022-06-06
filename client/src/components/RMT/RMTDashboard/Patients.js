@@ -13,7 +13,7 @@ const Patients = () => {
     }
 
     return (
-        patients?.length !== 0 ? (
+        patients && patients?.length !== 0 ? (
             <table>
                 <thead>
                     <tr className={styles.row}>

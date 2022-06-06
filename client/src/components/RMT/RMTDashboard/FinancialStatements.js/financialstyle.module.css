@@ -1,16 +1,16 @@
 table {
     border-style: solid;
-    border:1px solid #d8a64a;
+    border:1px solid #e9d5b1;
 }
 
 table th {
     border-style: solid;
-    border:1px solid #d8a64a
+    border:1px solid #e9d5b1
 }
 
 table td {
     border-style: solid;
-    border:1px solid #d8a64a
+    border:1px solid #e9d5b1
 }
 
 tr:hover {
@@ -26,7 +26,7 @@ tr:hover {
     border-radius: 5px;
     line-height: 16px;
     background-color: rgb(33, 48, 39);
-    border:2px solid #d8a64a;
+    border:2px solid #e9d5b1;
     transition: all 0.3s;
     margin-bottom: 0.3.rem;
     outline:0;

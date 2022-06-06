@@ -80,7 +80,11 @@ export const getUserBySearch = async (req, res) => {
   try {
     const name = new RegExp(searchQuery, 'i')
     const users = await User.find({ $or: [{firstName: name}, {lastName: name}, {email: name}] })
-    res.json({ data: users })
+    if (users?.length === 0) {
+      return res.json({message: 'no users found'})
+    } else {
+      return res.json(users)
+    }
   } catch (error) {
     res.status(404).json(error.message)
   }

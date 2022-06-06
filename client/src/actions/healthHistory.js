@@ -1,7 +1,7 @@
 import * as api from '../api'
 
 //import action constants
-import { GET_ALL_USERS, SUBMIT_HH, GET_USER, SEARCH_USERS, UPDATE_USER, ADD_HEALTH_HISTORY, GET_HEALTH_HISTORY } from '../constants/actionTypes'
+import { GET_ALL_USERS, SUBMIT_HH, GET_USER, SEARCH_USERS, UPDATE_USER, ADD_HEALTH_HISTORY, GET_HEALTH_HISTORY, HIDE_LOADING_SCREEN } from '../constants/actionTypes'
 
 //submit health history form
 export const submitHH = (formData) => async (dispatch) => {
@@ -43,10 +43,15 @@ export const getAllUsers = () => async (dispatch) => {
 }
 
 //search for user by name
-export const searchUsers = (searchQuery) => async (dispatch) => {
+export const searchUsers = (searchQuery, setErrors) => async (dispatch) => {
     try {
-        const { data: {data} } = await api.searchUsers(searchQuery)
-        dispatch({type: SEARCH_USERS, payload: data})
+        let { data } = await api.searchUsers(searchQuery)
+        if(data.message === 'no users found') {
+            setErrors({general: 'No users found'})
+            dispatch({type: SEARCH_USERS, payload: data = []})
+        } else {
+            dispatch({type: SEARCH_USERS, payload: data})
+        }
     } catch (error) {
         console.log(error)
     }

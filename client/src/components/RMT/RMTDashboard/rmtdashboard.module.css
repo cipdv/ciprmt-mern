@@ -1,10 +1,10 @@
 
+
 .container {
     display: grid;
     justify-content: center;
     padding: 1em;
     margin: 2rem 2rem;
-    background-color: rgb(33, 48, 39)
 }
 
 .btn {
@@ -23,7 +23,20 @@
     display: grid;
     color: rgb(255, 253, 245);
     justify-content: center;
-    border:2px solid #d8a64a;
+    border:2px solid #e9d5b1;
+    border-radius: 10px;
+    background-color: rgb(33, 48, 39);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 1rem
+}
+
+.boxleft {
+    display: grid;
+    color: rgb(255, 253, 245);
+    justify-content: left;
+    width: 100%;
+    border:2px solid #e9d5b1;
     border-radius: 10px;
     background-color: rgb(33, 48, 39);
     margin-bottom: 1rem;
@@ -52,7 +65,7 @@ form {
     border-radius: 5px;
     line-height: 16px;
     background-color: rgb(33, 48, 39);
-    border:2px solid #d8a64a;
+    border:2px solid #e9d5b1;
     transition: all 0.3s;
     margin-bottom: 0.3.rem;
     outline:0;
@@ -67,7 +80,7 @@ form {
     font-size: 16px;
     border-radius: 5px;
     line-height: 18px;
-    border:2px solid #d8a64a;
+    border:2px solid #e9d5b1;
     transition: all 0.3s;
     margin-bottom: 0.3.rem;
     width:100%;
@@ -81,7 +94,7 @@ table  {
     font-family: 'Mukta', sans-serif;
     font-size: 16px;
     border-collapse: collapse;
-    /* border:2px solid #d8a64a; */
+    border:2px solid #e9d5b1;
     border-radius: 5px;
     margin-top: 1rem;
 }

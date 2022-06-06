@@ -10,15 +10,17 @@ const SearchProfiles = () => {
     const history = useHistory()
 
     const [searchName, setSearchName] = useState('')
+    const [errors, setErrors] = useState({
+        general: ''
+    })
 
     const searchPosts = (e) => {
         e.preventDefault()
+        setErrors({general: ''})
         if(searchName.trim()) {
-            dispatch(searchUsers(searchName))
+            dispatch(searchUsers(searchName, setErrors))
             clear()
-        } else {
-            history.push('/rmt/dashboard')
-        }
+        } 
     }
  
     const clear = () => {
@@ -26,12 +28,17 @@ const SearchProfiles = () => {
     }
 
     return (
-        <form onSubmit={searchPosts}>
+        <div>
+            <form onSubmit={searchPosts}>
                 <div>
                     <input className={styles.forminput} type="text" placeholder="Search patient profiles" value={searchName} onChange={(e)=>setSearchName(e.target.value)} />
                     <button type="submit" style={{marginLeft: '10px'}} className={styles.btn}>Search</button>
                 </div>
+                <div style={{marginTop: '1rem'}}>
+                    {errors?.general && <h3>{errors?.general}</h3>}
+                </div>
             </form>
+        </div>
     )
 }
 
