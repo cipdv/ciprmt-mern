@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { GET_INCOMES, GET_EXPENSES, ADD_TRANSACTION, GET_FINANCIAL_DATA, ADD_NEW_FINANCIAL_STATEMENT, GET_FINANCIAL_STATEMENTS, ADD_INCOME, ADD_EXPENSE } from '../constants/actionTypes'
+import { GET_INCOMES, GET_EXPENSES, ADD_TRANSACTION, GET_FINANCIAL_DATA, ADD_NEW_FINANCIAL_STATEMENT, GET_FINANCIAL_STATEMENTS, ADD_INCOME, ADD_EXPENSE, HIDE_LOADING_SCREEN } from '../constants/actionTypes'
 
 export const addTransaction = (RMTid, financialData) => async (dispatch) => {
     try {
@@ -19,9 +19,19 @@ export const getFinancialData = (year) => async (dispatch) => {
     }
 }
 
-export const addFinancials = (formData) => async (dispatch) => {
+export const addToFinancials = (formData, setErrors) => async (dispatch) => {
     try {
-        await api.addFinancials(formData)
+        const { data } = await api.addToFinancials(formData)
+        if ( data.type === 'expense') {
+            dispatch({ type: HIDE_LOADING_SCREEN})
+            dispatch ({ type: ADD_EXPENSE, payload: data.result})
+        } else if (data.type === 'income') {
+            dispatch({ type: HIDE_LOADING_SCREEN})
+            dispatch({ type: ADD_INCOME, payload: data.result})
+        } else if (data.message === 'error') {
+            dispatch({ type: HIDE_LOADING_SCREEN})
+            setErrors({general: 'something went wrong'})
+        }
     } catch (error) {
         console.log(error.message)
     }

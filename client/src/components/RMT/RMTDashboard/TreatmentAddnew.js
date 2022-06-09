@@ -1,12 +1,15 @@
+//dependencies
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { addTreatment } from '../../../actions/treatmentPlans';
-import { sendConfirmEmail, addToCalendar } from '../../../api/index';
-import { getUser } from '../../../actions/healthHistory';
-import styles from './rmtdashboard.module.css';
-import { showLoadingScreen } from '../../../actions/loadingScreen';
+//components
 import LoadingScreen from '../../../LoadingScreen/LoadingScreen';
+//styling
+import styles from './rmtdashboard.module.css';
+//actions
+import { addTreatment } from '../../../actions/treatmentPlans';
+import { getUser } from '../../../actions/healthHistory';
+import { showLoadingScreen } from '../../../actions/loadingScreen';
 
 const TreatmentAddnew = () => {
 
@@ -46,9 +49,6 @@ const TreatmentAddnew = () => {
         e.preventDefault()
         dispatch(showLoadingScreen())
         dispatch(addTreatment(form, setErrors, history))
-        // addToCalendar(form)
-        // sendConfirmEmail(params?.clientid, form)
-        // history.push(`/rmt/dashboard/patient/${params?.clientid}/treatments/${params?.tpid}`)
     }
 
     return (

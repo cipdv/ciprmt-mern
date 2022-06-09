@@ -24,38 +24,40 @@ export const createNewFinancialStatement = async (req, res) => {
 
 export const addFinancials = async (req, res) => {
     const { type, date } = req.body
-    if (type === 'rrsp') {
-        const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
-        try {
-            await newRRSPContribution.save()
-            res.status(200).json(newRRSPContribution)
-        } catch (error) {
-            res.status(404).json({message: error.message})
+    try {
+        if (type === 'rrsp') {
+            const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+            try {
+                await newRRSPContribution.save()
+            } catch (error) {
+                res.status(404).json({message: error.message})
+            }
+        } else if (type === 'donation') {
+            const newDonation = new Donation({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+            try {
+                await newDonation.save()
+            } catch (error) {
+                res.status(404).json({message: error.message})
+            }
+        } else if (type === 'income') {
+            const newIncome = new Income({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+            try {
+                const result = await newIncome.save()
+                res.status(200).json({result, type: 'income'})
+            } catch (error) {
+                res.status(404).json({message: error.message})
+            }
+        } else if (type === 'expense') {
+            const newExpense = new Expense({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+            try {
+                const result = await newExpense.save()
+                res.status(200).json({result, type: 'expense'})
+            } catch (error) {
+                res.status(404).json({message: error.message})
+            }
         }
-    } else if (type === 'donation') {
-        const newDonation = new Donation({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
-        try {
-            await newDonation.save()
-            res.status(200).json(newDonation)
-        } catch (error) {
-            res.status(404).json({message: error.message})
-        }
-    } else if (type === 'income') {
-        const newIncome = new Income({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
-        try {
-            await newIncome.save()
-            res.status(200).json(newIncome)
-        } catch (error) {
-            res.status(404).json({message: error.message})
-        }
-    } else if (type === 'expense') {
-        const newExpense = new Expense({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
-        try {
-            await newExpense.save()
-            res.status(200).json(newExpense)
-        } catch (error) {
-            res.status(404).json({message: error.message})
-        }
+    } catch (error) {
+        res.json({message: 'error', error})
     }
 }
 

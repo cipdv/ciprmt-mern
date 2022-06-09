@@ -1,13 +1,17 @@
+//dependencies
 import React, {useState, useEffect} from 'react'
-import FinancialStatements from './FinancialStatements'
 import { useDispatch } from 'react-redux'
+//actions
 import { getIncomes, getExpenses } from '../../../../actions/financials'
+//components
+import FinancialStatements from './FinancialStatements'
 import AddToFinancials from './AddToFinancials'
 
 const Financials = ({user}) => {
 
     const dispatch = useDispatch()
     const [year, setYear] = useState('')
+    const [reload, setReload] = useState(false)
 
     const formData = {
         year
@@ -16,22 +20,15 @@ const Financials = ({user}) => {
     useEffect(()=>{
         dispatch(getIncomes(formData))
         dispatch(getExpenses(formData))
-    }, [dispatch, formData])
+        setReload(false)
+    }, [dispatch, formData, reload, setReload])
 
     return (
-        // !financialData ? (
-        //     <div>
-        //         Loading ...
-        //     </div>
-        // ) : (
-            <div>
-                {/* <AddToFinancials /> */}
-                {/* <FinancialStatements setYear={setYear} financialData={financialData} year={year} user={user}/> */}
-                <AddToFinancials />
-                <FinancialStatements setYear={setYear} year={year} user={user}/>
-            </div>
-        )    
-    // )
+        <div>
+            <AddToFinancials setReload={setReload} />
+            <FinancialStatements setYear={setYear} year={year} user={user} />
+        </div>
+    )    
 }
 
 export default Financials

@@ -97,9 +97,9 @@ const RMTAuth = () => {
                                 <LoadingSpinner />
                                 <h3>RMT Login</h3>
                                 <label>Email</label>
-                                <input className={styles.forminput} name="email" type="text" label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+                                <input name="email" type="text" label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
                                 <label>Password</label>
-                                <input className={styles.forminput} name="password" type="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+                                <input name="password" type="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
                                 <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Login</button>
                             </div>
                         )

@@ -36,7 +36,7 @@ export const userTypeVerification = () => API.get('/user/usertype')
 export const addTransaction = (RMTid, financialData) => API.put(`/financials/${RMTid}`, financialData)
 export const getFinancialStatementsByRMTId = (rmtid) => API.get(`/financials/getfinancialstatementsbyrmtid/${rmtid}`)
 export const getFinancialData = (year) => API.post('/financials/getfinancialdata', year)
-export const addFinancials = (formData) => API.post(`/financials/addFinancials`, formData)
+export const addToFinancials = (formData) => API.post(`/financials/addFinancials`, formData)
 export const createNewFinancialStatement = (rmtid, year) => API.post(`/financials/addnewfinancialstatement/${rmtid}`, year)
 //new financial routes
 export const addIncome = (rmtid, financialData) => API.post(`/financials/${rmtid}/addincome`, financialData)

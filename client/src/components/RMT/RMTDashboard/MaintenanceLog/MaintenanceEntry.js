@@ -4,6 +4,7 @@ import { addToMaintenanceLog } from '../../../../api/index'
 
 //css
 import styles from '../rmtdashboard.module.css'
+import styles2 from './maintenancelog.module.css'
 
 const MaintenanceLog = ({user}) => {
 
@@ -33,15 +34,15 @@ const MaintenanceLog = ({user}) => {
 
     return (
         <div>
-            <div className={styles.box}>
+            <div className={styles.boxleft}>
                 <form className={styles.form} onSubmit={submitMaintenanceLog}>
                     <div className={styles.formfield}>
                         <h3>Massage mat</h3>
                         <div>
-                            <input style={{marginRight: '1rem'}} type="checkbox" checked={massageMatNoTears} onChange={(e)=> setMassageMatNoTears(e.target.checked)} />
-                            <label>Check massage mat for tears and damage</label>
+                            <input className={styles2.checkbox} type="checkbox" checked={massageMatNoTears} onChange={(e)=> setMassageMatNoTears(e.target.checked)} />
+                            <label className={styles2.label}>Check massage mat for tears and damage</label>
                         </div>
-                        <input className={styles.forminput} type="text" value={massageMatNotes} onChange={(e)=>setMassageMatNotes(e.target.value)} />
+                        <input className="form-text-input" type="text" value={massageMatNotes} onChange={(e)=>setMassageMatNotes(e.target.value)} />
                     </div>
                     <div className={styles.formfield}>
                         <h3>Electronics</h3>
@@ -49,7 +50,7 @@ const MaintenanceLog = ({user}) => {
                             <input style={{marginRight: '1rem'}} type="checkbox" checked={electronicsNoDamage} onChange={(e)=> setElectronicsNoDamage(e.target.checked)} />
                             <label>Check electronics and wires (speakers, lamps) for damage</label>
                         </div>
-                        <input className={styles.forminput} type="text" value={electronicsNotes} onChange={(e)=>setElectronicsNotes(e.target.value)} />
+                        <input className="form-text-input" type="text" value={electronicsNotes} onChange={(e)=>setElectronicsNotes(e.target.value)} />
                     </div>
                     <div className={styles.formfield}>
                         <h3>Self-care tools</h3>
@@ -57,7 +58,7 @@ const MaintenanceLog = ({user}) => {
                             <input style={{marginRight: '1rem'}} type="checkbox" checked={selfCareToolsNoDamage} onChange={(e)=> setSelfCareToolsNoDamage(e.target.checked)} />
                             <label>Check self-care tools (foam roller and massage balls) for damage</label>
                         </div>
-                        <input className={styles.forminput} type="text" value={selfCareToolsNotes} onChange={(e)=>setSelfCareToolsNotes(e.target.value)} />
+                        <input className="form-text-input" type="text" value={selfCareToolsNotes} onChange={(e)=>setSelfCareToolsNotes(e.target.value)} />
                     </div>
                     <button className={styles.btn} type="submit">Submit</button>
                 </form>

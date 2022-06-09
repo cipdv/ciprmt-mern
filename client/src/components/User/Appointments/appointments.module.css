@@ -31,10 +31,10 @@ td {
     padding-right: 1rem;
 }
 
-.tr:hover {
+/* .tr:hover {
     background-color: #8fbc8f65;
     cursor: pointer;
-}
+} */
 
 th {
     padding: 1rem;

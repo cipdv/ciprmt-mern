@@ -13,9 +13,9 @@ table td {
     border:1px solid #e9d5b1
 }
 
-tr:hover {
+/* tr:hover {
     background-color: #8fbc8f65
-}
+} */
 
 .forminput {
     color: rgb(255, 253, 245);

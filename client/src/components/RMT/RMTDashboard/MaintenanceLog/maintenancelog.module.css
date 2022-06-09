@@ -1,3 +1,27 @@
+.label {
+  font-size: 16px;
+}
+
+.checkbox {
+  margin-right: 1rem;
+}
+
+.forminput {
+  color: rgb(255, 253, 245);
+  padding: 0.7rem;
+  font-family: 'Mukta', sans-serif;
+  font-weight:500;
+  font-size: 16px;
+  border-radius: 5px;
+  line-height: 16px;
+  background-color: rgb(33, 48, 39);
+  border:2px solid #e9d5b1;
+  transition: all 0.3s;
+  margin-bottom: 0.3.rem;
+  outline:0;
+  margin-right: 1rem;
+}
+
 .container {
     display:   grid;
     position: relative;

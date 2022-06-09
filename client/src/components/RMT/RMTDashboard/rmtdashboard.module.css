@@ -22,7 +22,7 @@
 .box {
     display: grid;
     color: rgb(255, 253, 245);
-    justify-content: center;
+    justify-content: left;
     border:2px solid #e9d5b1;
     border-radius: 10px;
     background-color: rgb(33, 48, 39);
@@ -113,10 +113,10 @@ td {
     padding: 1rem
 }
 
-.tr:hover {
+/* .tr:hover {
     background-color: #8fbc8f65;
     cursor: pointer;
-}
+} */
 
 th {
     padding: 1rem;

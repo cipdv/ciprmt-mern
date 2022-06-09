@@ -33,10 +33,10 @@ const Login = () => {
                 <div className={styles.form}>
                     <h4>Otherwise, login here</h4>
                     <label>Email</label>
-                    <input className={styles.forminput} name="email" type="text" label="Email" value={values.email} onChange={handleChange} />
+                    <input name="email" type="text" label="Email" value={values.email} onChange={handleChange} />
                     {errors?.email && <p className={styles.error}>{errors?.email}</p>}
                     <label>Password</label>
-                    <input className={styles.forminput} name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
+                    <input name="password" type="password" label="Password" value={values.password} onChange={handleChange} />
                     {errors?.password && <p className={styles.error}>{errors?.password}</p>}
                     <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Login</button>
                     <Link to="/auth/resetpassword">

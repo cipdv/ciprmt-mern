@@ -47,7 +47,7 @@ export const searchUsers = (searchQuery, setErrors) => async (dispatch) => {
     try {
         let { data } = await api.searchUsers(searchQuery)
         if(data.message === 'no users found') {
-            setErrors({general: 'No users found'})
+            setErrors({general: 'No patients found'})
             dispatch({type: SEARCH_USERS, payload: data = []})
         } else {
             dispatch({type: SEARCH_USERS, payload: data})

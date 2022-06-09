@@ -23,7 +23,7 @@ const Patients = () => {
                 </thead>
                 <tbody>
                     {patients && patients.map((patient)=>(
-                        <tr key={patient?._id} onClick={()=>selectPatient(patient?._id)} className={styles.tablerow}>
+                        <tr key={patient?._id} onClick={()=>selectPatient(patient?._id)}>
                             <td className={styles.tablerow}>{patient?.firstName} {patient?.lastName}</td>
                             <td className={styles.tablerow}>{patient?.email}</td>
                         </tr>

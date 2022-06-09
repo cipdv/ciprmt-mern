@@ -16,6 +16,7 @@ function MaintenanceLog() {
 
     return (
         <>
+            <h3>Maintenance Log</h3>
             <MaintenanceEntry />
             {logs?.length !== 0 ? (
                 <MaintenanceLogs logs={logs} />

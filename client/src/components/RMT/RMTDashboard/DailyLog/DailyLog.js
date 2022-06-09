@@ -31,7 +31,7 @@ const DailyLog = () => {
                 </thead>
                 <tbody>
                     {treatments && treatments?.map((t)=>(
-                        <tr id={t?._id} onClick={()=>selectTreatment(t?.treatmentPlanId, t?.clientId)}>
+                        <tr id={t?._id} onClick={()=>selectTreatment(t?.treatmentPlanId, t?.clientId)} className='form-text-input'>
                             <td>{t?.date}</td>
                             <td>{t?.time}</td>
                             <td>{t?.duration}</td>

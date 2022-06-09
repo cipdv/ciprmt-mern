@@ -7,19 +7,6 @@ const FinancialStatement = ({year, setYear}) => {
     const incomeData = useSelector((state)=>state?.financialsReducer?.income)
     const expensesData = useSelector((state)=>state?.financialsReducer?.expenses)
 
-    console.log('income data', incomeData)
-
-    const test = (m) => {
-        const incomeArray = incomeData?.filter((i)=>{
-            return new Date(i.date).getMonth() === m
-        })
-        // console.log(`test ${m}`, incomeArray)
-    }
-
-    test(0)
-    test(1)
-    test(2)
-
     const monthlyIncome = (m) => {
         const incomeArray = incomeData?.map((i)=>{
             if(new Date(i.date).getMonth() === m) {
@@ -28,7 +15,6 @@ const FinancialStatement = ({year, setYear}) => {
                 return null
             }
         })
-        // console.log(`income array ${m}`, incomeArray)
         return incomeArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
     }
 
@@ -91,7 +77,7 @@ const FinancialStatement = ({year, setYear}) => {
     return (
         <div>
             <div>
-                <select className={styles.forminput} value={year} onChange={(e)=>setYear(e.target.value)}>
+                <select value={year} onChange={(e)=>setYear(e.target.value)}>
                     <option value="" disabled='disabled'>Select year</option>
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
