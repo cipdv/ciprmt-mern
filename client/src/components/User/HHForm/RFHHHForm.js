@@ -1,11 +1,13 @@
+//dependencies
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addNewHealthHistory, getClientHealthHistory } from '../../../actions/healthHistory'
 import { useHistory, Link } from 'react-router-dom'
-import moment from 'moment'
 import { useForm } from 'react-hook-form'
-import styles from './hhform.module.css'
+//api calls
+import { addNewHealthHistory, getClientHealthHistory } from '../../../actions/healthHistory'
 import { addToEAL } from '../../../api/index'
+//styling
+import styles from './hhform.module.css'
 
 const RFHHHForm = ({user}) => {
 
@@ -44,13 +46,13 @@ const RFHHHForm = ({user}) => {
                     <h2>Personal information:</h2>
                     <div>
                         <label htmlFor='occupation'>Occupation</label>
-                        <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.occupation} type='text' {...register('occupation', {required: true})} name='occupation' id='occupation'  />
+                        <input defaultValue={mostRecentHealthHistory?.occupation} type='text' {...register('occupation', {required: true})} name='occupation' id='occupation'  />
                         {errors?.occupation && <p className={styles.error}>Occupation required. If none currently, type "none"</p>}
                     </div>
-                    <div style={{columnCount: '2'}}>
+                    <div className='form-two-columns'>
                         <div>
                             <label htmlFor='pronouns'>Pronouns</label>
-                            <select className={styles.forminput}  defaultValue={mostRecentHealthHistory?.pronouns} {...register('pronouns', {required: true})} name='pronouns' id='pronouns'>
+                            <select defaultValue={mostRecentHealthHistory?.pronouns} {...register('pronouns', {required: true})} name='pronouns' id='pronouns'>
                                 <option value="">Select pronouns</option>
                                 <option value="they/them">They/them</option>
                                 <option value="she/her">She/her</option>
@@ -61,7 +63,7 @@ const RFHHHForm = ({user}) => {
                         </div>
                         <div>
                             <label htmlFor='dateOfBirth'>Date of birth</label>
-                            <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.dateOfBirth ? (moment.utc(mostRecentHealthHistory?.dateOfBirth).format("YYYY-MM-DD")) : ('')} type="date" {...register('dateOfBirth', {required: true})} name='dateOfBirth' id='dateOfBirth' />
+                            <input defaultValue={mostRecentHealthHistory?.dateOfBirth ? (new Date(mostRecentHealthHistory?.dateOfBirth).toISOString().slice(0,10)) : ('')} type="date" {...register('dateOfBirth', {required: true})} name='dateOfBirth' id='dateOfBirth' />
                             {errors?.dateOfBirth && <p className={styles.error}>Date of birth required</p>}
                         </div>
                     </div>
@@ -70,31 +72,31 @@ const RFHHHForm = ({user}) => {
                     <h2>Contact info:</h2>
                     <div>
                         <label>Phone number</label>
-                        <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.phoneNumber} type="text" {...register('phoneNumber', {required: true})} name='phoneNumber' id='phoneNumber' />
+                        <input defaultValue={mostRecentHealthHistory?.phoneNumber} type="text" {...register('phoneNumber', {required: true})} name='phoneNumber' id='phoneNumber' />
                         {errors?.phoneNumber && <p className={styles.error}>Phone number required</p>}
                     </div>
                     <h3 style={{marginBottom: '0px'}}>Address</h3>
                     <div style={{columnCount: '2'}}> 
                         <div className={styles.inlineforminput}>
                             <label>Street number</label>
-                            <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.address?.streetNumber} name="addressStreetNumber" type="text" {...register('address.streetNumber', {required: true})} id='addressStreetNumber' />
+                            <input defaultValue={mostRecentHealthHistory?.address?.streetNumber} name="addressStreetNumber" type="text" {...register('address.streetNumber', {required: true})} id='addressStreetNumber' />
                             
                         </div>    
                         <div className={styles.inlineforminput}>
                             <label>Street name</label>
-                            <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.address?.streetName} name="addressStreetName" type="text" {...register('address.streetName', {required: true})} id="addressStreetName" />
+                            <input defaultValue={mostRecentHealthHistory?.address?.streetName} name="addressStreetName" type="text" {...register('address.streetName', {required: true})} id="addressStreetName" />
                         </div>
                     </div>
                     {errors?.address?.streetNumber && <p className={styles.error}>Street number required</p>}
                     {errors?.address?.streetName && <p className={styles.error}>Street name required</p>}
-                    <div style={{columnCount: '2'}}>
-                        <div className={styles.inlineforminput}>                   
+                    <div className='form-two-columns'>
+                        <div >                   
                             <label>City</label>
-                            <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.address?.city} name="city" type="text" {...register('address.city', {required: true})} id="city" />
+                            <input  defaultValue={mostRecentHealthHistory?.address?.city} name="city" type="text" {...register('address.city', {required: true})} id="city" />
                         </div>
-                        <div className={styles.inlineforminput}>                   
+                        <div>                   
                             <label>Province</label>
-                            <select className={styles.forminput} defaultValue={mostRecentHealthHistory?.address?.province} name="addressProvince" {...register('address.province', {required: true})} id='province'>
+                            <select  defaultValue={mostRecentHealthHistory?.address?.province} name="addressProvince" {...register('address.province', {required: true})} id='province'>
                                 <option value="">Select your province</option>
                                 <option value="ON">Ontario</option>
                                 <option value="AB">Alberta</option>
@@ -120,35 +122,35 @@ const RFHHHForm = ({user}) => {
                 <h2>Doctor's contact info:</h2>
                 <div>
                     <label className={styles.container}>I don't currently have a family doctor
-                        <input defaultChecked={mostRecentHealthHistory?.noDoctor} name="noDoctor" type="checkbox" id="noDoctor" {...register('noDoctor')} /> 
+                        <input defaultChecked={mostRecentHealthHistory?.doctor?.noDoctor} name="noDoctor" type="checkbox" id="noDoctor" {...register('doctor.noDoctor')} /> 
                         <span className={styles.checkmark}></span>
                     </label>
                 </div>
                 <div>
                     <label>Doctor's name</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.doctor?.doctorName} name="doctorName" type="text" {...register('doctor.doctorName', {required: true})} id='doctorName' />
+                    <input defaultValue={mostRecentHealthHistory?.doctor?.doctorName} name="doctorName" type="text" {...register('doctor.doctorName')} id='doctorName' />
                     {errors?.doctor?.doctorName && <p className={styles.error}>Please provide your doctor's full name. If you don't currently have a doctor, put "none."</p>}
                 </div>
-                <div style={{columnCount: '2'}}>
-                    <div className={styles.inlineforminput}>
+                <div className='form-two-columns'>
+                    <div>
                         <label>Street Number</label>
-                        <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorStreetNumber} name="doctorStreetNumber" type="text" id ='doctorStreetNumber' {...register('doctor.doctorAddress.doctorStreetNumber')} />
+                        <input defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorStreetNumber} name="doctorStreetNumber" type="text" id ='doctorStreetNumber' {...register('doctor.doctorAddress.doctorStreetNumber')} />
                     </div>
-                    <div className={styles.inlineforminput}>    
+                    <div>    
                         <label>Street name</label>
-                        <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorStreetName} name="doctorStreetName" type="text" id='doctorStreetName' {...register('doctor.doctorAddress.doctorStreetName', {required: true})} />
+                        <input defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorStreetName} name="doctorStreetName" type="text" id='doctorStreetName' {...register('doctor.doctorAddress.doctorStreetName')} />
                     </div>
                 </div>
                 {errors?.doctor?.doctorAddress?.doctorStreetNumber && <p className={styles.error}>Doctor address required. If you don't currently have a doctor, put "none" into each field</p>}
                 {errors?.doctor?.doctorAddress?.doctorStreetName && <p className={styles.error}>Doctor address required. If you don't currently have a doctor, put "none" into each field.</p>}
-                <div style={{columnCount: '2'}}>
-                    <div className={styles.inlineforminput}>  
+                <div className='form-two-columns'>
+                    <div>  
                         <label>City</label>
-                        <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorCity} name="doctorCity" type="text" id='doctorCity' {...register('doctor.doctorAddress.doctorCity', {required: true})} />
+                        <input defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorCity} name="doctorCity" type="text" id='doctorCity' {...register('doctor.doctorAddress.doctorCity')} />
                     </div>
-                    <div className={styles.inlineforminput}>    
+                    <div>    
                         <label>Province</label>
-                        <select className={styles.forminput} defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorProvince} name="doctorProvince" id="doctorProvince" {...register('doctor.doctorAddress.doctorProvince', {required: true})} >
+                        <select defaultValue={mostRecentHealthHistory?.doctor?.doctorAddress?.doctorProvince} name="doctorProvince" id="doctorProvince" {...register('doctor.doctorAddress.doctorProvince')} >
                             <option value="">Select province</option>
                             <option value="ON">Ontario</option>
                             <option value="AB">Alberta</option>
@@ -174,25 +176,25 @@ const RFHHHForm = ({user}) => {
                 <h2>Health history:</h2>
                 <div>
                     <label>How would you describe your overall health</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.generalHealth} name="generalHealth" placeholder="For example: 'excellent, I exercise and eat well'" {...register('generalHealth', {required: true})} id='generalHealth' />
+                    <input type="text" defaultValue={mostRecentHealthHistory?.generalHealth} name="generalHealth" placeholder="For example: 'excellent, I exercise and eat well'" {...register('generalHealth', {required: true})} id='generalHealth' />
                     {errors?.generalHealth && <p className={styles.error}>Please give a brief description of your general health</p>}
                 </div>
                 <div>
                     <label>What is your history with massage therapy?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.historyOfMassage} name="historyOfMassage" placeholder="For example: 'I usually get 5-6 massages per year'" type="text" id="historyOfMassage" {...register('historyOfMassage', {required: true})} />
+                    <input defaultValue={mostRecentHealthHistory?.historyOfMassage} name="historyOfMassage" placeholder="For example: 'I usually get 5-6 massages per year'" type="text" id="historyOfMassage" {...register('historyOfMassage', {required: true})} />
                     {errors?.historyOfMassage && <p className={styles.error}>Please provide a brief description of your history with massage</p>}
                 </div>
                 <div>
                     <label>Have you received any treatment from another Health Care Provider in the past year?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.otherHCP} name="otherHCP" placeholder="For example: physiotherapy, chiropractic, osteopathy" type="text" id="otherHCP" {...register('otherHCP')} />
+                    <input defaultValue={mostRecentHealthHistory?.otherHCP} name="otherHCP" placeholder="For example: physiotherapy, chiropractic, osteopathy" type="text" id="otherHCP" {...register('otherHCP')} />
                 </div>
                 <div>
                     <label>Have you had any injuries in the past year?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.injuries} name="injuries" placeholder="For example: ankle sprains, muscle strains, disc herniation" type="text" id="injuries" {...register('injuries')} />
+                    <input defaultValue={mostRecentHealthHistory?.injuries} name="injuries" placeholder="For example: ankle sprains, muscle strains, disc herniation" type="text" id="injuries" {...register('injuries')} />
                 </div>
                 <div>
                     <label>Have you had any surgeries in the past 2 years?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.surgeries} name="surgeries" placeholder="Please list any surgeries you've had" type="text" id="surgeries" {...register('surgeries')} />
+                    <input defaultValue={mostRecentHealthHistory?.surgeries} name="surgeries" placeholder="Please list any surgeries you've had" type="text" id="surgeries" {...register('surgeries')} />
                 </div>
                 <div >
                     <label>Do you have any of the following medical conditions?</label>
@@ -308,31 +310,31 @@ const RFHHHForm = ({user}) => {
                 </div> 
                 <div>
                     <label>Do you have any internal pins, wires, artificial joints or special equipment?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.internalEquipment} name="internalEquipment" placeholder='Please describe the type of equipment and location and approximate date of implementation' type="text" id="internalEquipment" {...register('internalEquipment')} />
+                    <input defaultValue={mostRecentHealthHistory?.internalEquipment} name="internalEquipment" placeholder='Please describe the type of equipment and location and approximate date of implementation' type="text" id="internalEquipment" {...register('internalEquipment')} />
                 </div>
                 <div>
                     <label>Do you have any skin conditions?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.skinConditions} name="skinConditions" placeholder="Please list any skin conditions you have" type="text" id="skinConditions" {...register('skinConditions')} />
+                    <input defaultValue={mostRecentHealthHistory?.skinConditions} name="skinConditions" placeholder="Please list any skin conditions you have" type="text" id="skinConditions" {...register('skinConditions')} />
                 </div>
                 <div>
                     <label>Do you have any infectious conditions?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.infectiousConditions} name="infectiousConditions" placeholder="For example: hepatitis, HIV" type="text" id="infectiousConditions" {...register('infectiousConditions')} />
+                    <input defaultValue={mostRecentHealthHistory?.infectiousConditions} name="infectiousConditions" placeholder="For example: hepatitis, HIV" type="text" id="infectiousConditions" {...register('infectiousConditions')} />
                 </div>
                 <div>
                     <label>Please describe any loss of feeling, numbness, or tingling you are experiencing:</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.lossOfFeeling} name="lossOfFeeling" placeholder="For example: tingling down arm, or leg" type="text" id="lossOfFeeling" {...register('lossOfFeeling')} />
+                    <input defaultValue={mostRecentHealthHistory?.lossOfFeeling} name="lossOfFeeling" placeholder="For example: tingling down arm, or leg" type="text" id="lossOfFeeling" {...register('lossOfFeeling')} />
                 </div>
                 <div>
                     <label>Please list any allergies that you have:</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.allergies} name="allergies" placeholder="List all allergies" type="text" id="allergies" {...register('allergies')} />
+                    <input defaultValue={mostRecentHealthHistory?.allergies} name="allergies" placeholder="List all allergies" type="text" id="allergies" {...register('allergies')} />
                 </div>
                 <div>
                     <label>Please list any medications you are currently taking:</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.medications} name="medications" placeholder="Please list all medications you're currently taking" type="text" id="medications" {...register('medications')} />
+                    <input defaultValue={mostRecentHealthHistory?.medications} name="medications" placeholder="Please list all medications you're currently taking" type="text" id="medications" {...register('medications')} />
                 </div>
                 <div>
                     <label>Are you currently pregnant?</label>
-                    <select className={styles.forminput} defaultValue={mostRecentHealthHistory?.pregnant} name="pregnant" id="pregnant" {...register('pregnant')}>
+                    <select defaultValue={mostRecentHealthHistory?.pregnant} name="pregnant" id="pregnant" {...register('pregnant')}>
                         <option value="">Select a value</option>
                         <option value="no">No</option>
                         <option value="yes">Yes</option>
@@ -341,17 +343,17 @@ const RFHHHForm = ({user}) => {
                 </div>
                 <div>
                     <label>Do you have any other health conditions, medical conditions, or gynecological conditions?</label>
-                    <input className={styles.forminput} defaultValue={mostRecentHealthHistory?.otherMedicalConditions} name="otherMedicalConditions" placeholder="Please list anything not listed above" type="text" id="otherMedicalConditions" {...register('otherMedicalConditions')} />
+                    <input defaultValue={mostRecentHealthHistory?.otherMedicalConditions} name="otherMedicalConditions" placeholder="Please list anything not listed above" type="text" id="otherMedicalConditions" {...register('otherMedicalConditions')} />
                 </div>
                 <div className={styles.section}>
                     <h2>Source of Referral</h2>
                     <label>How did you hear about Cip de Vries, RMT?</label>
-                    <input type="text" className={styles.forminput} defaultValue={mostRecentHealthHistory?.sourceOfReferral} name="sourceOfReferral" id="sourceOfReferral" placeholder='Eg. Google, Facebook, etc. If referred by a friend or medical professional, please provide their name here' {...register('sourceOfReferral')} />
+                    <input type="text" defaultValue={mostRecentHealthHistory?.sourceOfReferral} name="sourceOfReferral" id="sourceOfReferral" placeholder='Eg. Google, Facebook, etc. If referred by a friend or medical professional, please provide their name here' {...register('sourceOfReferral')} />
                 </div>
                 <div className={styles.section}>
-                    <h2>Policies: Cancellations, Privacy, and Harassment</h2>
+                    <h2>Policies: Cancellations and Privacy</h2>
                     <div style={{marginLeft: '1.5rem', marginTop: '1rem'}}> 
-                        <Link className={styles.link} target="_blank" to="/privacypolicy">Click here to read the policies for cancellation, privacy, and harassment.</Link>
+                        <Link className={styles.link} target="_blank" to="/privacypolicy">Click here to read the policies for privacy and cancellation.</Link>
                         <label className={styles.container}>By clicking here you are indicating that you have read and agree to the aforementioned policies.
                             <input defaultChecked={mostRecentHealthHistory?.privacyPolicy} name="privacyPolicy" type="checkbox" id="privacyPolicy" {...register('privacyPolicy', {required: true})} />
                             <span className={styles.checkmark}></span>

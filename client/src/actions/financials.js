@@ -84,6 +84,7 @@ export const addExpense = (rmtid, financialData) => async (dispatch) => {
 export const getIncomes = (year) => async (dispatch) => {
     try {
         const {data} = await api.getIncomes(year)
+        console.log(data)
         dispatch({type: GET_INCOMES, payload: data})
     } catch (error) {
         console.log(error.message)

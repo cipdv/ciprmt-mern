@@ -117,10 +117,6 @@ export const addTreatment = async (req, res) => {
             return res.json({message: 'duration is mandatory'})
         }
 
-        //save treatment to database
-        const newTreatment = new Treatment(req.body)
-        const result = await newTreatment.save()
-
         //insert event into google calendar
         const apptDate = new Date(`${date}T${time}:00-04:00`).toISOString(true)
 
@@ -145,7 +141,7 @@ export const addTreatment = async (req, res) => {
             endDateTime = newDate.toISOString()
         }
 
-        const event = {
+        const appointment = {
             'summary': `Mx: ${firstName} ${lastName}`,
             'start': {
                 'dateTime': `${apptDate}`,
@@ -171,16 +167,16 @@ export const addTreatment = async (req, res) => {
             auth: jwtClient
         })
         
+        let eventId = ''
         calendar.events.insert({
             calendarId: GOOGLE_CALENDAR_ID,
-            resource: event,
-        }, {
-            function (err, event) {
-                if (err) {
-                    return res.json({message: 'something went wrong with inserting event'})
-                }
-                console.log('Event created:', event.htmlLink);
+            resource: appointment,
+        }, function(err, event) {
+            if (err) {
+              console.log('There was an error contacting the Calendar service: ' + err);
+              return;
             }
+            return eventId =  event.data.id
         })
 
         //send confirmation email
@@ -206,14 +202,20 @@ export const addTreatment = async (req, res) => {
             .send(msg)
             .then(() => {
                 console.log('Email sent')
-                // res.send('email sent')
             })
             .catch((error) => {
                 console.error(error)
                 return res.json({message: 'something went wrong sending email'})
             })
+
+        //save treatment to database
+        const newTreatment = new Treatment({...req.body, googleCalendarId: eventId})
+        const result = await newTreatment.save()
     
+        console.log('result', result)
+
         return res.status(200).json({result, message: 'treatment added successfully'})
+        
     } catch (error) {
         res.json({message: 'something went wrong somewhere'})
     }

@@ -5,11 +5,6 @@ const PrivacyPolicy = () => {
     return (
         <div className={styles.box}>
             <div style={{marginBottom: '2rem'}}>
-                <h2>HARASSMENT POLICY</h2>
-                <h5>Updated: January 2022</h5>
-                <p></p>
-            </div>
-            <div style={{marginBottom: '2rem'}}>
                 <h2>CANCELLATION POLICY</h2>
                 <h5>Updated: January 2022</h5>
                 <p>Cancellation of appointments may be done at any time before the appointment without any charges or cancellation fees, however, if the appointment is within 24 hours, the appointment may be charged at the full rate at the discretion of Cip de Vries, RMT. To cancel an appointment, simply text Cip de Vries at 416-258-1230. </p>
@@ -140,7 +135,7 @@ const PrivacyPolicy = () => {
                     <br />268 Shuter St
                     <br />Toronto ON M5A 1W3
                     <br />Tel: 416-258-1230
-                    <br />email: cip.devries@gmail.com
+                    <br />email: cipdevries@ciprmt.com
                 </p>
             </div>    
         </div>

@@ -1,7 +1,8 @@
+//dependencies
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+//api calls
 import { addJournalEntry } from '../../../../api'
-import styles from './journal.module.css'
 
 const Journal = ({user}) => {
 
@@ -13,7 +14,7 @@ const Journal = ({user}) => {
         journalEntry
     }
 
-    const submitJournalEntry = (data) => {
+    const submitJournalEntry = () => {
         addJournalEntry(data)
         history.push('/rmt/dashboard')
     }
@@ -22,8 +23,8 @@ const Journal = ({user}) => {
         <div>
             <h4>{user?.result?.firstName}'s Journal</h4>
             <form onSubmit={submitJournalEntry}>
-                <textarea className={styles.journalEntry} value={journalEntry} onChange={(e)=>setJournalEntry(e.target.value)}/>
-                <button type="submit" className={styles.btn}>Submit entry</button>
+                <textarea value={journalEntry} onChange={(e)=>setJournalEntry(e.target.value)}/>
+                <button className='btn orange' type="submit">Submit entry</button>
             </form>
         </div>
     )

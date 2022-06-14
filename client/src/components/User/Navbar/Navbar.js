@@ -51,7 +51,7 @@ const Navbar = ({user, setUser}) => {
     return (
         user?.result?.userType === 'rmt' ? (
                 user ? (
-                    <nav className="navbar-rmt">                      
+                    <nav className="navbar">                      
                         <Link className="nav-logo" to={'/rmt/auth'} onClick={() => setOpen(false)}>
                             {user?.result?.firstName} {user?.result?.lastName}
                         </Link>
@@ -90,7 +90,7 @@ const Navbar = ({user, setUser}) => {
                         </ul>
                     </nav>
                 ) : (
-                    <nav className='navbar-rmt'>
+                    <nav className='navbar'>
                         <Link className="nav-logo" to={'/rmt/auth'} onClick={() => setOpen(false)}>
                             {user?.result?.firstName} {user?.result?.lastName}
                         </Link>

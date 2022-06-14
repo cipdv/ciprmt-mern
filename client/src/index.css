@@ -27,7 +27,6 @@ tr th {
     font-size: 16px;
     background-color: #8fbc8f28;
 }
-
 tbody tr:hover {
     background-color: #8fbc8f65;
     cursor: pointer;
@@ -48,7 +47,6 @@ input[type=text] {
     width:100%;
     outline:0;
 }
-
 input[type=text]:hover {
     background-color: #8fbc8f28
 }
@@ -68,7 +66,6 @@ input[type=password] {
     width:100%;
     outline:0;
 }
-
 input[type=password]:hover {
     background-color: #8fbc8f28
 }
@@ -88,7 +85,6 @@ input[type=email] {
     width:100%;
     outline:0;
 }
-
 input[type=email]:hover {
     background-color: #8fbc8f28
 }
@@ -108,9 +104,24 @@ input[type=date] {
     width:100%;
     outline:0;
 }
-
 input[type=date]:hover {
     background-color: #8fbc8f28
+}
+
+input[type=time] {
+    color: rgb(255, 253, 245);
+    font-family: 'Mukta', sans-serif;
+    font-weight:500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 16px;
+    background-color: rgb(18, 27, 24);
+    border:2px solid #d7c8f0;
+    transition: all 0.3s;
+    padding: 13px;
+    margin-bottom: 0.3.rem;
+    width:100%;
+    outline:0;
 }
 
 select {
@@ -128,9 +139,67 @@ select {
     width:100%;
     outline:0;
 }
+select option:hover {
+    background-color: #8fbc8f28
+}
+
+textarea {
+    color: rgb(255, 253, 245);
+    font-family: 'Mukta', sans-serif;
+    font-weight:500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 16px;
+    background-color: rgb(18, 27, 24);
+    border:2px solid #d7c8f0;
+    transition: all 0.3s;
+    padding: 13px;
+    margin-top: 1rem;
+    margin-bottom: 0.3.rem;
+    width:100%;
+    outline:0;
+    height: 30rem;
+    display: grid;
+    color: rgb(255, 253, 245);
+    justify-content: center;
+    padding: 1rem;
+}
+
+button {
+    background-color: #d8a64a;
+    border: none;
+    color: rgb(255, 253, 245);
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+button:hover {
+    background-color: #8fbc8f65;
+}
+
+.btn.orange {
+    background-color: #d8a64a;
+    border: none;
+    color: rgb(255, 253, 245);
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
+.btn.orange:hover {
+    background-color: #8fbc8f65;
+    border: none;
+    color: rgb(255, 253, 245);
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 0.3em;
+}
 
 .inline {
     display: inline-block;
+}
+
+.form-two-columns {
+    column-count: 2;
 }
 
 .form-text-input {

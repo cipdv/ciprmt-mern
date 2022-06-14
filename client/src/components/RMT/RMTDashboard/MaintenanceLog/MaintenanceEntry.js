@@ -60,7 +60,7 @@ const MaintenanceLog = ({user}) => {
                         </div>
                         <input className="form-text-input" type="text" value={selfCareToolsNotes} onChange={(e)=>setSelfCareToolsNotes(e.target.value)} />
                     </div>
-                    <button className={styles.btn} type="submit">Submit</button>
+                    <button className="btn orange" type="submit">Submit</button>
                 </form>
             </div>
         </div>

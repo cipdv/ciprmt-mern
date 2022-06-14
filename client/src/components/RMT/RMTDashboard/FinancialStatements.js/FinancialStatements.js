@@ -95,7 +95,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <th>Revenue</th>
                             <th>Expenses</th>
                             <th>Net Income</th>
-                            <th>Taxes (15%)</th>
+                            <th>Tax/CPP (25%)</th>
                             <th>Income After Tax</th>
                             <th>HST Collected (13%)</th>
                             <th>HST Quick Method (8.8%)</th>
@@ -131,8 +131,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{januaryIncome}</td>
                             <td>{januaryExpenses}</td>
                             <td>{januaryNetIncome.toFixed(2)}</td>
-                            <td>{(januaryNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(januaryNetIncome - (januaryNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(januaryNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(januaryNetIncome - (januaryNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(januaryIncome * 0.13).toFixed(2)}</td>
                             <td>{(januaryIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -141,8 +141,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{februaryIncome}</td>
                             <td>{februaryExpenses}</td>
                             <td>{februaryNetIncome.toFixed(2)}</td>
-                            <td>{(februaryNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(februaryNetIncome - (februaryNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(februaryNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(februaryNetIncome - (februaryNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(februaryIncome * 0.13).toFixed(2)}</td>
                             <td>{(februaryIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -151,8 +151,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{marchIncome}</td>
                             <td>{marchExpenses}</td>
                             <td>{marchNetIncome.toFixed(2)}</td>
-                            <td>{(marchNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(marchNetIncome - (marchNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(marchNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(marchNetIncome - (marchNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(marchIncome * 0.13).toFixed(2)}</td>
                             <td>{(marchIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -161,8 +161,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{aprilIncome}</td>
                             <td>{aprilExpenses}</td>
                             <td>{aprilNetIncome.toFixed(2)}</td>
-                            <td>{(aprilNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(aprilNetIncome - (aprilNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(aprilNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(aprilNetIncome - (aprilNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(aprilIncome * 0.13).toFixed(2)}</td>
                             <td>{(aprilIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -171,8 +171,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{mayIncome}</td>
                             <td>{mayExpenses}</td>
                             <td>{mayNetIncome.toFixed(2)}</td>
-                            <td>{(mayNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(mayNetIncome - (mayNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(mayNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(mayNetIncome - (mayNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(mayIncome * 0.13).toFixed(2)}</td>
                             <td>{(mayIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -181,8 +181,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{juneIncome}</td>
                             <td>{juneExpenses}</td>
                             <td>{juneNetIncome.toFixed(2)}</td>
-                            <td>{(juneNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(juneNetIncome - (juneNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(juneNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(juneNetIncome - (juneNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(juneIncome * 0.13).toFixed(2)}</td>
                             <td>{(juneIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -191,8 +191,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{julyIncome}</td>
                             <td>{julyExpenses}</td>
                             <td>{julyNetIncome.toFixed(2)}</td>
-                            <td>{(julyNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(julyNetIncome - (julyNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(julyNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(julyNetIncome - (julyNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(julyIncome * 0.13).toFixed(2)}</td>
                             <td>{(julyIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -201,8 +201,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{augustIncome}</td>
                             <td>{augustExpenses}</td>
                             <td>{augustNetIncome.toFixed(2)}</td>
-                            <td>{(augustNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(augustNetIncome - (augustNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(augustNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(augustNetIncome - (augustNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(augustIncome * 0.13).toFixed(2)}</td>
                             <td>{(augustIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -211,8 +211,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{septemberIncome}</td>
                             <td>{septemberExpenses}</td>
                             <td>{septemberNetIncome.toFixed(2)}</td>
-                            <td>{(septemberNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(septemberNetIncome - (septemberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(septemberNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(septemberNetIncome - (septemberNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(septemberIncome * 0.13).toFixed(2)}</td>
                             <td>{(septemberIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -221,8 +221,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{octoberIncome}</td>
                             <td>{octoberExpenses}</td>
                             <td>{octoberNetIncome.toFixed(2)}</td>
-                            <td>{(octoberNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(octoberNetIncome - (octoberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(octoberNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(octoberNetIncome - (octoberNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(octoberIncome * 0.13).toFixed(2)}</td>
                             <td>{(octoberIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -231,8 +231,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{novemberIncome}</td>
                             <td>{novemberExpenses}</td>
                             <td>{novemberNetIncome.toFixed(2)}</td>
-                            <td>{(novemberNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(novemberNetIncome - (novemberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(novemberNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(novemberNetIncome - (novemberNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(novemberIncome * 0.13).toFixed(2)}</td>
                             <td>{(novemberIncome * 0.088).toFixed(2)}</td>
                         </tr>
@@ -241,8 +241,8 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{decemberIncome}</td>
                             <td>{decemberExpenses}</td>
                             <td>{decemberNetIncome.toFixed(2)}</td>
-                            <td>{(decemberNetIncome * 0.15).toFixed(2)}</td>
-                            <td>{(decemberNetIncome - (decemberNetIncome * 0.15)).toFixed(2)}</td>
+                            <td>{(decemberNetIncome * 0.25).toFixed(2)}</td>
+                            <td>{(decemberNetIncome - (decemberNetIncome * 0.25)).toFixed(2)}</td>
                             <td>{(decemberIncome * 0.13).toFixed(2)}</td>
                             <td>{(decemberIncome * 0.088).toFixed(2)}</td>
                         </tr>                

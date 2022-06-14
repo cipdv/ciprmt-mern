@@ -55,29 +55,27 @@ const TreatmentAddnew = () => {
         <div>
             <LoadingScreen />
             <div className={styles.box}>
-                <form className="ui form" onSubmit={handleSubmit}>
-                    <h5>Treatment details</h5>
-                    <div className="ui fields">
-                        <div className="ui field">
-                            <label>Date</label>
-                            <input type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
-                            {errors?.date && <p>{errors?.date}</p>}
-                        </div>
-                        <div className="ui field">
-                            <label>Time</label>
-                            <input type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
-                            {errors?.time && <p>{errors?.time}</p>}
-                        </div>
-                        <div className="ui field">
-                        <label>Duration</label>
-                            <select value={duration} onChange={(e)=>setDuration(e.target.value)}>
-                                <option value="" disabled="disabled">Select duration</option>
-                                <option value="60">60 minutes ($105)</option>
-                                <option value="75">75 minutes ($125)</option>
-                                <option value="90">90 minutes ($145)</option>
-                            </select>
-                            {errors?.duration && <p>{errors?.duration}</p>}
-                        </div>
+                <form onSubmit={handleSubmit}>
+                    <h3>Schedule a Treatment</h3>
+                    <div>
+                        <label>Date</label>
+                        <input type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+                        {errors?.date && <p>{errors?.date}</p>}
+                    </div>
+                    <div>
+                        <label>Time</label>
+                        <input type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
+                        {errors?.time && <p>{errors?.time}</p>}
+                    </div>
+                    <div>
+                    <label>Duration</label>
+                        <select value={duration} onChange={(e)=>setDuration(e.target.value)}>
+                            <option value="" disabled="disabled">Select duration</option>
+                            <option value="60">60 minutes ($105)</option>
+                            <option value="75">75 minutes ($125)</option>
+                            <option value="90">90 minutes ($145)</option>
+                        </select>
+                        {errors?.duration && <p>{errors?.duration}</p>}
                     </div>
                     {errors?.general && <p>{errors?.general}</p>}
                     <button type="submit" className={styles.btn} style={{marginTop: '10px', marginBottom: '20px'}}>Submit</button>

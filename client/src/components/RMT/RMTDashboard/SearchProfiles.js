@@ -32,7 +32,7 @@ const SearchProfiles = () => {
             <form onSubmit={searchPosts}>
                 <div>
                     <input className={styles.forminput} type="text" placeholder="Search patient profiles" value={searchName} onChange={(e)=>setSearchName(e.target.value)} />
-                    <button type="submit" style={{marginLeft: '10px'}} className={styles.btn}>Search</button>
+                    <button type="submit" style={{marginLeft: '10px'}}>Search</button>
                 </div>
                 <div style={{marginTop: '1rem'}}>
                     {errors?.general && <h3>{errors?.general}</h3>}
