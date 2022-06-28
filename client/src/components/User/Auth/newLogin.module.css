@@ -1,0 +1,31 @@
+.formInput {
+    color: rgb(255, 253, 245);
+    font-family: 'Mukta', sans-serif;
+    font-weight:500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 16px;
+    background-color: rgb(169, 184, 38);
+    border:2px solid #d7c8f0;
+    transition: all 0.3s;
+    padding: 13px;
+    margin-bottom: 0.3.rem;
+    width:100%;
+    outline:0;
+}
+.formInput:hover {
+    background-color: #8fbc8f28
+}
+
+.formError {
+    color: black;
+    background-color: rgb(247, 146, 146);
+    border: 2px solid rgb(141, 0, 0)
+}
+.formError::placeholder {
+    color: rgb(141, 0, 0)
+}
+
+.labelError {
+    color: rgb(141, 0, 0)
+}

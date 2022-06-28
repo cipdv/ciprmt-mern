@@ -20,8 +20,8 @@ router.post('/addfinancials', auth, addFinancials)
 router.get('/getfinancialstatementsbyrmtid/:rmtid', getFinancialStatementsByRMTId)
 
 //new financial routes
-router.post('/:rmtid/addincome', addIncome)
-router.post('/:rmtid/addexpense', addExpense)
+router.post('/:rmtid/addincome', auth, addIncome)
+router.post('/:rmtid/addexpense', auth, addExpense)
 router.post('/getincomes', getAllIncomes)
 router.post('/getexpenses', getAllExpenses)
 router.post('/addTransaction', addTransaction)

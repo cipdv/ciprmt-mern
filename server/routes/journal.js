@@ -6,6 +6,6 @@ import auth from '../middleware/auth.js'
 
 import { addJournalEntry } from '../controllers/journal.js'
 
-router.post('/addentry', addJournalEntry)
+router.post('/addentry', auth, addJournalEntry)
 
 export default router

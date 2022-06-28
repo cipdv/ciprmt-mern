@@ -24,10 +24,6 @@ router.post('/:id/add', auth, addAppointment)
 //confirm appointment
 router.patch('/confirm/:userid/:appointmentid', auth, confirmAppointment)
 
-// -----SENDGRID ROUETS------
-//when user confirms their appointment with consents
-// router.post('/sendgrid/apptconfirmation', auth)
-
 
 
 export default router

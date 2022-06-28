@@ -61,7 +61,7 @@ const Treatment = ({treatmentId, user}) => {
             setReferToHCP(treatment?.referToHCP !== undefined ? (treatment?.referToHCP) : (""))
             setNotes(treatment?.notes !== undefined ? (treatment?.notes) : (""))
             setReasonForMassage(treatment?.reasonForMassage !== undefined ? (treatment?.reasonForMassage) : (""))
-            setTreatmentConsent(treatment?.consents?.treatmentConsent !== undefined ? (treatment?.consents?.treatmentConsent) : (""))
+            setTreatmentConsent(treatment?.consents?.treatmentConsent !== undefined ? (treatment?.consents?.treatmentConsent) : (false))
             setGlutes(treatment?.consents?.glutes !== undefined ? (treatment?.consents?.glutes) : (null))
             setChest(treatment?.consents?.chest !== undefined ? (treatment?.consents?.chest) : (null))
             setAbdomen(treatment?.consents?.abdomen !== undefined ? (treatment?.consents?.abdomen) : (null))
@@ -107,7 +107,9 @@ const Treatment = ({treatmentId, user}) => {
     }
 
     const form = {
-        treatmentConsent,
+        consents: {
+            treatmentConsent
+        },
         findings,
         treatment: {
             generalTreatment, 
@@ -171,7 +173,7 @@ const Treatment = ({treatmentId, user}) => {
                     <input className={styles.forminput} type="time" value={time} onChange={(e)=>setTime(e.target.value)} />
                 </div>
                 <div>
-                    <label>Duration:</label>
+                    <label>Durafsadfsation:</label>
                     <select className={styles.forminput} value={duration} onChange={(e)=>setDuration(e.target.value)}>
                         <option value='' disabled='disabled'>Select duration</option>
                         <option value="60">60 minutes ($105)</option>

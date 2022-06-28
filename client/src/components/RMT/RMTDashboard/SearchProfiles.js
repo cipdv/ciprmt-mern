@@ -1,13 +1,12 @@
+//dependencies
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+//api calls
 import { searchUsers } from '../../../actions/healthHistory'
-import styles from './rmtdashboard.module.css'
 
 const SearchProfiles = () => {
 
     const dispatch = useDispatch()
-    const history = useHistory()
 
     const [searchName, setSearchName] = useState('')
     const [errors, setErrors] = useState({
@@ -31,8 +30,8 @@ const SearchProfiles = () => {
         <div>
             <form onSubmit={searchPosts}>
                 <div>
-                    <input className={styles.forminput} type="text" placeholder="Search patient profiles" value={searchName} onChange={(e)=>setSearchName(e.target.value)} />
-                    <button type="submit" style={{marginLeft: '10px'}}>Search</button>
+                    <input type="text" placeholder="Search patient profiles" value={searchName} onChange={(e)=>setSearchName(e.target.value)} />
+                    <button type="submit">Search</button>
                 </div>
                 <div style={{marginTop: '1rem'}}>
                     {errors?.general && <h3>{errors?.general}</h3>}

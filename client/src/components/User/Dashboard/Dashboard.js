@@ -1,8 +1,13 @@
+//dependencies
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+//components
 import ConfirmAppointment from '../Appointments/ConfirmAppointment'
 import HHUpdateRequired from '../Appointments/HHUpdateRequired'
+import AppointmentInformation from './appointmentInformation/AppointmentInformation'
+//styling
 import styles from './dashboard.module.css'
+//api calls
 import { getClientHealthHistory, getUser } from '../../../actions/healthHistory'
 import { getTreatmentsByClientId } from '../../../actions/treatmentPlans'
 
@@ -42,7 +47,8 @@ const Dashboard = ({user}) => {
                     <HHUpdateRequired />
             ) : (
                 <div>Loading...you may need to refresh the page.</div>
-            )}                               
+            )} 
+            <AppointmentInformation />                              
         </div>
     )
 }

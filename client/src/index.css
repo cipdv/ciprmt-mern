@@ -50,6 +50,21 @@ input[type=text] {
 input[type=text]:hover {
     background-color: #8fbc8f28
 }
+input[type=text] .form-error {
+    color: rgb(207, 187, 187);
+    font-family: 'Mukta', sans-serif;
+    font-weight:500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 16px;
+    background-color: rgb(112, 26, 66);
+    border:2px solid #cdb6f1;
+    transition: all 0.3s;
+    padding: 13px;
+    margin-bottom: 0.3.rem;
+    width:100%;
+    outline:0;
+}
 
 input[type=password] {
     color: rgb(255, 253, 245);
@@ -163,6 +178,16 @@ textarea {
     color: rgb(255, 253, 245);
     justify-content: center;
     padding: 1rem;
+}
+
+.form-error {
+    background-color: #d8a64a;
+    color: black
+}
+
+.label-error {
+    background-color: pink;
+    color:rgb(112, 26, 66)
 }
 
 button {

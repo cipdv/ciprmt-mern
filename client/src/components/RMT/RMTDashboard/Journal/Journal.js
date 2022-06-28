@@ -8,10 +8,10 @@ const Journal = ({user}) => {
 
     const history = useHistory()
 
-    const [journalEntry, setJournalEntry] = useState('')
+    const [entry, setEntry] = useState('')
 
     const data = {
-        journalEntry
+        entry
     }
 
     const submitJournalEntry = () => {
@@ -23,7 +23,7 @@ const Journal = ({user}) => {
         <div>
             <h4>{user?.result?.firstName}'s Journal</h4>
             <form onSubmit={submitJournalEntry}>
-                <textarea value={journalEntry} onChange={(e)=>setJournalEntry(e.target.value)}/>
+                <textarea value={entry} onChange={(e)=>setEntry(e.target.value)}/>
                 <button className='btn orange' type="submit">Submit entry</button>
             </form>
         </div>

@@ -85,7 +85,7 @@ const TreatmentPlanList = ({setTreatmentId}) => {
                     className={styles.modal}
                 >
                     <div>
-                        <h3>Confirm delete treatment</h3>
+                        <h3>Are you sure you want to delete this treatment?</h3>
                         <button className={styles.btn} onClick={confirmDelete}>Delete</button>
                         <button className={styles.btn} onClick={cancelDelete}>Cancel</button>
                     </div>

@@ -17,18 +17,18 @@ router.put('/', auth, createHealthHistory)
 
 //ADMIN ---------------
 //READ all HHs
-router.get('/', getAllUsers)
+router.get('/', auth, getAllUsers)
 //READ a single HH
-router.post('/:id', getHH)
+router.post('/:id', auth, getHH)
 //SEARCH for a user
-router.get('/search', getUserBySearch)
+router.get('/search', auth, getUserBySearch)
 //DELETE the HH (admin only)
 // router.delete('/:id', deleteHH)
 
 //nEw RoUtEs
 //CLIENT SIDE
 
-router.post('/gethealthhistorybyclientid/:clientId', getClientHealthHistory)
+router.post('/gethealthhistorybyclientid/:clientId', auth, getClientHealthHistory)
 
 export default router
 

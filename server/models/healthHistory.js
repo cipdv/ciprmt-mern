@@ -15,7 +15,7 @@ const HealthHistorySchema = mongoose.Schema({
     dateOfBirth: {type: Date, required: [true, 'date of birth blank']},
     doctor: {
         noDoctor: Boolean,
-        doctorName: {type: String, required: [true, 'doctor name blank']},
+        doctorName: {type: String},
         doctorAddress: {
             doctorStreetNumber: String,
             doctorStreetName: String,
