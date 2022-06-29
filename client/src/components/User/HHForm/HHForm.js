@@ -1,10 +1,11 @@
+//dependencies
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { submitHH } from '../../../actions/healthHistory'
 import { useHistory } from 'react-router-dom'
-import moment from 'moment'
 import SignatureCanvas from 'react-signature-canvas'
 import HHFormValidation from './HHFormValidation'
+//styling
 import styles from './hhform.module.css'
 
 const HHForm = ({user, userState }) => {
@@ -148,7 +149,7 @@ const HHForm = ({user, userState }) => {
         setStreetName(userState?.healthHistory[0]?.address?.streetName ? (userState?.healthHistory[0]?.address?.streetName) : (''))
         setCity(userState?.healthHistory[0]?.address?.city ? (userState?.healthHistory[0]?.address?.city) : (''))
         setProvince(userState?.healthHistory[0]?.address?.province ? (userState?.healthHistory[0]?.address?.province) : (''))
-        setDateOfBirth(userState?.healthHistory[0]?.dateOfBirth ? (moment.utc(userState?.healthHistory[0]?.dateOfBirth).format("YYYY-MM-DD")) : (''))
+        setDateOfBirth(userState?.healthHistory[0]?.dateOfBirth ? (new Date(userState?.healthHistory[0]?.dateOfBirth).toLocaleDateString("en-ca")) : (''))
         setDoctorName(userState?.healthHistory[0]?.doctor?.doctorName ? (userState?.healthHistory[0]?.doctor?.doctorName) : (''))
         setDoctorStreetNumber(userState?.healthHistory[0]?.doctor?.doctorAddress?.doctorStreetNumber ? (userState?.healthHistory[0]?.doctor?.doctorAddress?.doctorStreetNumber) : (''))
         setDoctorStreetName(userState?.healthHistory[0]?.doctor?.doctorAddress?.doctorStreetName ? (userState?.healthHistory[0]?.doctor?.doctorAddress?.doctorStreetName) : (''))

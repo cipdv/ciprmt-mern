@@ -1,14 +1,14 @@
+//dependencies
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+//styling
+import styles from './rmtdashboard.module.css'
+//api calls
+import { addToEAL } from '../../../api/index'
 import { getClientHealthHistory, getUser } from '../../../actions/healthHistory'
 import { getTreatmentPlans } from '../../../actions/treatmentPlans'
-import moment from 'moment'
-import styles from './rmtdashboard.module.css'
-import axios from 'axios'
-import { FiDivideSquare } from 'react-icons/fi'
-import { addToEAL } from '../../../api/index'
 
 const PatientProfile = ({user}) => {
 
@@ -66,7 +66,8 @@ const PatientProfile = ({user}) => {
                     </div>
                 ) : (
                     <div>
-                        <h5>Health history last updated: {moment.utc(mostRecentHealthHistory?.createdAt).format("YYYY-MM-DD")}</h5>
+                        <h5>Health history last updated: {new Date(mostRecentHealthHistory?.createdAt).toDateString()}</h5>
+
                     </div>
                 )}
                 <h4>Personal Info</h4>
@@ -90,7 +91,8 @@ const PatientProfile = ({user}) => {
                             {!mostRecentHealthHistory?.dateOfBirth ? (
                                 <td style={{color: 'red'}}>No info</td>
                             ) : (
-                                <td>{moment.utc(mostRecentHealthHistory?.dateOfBirth).format("YYYY-MM-DD")}</td>
+                                <td>{new Date(mostRecentHealthHistory?.dateOfBirth).toLocaleDateString('en-ca')}</td>
+
                             )}
                             {!mostRecentHealthHistory?.occupation ? (
                                 <td style={{color: 'red'}}>No info</td>
@@ -125,7 +127,8 @@ const PatientProfile = ({user}) => {
                     <div className={styles.box} style={{justifyContent: 'left'}}>
                         <ul>
                             {treatmentPlans?.map((tp)=>(
-                                <li id={tp._id} className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{moment.utc(tp.startDate).format("YYYY-MM-DD")} - {!tp.endDate ? ('current') : (`${moment.utc(tp.endDate).format("YYYY-MM-DD")}`)}</li>
+                                <li id={tp._id} className={styles.tpli} onClick={()=>selectTreatmentPlan(tp._id)}>{new Date(tp.startDate).toLocaleDateString("en-ca")} - {!tp.endDate ? ('current') : (`${new Date(tp.endDate).toLocaleDateString("en-ca")}`)}</li>
+
                             ))}
                         </ul>
                     </div>

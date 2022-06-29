@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+//dependencies
+import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import moment from 'moment'
+//styling
 import styles from './rmtdashboard.module.css'
+//api calls
 import { updateTreatmentPlan } from '../../../actions/treatmentPlans'
 import { showLoadingScreen } from '../../../actions/loadingScreen'
 
@@ -26,8 +28,8 @@ const TreatmentPlanDetails = () => {
     const [anticipatedClientResponse, setAnticipatedClientResponse] = useState(currentTp?.anticipatedClientResponse)
     const [recommendedSelfCare, SetRecommendedSelfCare] = useState(currentTp?.recommendedSelfCare)
     const [conclusionOfTreatmentPlan, setConclusionOfTreatmentPlan] = useState(currentTp?.conclusionOfTreatmentPlan)
-    const [startDate, setStartDate] = useState(moment.utc(currentTp?.startDate).format("YYYY-MM-DD"))
-    const [endDate, setEndDate] = useState(moment.utc(currentTp?.endDate).format("YYYY-MM-DD"))
+    const [startDate, setStartDate] = useState(new Date(currentTp?.startDate).toLocaleDateString("en-ca"))
+    const [endDate, setEndDate] = useState(currentTp?.endDate ? (new Date(currentTp?.endDate).toLocaleDateString("en-ca")) : (undefined))
 
     //errors
     const [errors, setErrors] = useState({

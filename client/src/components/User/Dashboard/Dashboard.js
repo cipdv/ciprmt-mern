@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 //components
 import ConfirmAppointment from '../Appointments/ConfirmAppointment'
 import HHUpdateRequired from '../Appointments/HHUpdateRequired'
-import AppointmentInformation from './appointmentInformation/AppointmentInformation'
+import AppointmentInformation from './AppointmentInformation.js/AppointmentInformation'
 //styling
 import styles from './dashboard.module.css'
 //api calls
@@ -48,7 +48,7 @@ const Dashboard = ({user}) => {
             ) : (
                 <div>Loading...you may need to refresh the page.</div>
             )} 
-            <AppointmentInformation />                              
+            <AppointmentInformation />
         </div>
     )
 }

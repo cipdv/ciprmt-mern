@@ -122,10 +122,6 @@ const ConfirmAppointment = ({user, treatments}) => {
             apptDate,
             apptTime,
             reasonForMassage: data.reasonForMassage,
-            // pronoun,
-            covidvaccinated: data.covid.vaccinated,
-            covidnoosymptoms: data.covid.noSymptoms,
-            covidnotisolating: data.covid.notIsolating,
             notes: data.notesFromClient
         })
 
