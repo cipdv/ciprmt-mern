@@ -10,7 +10,7 @@ const AppointmentInformation = () => {
             <h3>Location:</h3>
             <p>268 Shuter Street, Toronto ON.</p>
             <p>Please plan to arrive no earlier than 10 minutes before your appointment as I may still need time to clean and disinfect after the previous appointment.</p>
-            <p>There is parking available at the side of the building, on Berkeley Street and free street parking available on Shuter Street and Berkeley Street.</p>
+            <p>There is free parking available at the side of the building, on Berkeley Street and free street parking available on Shuter Street and Berkeley Street.</p>
             <h3>What to wear:</h3>
             <p>Thai massage is practiced over clothing, so please bring comfortable, loose fitting clothing that you will be able to stretch in, including pants or shorts, and a short or long-sleeved t-shirt made from soft natural fabric like cotton, bamboo, or hemp.</p>
             <p>It may seem counter-intuitive, but more coverage is better for this style of massage.</p>

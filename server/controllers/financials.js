@@ -193,3 +193,20 @@ export const getAllExpenses = async (req, res) => {
 //     amount: Number,
 //     details: String,
 
+//get income by month and year?
+export const getIncomeByMonthAndYear = async (req, res) => {
+    const {year, month} = req.params
+
+    try {
+        const result = await Income.aggregate([
+            {$addFields: {  "month" : {$month: '$date'}}},
+            {$match: {"$and": [{month: parseInt(month, 10)}, {year: year}]}},
+          ]);
+
+          console.log(result)
+
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(404).json(error.message)
+    }
+}

@@ -1,6 +1,6 @@
-import { ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION, GET_FINANCIAL_DATA, GET_FINANCIAL_STATEMENTS, GET_EXPENSES, GET_INCOMES } from "../constants/actionTypes";
+import { GET_INCOME_BY_YEAR_AND_MONTH, ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION, GET_FINANCIAL_DATA, GET_FINANCIAL_STATEMENTS, GET_EXPENSES, GET_INCOMES } from "../constants/actionTypes";
 
-const financialsReducer = (state={ financialState: [], financialStatements: [], income: [], expenses: [] }, action) => {
+const financialsReducer = (state={ financialState: [], financialStatements: [], income: [], expenses: [], incomeByMonth: [] }, action) => {
     switch (action.type) {
         case ADD_TRANSACTION:
             return { ...state, financialState: action.payload }
@@ -16,6 +16,8 @@ const financialsReducer = (state={ financialState: [], financialStatements: [], 
             return { ...state, income: action.payload}
         case GET_EXPENSES:
             return { ...state, expenses: action.payload}
+        case GET_INCOME_BY_YEAR_AND_MONTH:
+            return { ...state, incomeByMonth: action.payload}
         default:
             return state
     }

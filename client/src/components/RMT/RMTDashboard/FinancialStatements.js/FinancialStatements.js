@@ -1,8 +1,13 @@
+//dependencies
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+//styling
 import styles from './financialstyle.module.css'
 
 const FinancialStatement = ({year, setYear}) => {
+
+    const history = useHistory()
 
     const incomeData = useSelector((state)=>state?.financialsReducer?.income)
     const expensesData = useSelector((state)=>state?.financialsReducer?.expenses)
@@ -27,6 +32,12 @@ const FinancialStatement = ({year, setYear}) => {
             }
         })
         return expenseArray.reduce((accumulator, current)=> accumulator + current, 0).toFixed(2)
+    }
+
+    const goToMonth = (month) => {
+        if (year) {
+            history.push(`/rmt/dashboard/financialstatements/${month}/${year}`)
+        }
     }
 
     const januaryIncome = monthlyIncome(0)
@@ -126,7 +137,7 @@ const FinancialStatement = ({year, setYear}) => {
                                 {HSTPaid}
                             </td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(0)}>
                             <td>January</td>
                             <td>{januaryIncome}</td>
                             <td>{januaryExpenses}</td>
@@ -136,7 +147,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(januaryIncome * 0.13).toFixed(2)}</td>
                             <td>{(januaryIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(1)}>
                             <td>February</td>
                             <td>{februaryIncome}</td>
                             <td>{februaryExpenses}</td>
@@ -146,7 +157,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(februaryIncome * 0.13).toFixed(2)}</td>
                             <td>{(februaryIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(2)}>
                             <td>March</td>
                             <td>{marchIncome}</td>
                             <td>{marchExpenses}</td>
@@ -156,7 +167,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(marchIncome * 0.13).toFixed(2)}</td>
                             <td>{(marchIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(3)}>
                             <td>April</td>
                             <td>{aprilIncome}</td>
                             <td>{aprilExpenses}</td>
@@ -166,7 +177,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(aprilIncome * 0.13).toFixed(2)}</td>
                             <td>{(aprilIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(4)}>
                             <td>May</td>
                             <td>{mayIncome}</td>
                             <td>{mayExpenses}</td>
@@ -176,7 +187,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(mayIncome * 0.13).toFixed(2)}</td>
                             <td>{(mayIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(5)}>
                             <td>June</td>
                             <td>{juneIncome}</td>
                             <td>{juneExpenses}</td>
@@ -186,7 +197,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(juneIncome * 0.13).toFixed(2)}</td>
                             <td>{(juneIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(6)}>
                             <td>July</td>
                             <td>{julyIncome}</td>
                             <td>{julyExpenses}</td>
@@ -196,7 +207,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(julyIncome * 0.13).toFixed(2)}</td>
                             <td>{(julyIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(7)}>
                             <td>August</td>
                             <td>{augustIncome}</td>
                             <td>{augustExpenses}</td>
@@ -206,7 +217,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(augustIncome * 0.13).toFixed(2)}</td>
                             <td>{(augustIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(8)}>
                             <td>September</td>
                             <td>{septemberIncome}</td>
                             <td>{septemberExpenses}</td>
@@ -216,7 +227,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(septemberIncome * 0.13).toFixed(2)}</td>
                             <td>{(septemberIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(9)}>
                             <td>October</td>
                             <td>{octoberIncome}</td>
                             <td>{octoberExpenses}</td>
@@ -226,7 +237,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(octoberIncome * 0.13).toFixed(2)}</td>
                             <td>{(octoberIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(10)}>
                             <td>November</td>
                             <td>{novemberIncome}</td>
                             <td>{novemberExpenses}</td>
@@ -236,7 +247,7 @@ const FinancialStatement = ({year, setYear}) => {
                             <td>{(novemberIncome * 0.13).toFixed(2)}</td>
                             <td>{(novemberIncome * 0.088).toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr onClick={()=>goToMonth(11)}>
                             <td>December</td>
                             <td>{decemberIncome}</td>
                             <td>{decemberExpenses}</td>
