@@ -1,8 +1,12 @@
+//dependencies
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+//api calls
 import { addToFinancials } from '../../../../actions/financials'
 import { showLoadingScreen } from '../../../../actions/loadingScreen'
+//components
 import LoadingScreen from '../../../../LoadingScreen/LoadingScreen'
+//styling
 import styles from '../rmtdashboard.module.css'
 
 const AddToFinancials = ({setReload}) => {
@@ -14,7 +18,6 @@ const AddToFinancials = ({setReload}) => {
     const [amount, setAmount] = useState('')
     const [category, setCategory] = useState('')
     const [details, setDetails] = useState('')
-    //errors
     const [errors, setErrors] = useState({
         general: ''
     })
@@ -82,6 +85,11 @@ const AddToFinancials = ({setReload}) => {
                                 <option value="office supplies">office supplies</option>
                                 <option value="bank fees">bank fees</option>
                                 <option value="administrative fees">administrative fees</option>
+                                <option value="rent">rent</option>
+                                <option value="hydro">hydro</option>
+                                <option value="gas">gas</option>
+                                <option value="phone">phone</option>
+                                <option value="internet">internet</option>
                                 <option value="other expense">other expense</option>
                             </select>
                         ) : (

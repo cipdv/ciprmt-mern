@@ -9,7 +9,7 @@ const financialsSchema = new mongoose.Schema({
             category: String,
             //revenue, governemnt credit, other
             amount: Number,
-            date: String,
+            date: Date,
             appointmentId: String,
             details: String,
             receiptNumber: String
@@ -21,7 +21,7 @@ const financialsSchema = new mongoose.Schema({
             //advertising, travel, licenses, insurance, interest paid, repairs and maintenance, supplies, office supplies, bank fees, adminstrative fees
             amount: Number,
             details: String,
-            date: String,
+            date: Date,
             receiptNumber: String
         }
     ],

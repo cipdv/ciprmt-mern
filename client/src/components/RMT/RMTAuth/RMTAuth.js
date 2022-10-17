@@ -18,6 +18,7 @@ const RMTAuth = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [isRegister, setIsRegister] = useState(false)
+    const [errors, setErrors] = useState({})
 
     const formData = {
         firstName, 
@@ -44,7 +45,7 @@ const RMTAuth = () => {
         if (isRegister) {
             dispatch(RMTRegister(formData, history))
         } else {
-            dispatch(RMTLogin(formData, history))
+            dispatch(RMTLogin(formData, history, setErrors))
         }
         clear()
     }
@@ -98,8 +99,10 @@ const RMTAuth = () => {
                                 <h3>RMT Login</h3>
                                 <label>Email</label>
                                 <input name="email" type="text" label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+                                {errors.email && <h4 className={styles.hue}>Login failed</h4>}
                                 <label>Password</label>
                                 <input name="password" type="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+                                {errors.password && <h4 className={styles.hue}>Password is incorrect</h4>}
                                 <button type="submit" className={styles.btn} onClick={showLoadingSpinner}>Login</button>
                             </div>
                         )

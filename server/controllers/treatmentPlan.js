@@ -42,11 +42,6 @@ export const getTreatmentPlanById = async (req, res) => {
     }
 }
 
-// export const addTreatment = async (req, res) => {
-
-//     const newTreatment = new Treatment({...data, clientId: req.params.userid})
-// }
-
 export const getTreatmentById = async (req, res) => {
     const {tid} = req.params
     try {
@@ -62,8 +57,6 @@ export const updateTreatmentPlan = async (req, res) => {
     const { tpid } = req.params
     const { conclusionOfTreatmentPlan } = req.body
     
-    console.log(tpid)
-
     //set end date
     let endDate = ''
     if (conclusionOfTreatmentPlan !== '') {
@@ -271,7 +264,7 @@ export const updateTreatment = async (req, res) => {
 
 export const clientConfirmedTreatment = async (req, res) => {
 
-    const { name, apptDate, apptTime, reasonForMassage, glutesConsent, chestConsent, abdomenConsent, innerThighsConsent, areasToAvoid, covidvaccinated, covidnoosymptoms, covidnotisolating, notes } = req.body
+    const { name, apptDate, apptTime, reasonForMassage, glutesConsent, chestConsent, abdomenConsent, innerThighsConsent, areasToAvoid, notes } = req.body
 
     let glutes = ''
     let chest = ''
@@ -319,12 +312,6 @@ export const clientConfirmedTreatment = async (req, res) => {
           </ul>
           <p>Areas to avoid: ${areasToAvoid}</p>
           <p>Notes provided: ${notes}</p>
-          <p>Covid Screening</p>
-          <ul>
-            <li>Vaccinated: ${covidvaccinated}</li>
-            <li>No symptoms: ${covidnoosymptoms}</li>
-            <li>Not isolating: ${covidnotisolating}</li>
-          </ul>
         `,
       }
 

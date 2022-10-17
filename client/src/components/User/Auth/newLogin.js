@@ -26,7 +26,6 @@ const NewLogin = () => {
         setErrors({
             email: 'wrong email'
         })
-        console.log(values)
     }
 
     return (

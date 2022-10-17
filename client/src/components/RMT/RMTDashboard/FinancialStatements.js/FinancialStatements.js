@@ -15,6 +15,7 @@ const FinancialStatement = ({year, setYear}) => {
     const monthlyIncome = (m) => {
         const incomeArray = incomeData?.map((i)=>{
             if(new Date(i.date).getMonth() === m) {
+                console.log(i)
                 return i.amount
             } else {
                 return null
@@ -24,9 +25,9 @@ const FinancialStatement = ({year, setYear}) => {
     }
 
     const monthlyExpenses = (m) => {
-        const expenseArray = expensesData?.map((i)=>{
-            if(new Date(i.date).getMonth() === m) {
-                return i.amount
+        const expenseArray = expensesData?.map((e)=>{
+            if(new Date(e.date).getMonth() === m) {
+                return e.amount
             } else {
                 return null
             }

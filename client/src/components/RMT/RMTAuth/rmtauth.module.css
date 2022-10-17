@@ -74,3 +74,9 @@
 .btn2:hover {
     background-color: #8fbc8fd0;
 }
+
+.hue {
+    background-color: rgb(223, 52, 47);
+    padding: 0.8rem;
+    border-radius: 0.3em
+}

@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { GET_INCOME_BY_YEAR_AND_MONTH, GET_INCOMES, GET_EXPENSES, ADD_TRANSACTION, GET_FINANCIAL_DATA, ADD_NEW_FINANCIAL_STATEMENT, GET_FINANCIAL_STATEMENTS, ADD_INCOME, ADD_EXPENSE, HIDE_LOADING_SCREEN } from '../constants/actionTypes'
+import { GET_INCOME_BY_YEAR_AND_MONTH, GET_INCOMES, GET_EXPENSES, ADD_TRANSACTION, GET_FINANCIAL_DATA, ADD_NEW_FINANCIAL_STATEMENT, GET_FINANCIAL_STATEMENTS, ADD_INCOME, ADD_EXPENSE, HIDE_LOADING_SCREEN, GET_EXPENSES_BY_YEAR_AND_MONTH } from '../constants/actionTypes'
 
 export const addTransaction = (RMTid, financialData) => async (dispatch) => {
     try {
@@ -106,6 +106,18 @@ export const getIncomeByMonthAndYear = (body) => async (dispatch) => {
     try {
         const {data} = await api.getIncomeByMonthAndYear(year, month)
         dispatch({type: GET_INCOME_BY_YEAR_AND_MONTH, payload: data})
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const getExpensesByMonthAndYear = (body) => async (dispatch) => {
+
+    const {year, month} = body
+
+    try {
+        const {data} = await api.getExpensesByMonthAndYear(year, month)
+        dispatch({type: GET_EXPENSES_BY_YEAR_AND_MONTH, payload: data})
     } catch (error) {
         console.log(error.message)
     }

@@ -44,17 +44,17 @@ export const RMTLogin = async (req, res) => {
         try {
             const existingUser = await RMT.findOne({email}) 
             if (!existingUser) {
-                return res.status(404).json({message: `user doesn't exist`})
+                return res.json({message: `user doesn't exist`})
             }
 
             const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
             if (!isPasswordCorrect) {
-                return res.status(400).json({message: `invalid password`})
+                return res.json({message: `invalid password`})
             }
 
             const token = jwt.sign({email: existingUser.email, id: existingUser._id, userType: existingUser.userType}, jwtSecret, {expiresIn: '1h'})
 
-            res.status(200).json({ result: existingUser, token })
+            res.status(200).json({ result: existingUser, token, message: 'login successful' })
 
         } catch (error) {
             res.status(500).json({ message: `login failed` })

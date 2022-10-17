@@ -62,11 +62,19 @@ export const RMTRegister = (formData, history) => async (dispatch) => {
     }
 } 
 
-export const RMTLogin = (formData, history) => async (dispatch) => {
+export const RMTLogin = (formData, history, setErrors) => async (dispatch) => {
     try {
-        const {data} = await api.RMTLogin(formData)
-        dispatch({ type: RMT_AUTH, data})
-        history.push('/rmt/dashboard')
+        const { data } = await api.RMTLogin(formData)
+        if (data.message === 'invalid password') {
+            setErrors({password: 'password is incorrect'})
+            dispatch({type: HIDE_LOADER})
+        } else if (data.message === `user doesn't exist`) {
+            setErrors({email: 'login failed'})
+            dispatch({type: HIDE_LOADER})
+        } else if (data.message === 'login successful') {
+            dispatch({ type: RMT_AUTH, data})
+            history.push('/rmt/dashboard')
+        }
     } catch (error) {
         console.log(error)
     }

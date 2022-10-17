@@ -44,6 +44,7 @@ export const addExpense = (rmtid, financialData) => API.post(`/financials/${rmti
 export const getIncomes = (year) => API.post(`/financials/getincomes`, year)
 export const getExpenses = (year) => API.post(`/financials/getexpenses`, year)
 export const getIncomeByMonthAndYear = (year, month) => API.get(`financials/getincomebyyearandmonth/${year}/${month}`)
+export const getExpensesByMonthAndYear = (year, month) => API.get(`financials/getexpensesbyyearandmonth/${year}/${month}`)
 
 //electronic audit log
 export const addToEAL = (data) => API.post(`/electronicauditlog`, data)

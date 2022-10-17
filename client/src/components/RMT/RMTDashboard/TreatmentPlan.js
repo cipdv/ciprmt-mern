@@ -22,7 +22,7 @@ const TreatmentPlans = ({user}) => {
     }, [])
 
     return (
-        <div style={{maxWidth: '350px'}}>
+        <div >
             <TreatmentPlanDetails />
             <TreatmentPlanList setTreatmentId={setTreatmentId} />
             <Treatment treatmentId={treatmentId} user={user}/>

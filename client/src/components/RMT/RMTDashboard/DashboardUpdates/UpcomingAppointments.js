@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const UpcomingAppointments = ({treatments, users}) => {
 
     const today = new Date()
+
+    const history = useHistory()
 
     // const fullName = (t) => {
     //     const userList = users?.find(
@@ -10,6 +13,10 @@ const UpcomingAppointments = ({treatments, users}) => {
     //     );
     //     return `${userList?.firstName} ${userList?.lastName}`;
     // }
+
+    const goToAppointment = (clientId, tpId) => {
+        history.push(`/rmt/dashboard/patient/${clientId}/treatments/${tpId}`)
+    }
 
     return (
         <div>
@@ -27,7 +34,7 @@ const UpcomingAppointments = ({treatments, users}) => {
                 <tbody>
                     {treatments?.map((t)=>(
                         new Date(t?.date) >= today ? (                  
-                            <tr key={t?._id}>
+                            <tr key={t?._id} onClick={()=>goToAppointment(t?.clientId, t?.treatmentPlanId)}>
                                 <td>{t?.date}</td>
                                 <td>{t?.time}</td>
                                 <td>{t?.firstName} {t?.lastName}</td>

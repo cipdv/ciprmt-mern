@@ -1,7 +1,7 @@
 import express from 'express'
 
 //controllers
-import { getIncomeByMonthAndYear, addTransaction, createNewFinancialStatement, getFinancialData, addFinancials, getFinancialStatementsByRMTId, addIncome, addExpense, getAllIncomes, getAllExpenses } from '../controllers/financials.js'
+import { getIncomeByMonthAndYear, addTransaction, createNewFinancialStatement, getFinancialData, addFinancials, getFinancialStatementsByRMTId, addIncome, addExpense, getAllIncomes, getAllExpenses, getExpensesByMonthAndYear } from '../controllers/financials.js'
 
 //middleware
 import auth from '../middleware/auth.js'
@@ -18,8 +18,9 @@ router.post('/addnewfinancialstatement/:rmtid', createNewFinancialStatement)
 router.post('/getfinancialdata', auth, getFinancialData)
 router.post('/addfinancials', auth, addFinancials)
 router.get('/getfinancialstatementsbyrmtid/:rmtid', getFinancialStatementsByRMTId)
-//get income by year and month
+//get income and expenses by year and month
 router.get('/getincomebyyearandmonth/:year/:month', getIncomeByMonthAndYear)
+router.get('/getexpensesbyyearandmonth/:year/:month', getExpensesByMonthAndYear)
 
 //new financial routes
 router.post('/:rmtid/addincome', auth, addIncome)

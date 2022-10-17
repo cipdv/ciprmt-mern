@@ -23,7 +23,8 @@ export const createNewFinancialStatement = async (req, res) => {
 }
 
 export const addFinancials = async (req, res) => {
-    const { type, date } = req.body
+    const { type, date, category, amount } = req.body
+
     try {
         if (type === 'rrsp') {
             const newRRSPContribution = new RRSPContribution({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
@@ -48,13 +49,23 @@ export const addFinancials = async (req, res) => {
                 res.status(404).json({message: error.message})
             }
         } else if (type === 'expense') {
-            const newExpense = new Expense({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
-            try {
-                const result = await newExpense.save()
-                res.status(200).json({result, type: 'expense'})
-            } catch (error) {
-                res.status(404).json({message: error.message})
-            }
+            if(category === 'rent') {
+                const newExpense = new Expense({...req.body, amount: amount * 0.48, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+                try {
+                    const result = await newExpense.save()
+                    res.status(200).json({result, type: 'expense'})
+                } catch (error) {
+                    res.status(404).json({message: error.message})
+                }
+            } else {
+                const newExpense = new Expense({...req.body, RMTid: req.params.rmtid, year: new Date(date).getFullYear()})
+                try {
+                    const result = await newExpense.save()
+                    res.status(200).json({result, type: 'expense'})
+                } catch (error) {
+                    res.status(404).json({message: error.message})
+                }
+            }   
         }
     } catch (error) {
         res.json({message: 'error', error})
@@ -62,6 +73,8 @@ export const addFinancials = async (req, res) => {
 }
 
 export const addTransaction = async (req, res) => {
+
+    console.log(req.body)
 
     const income = req.body.income[0]
     const expenses = req.body.expenses[0]
@@ -151,18 +164,41 @@ export const addIncome = async (req, res) => {
 
 export const addExpense = async (req, res) => {
     const expense = req.body
-    const alreadyAddded = await Expense.find({treatmentId: expense?.treatmentId})
-    if(alreadyAddded?.length === 0) {
-        const newExpense = new Expense({...expense, RMTid: req.params.rmtid, year: new Date(expense?.date).getFullYear()})
-        try {
-            await newExpense.save()
-            res.status(200).json(newExpense)
-        } catch (error) {
-            res.status(404).json({message: error.message})
-        }
-    } else {
-        res.status(200).json(expense)
-    }
+
+    console.log(expense)
+
+    // if (expense?.category === 'rent' || expense?.category === 'hydro') {
+    //     const newExpense = new Expense({...expense, amount, RMTid: req.params.rmtid, year: new Date(expense?.date).getFullYear()})
+    //     try {
+    //         await newExpense.save()
+    //         res.status(200).json(newExpense)
+    //     } catch (error) {
+    //         res.status(404).json({message: error.message})
+    //     }
+    // }
+
+    // const alreadyAddded = await Expense.find({treatmentId: expense?.treatmentId})
+    // if(alreadyAddded?.length === 0) {
+    //     if (expense?.category === 'rent' || expense?.category === 'hydro') {
+    //         const newExpense = new Expense({...expense, amount, RMTid: req.params.rmtid, year: new Date(expense?.date).getFullYear()})
+    //         try {
+    //             await newExpense.save()
+    //             res.status(200).json(newExpense)
+    //         } catch (error) {
+    //             res.status(404).json({message: error.message})
+    //         }
+    //     } else {
+    //         const newExpense = new Expense({...expense, RMTid: req.params.rmtid, year: new Date(expense?.date).getFullYear()})
+    //         try {
+    //             await newExpense.save()
+    //             res.status(200).json(newExpense)
+    //         } catch (error) {
+    //             res.status(404).json({message: error.message})
+    //         }
+    //     }
+    // } else {
+    //     res.status(200).json(expense)
+    // }
 }
 
 export const getAllIncomes = async (req, res) => {
@@ -185,26 +221,26 @@ export const getAllExpenses = async (req, res) => {
     }
 }
 
-//     id: String,
-//     RMTid: String,
-//     date: {type: Date, default: new Date()},
-//     year: String,
-//     //revenue, governemnt credit, other
-//     amount: Number,
-//     details: String,
-
-//get income by month and year?
 export const getIncomeByMonthAndYear = async (req, res) => {
     const {year, month} = req.params
-
     try {
         const result = await Income.aggregate([
             {$addFields: {  "month" : {$month: '$date'}}},
             {$match: {"$and": [{month: parseInt(month, 10)}, {year: year}]}},
           ]);
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(404).json(error.message)
+    }
+}
 
-          console.log(result)
-
+export const getExpensesByMonthAndYear = async (req, res) => {
+    const {year, month} = req.params
+    try {
+        const result = await Expense.aggregate([
+            {$addFields: {  "month" : {$month: '$date'}}},
+            {$match: {"$and": [{month: parseInt(month, 10)}, {year: year}]}},
+          ]);
         res.status(200).json(result)
     } catch (error) {
         res.status(404).json(error.message)
