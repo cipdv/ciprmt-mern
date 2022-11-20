@@ -16,6 +16,7 @@ const useForm = (validate) => {
         firstName: '', 
         lastName: '', 
         email: '', 
+        phoneNumber: '',
         password: '', 
         confirmPassword: '',
         // emailReceiptOptIn: false

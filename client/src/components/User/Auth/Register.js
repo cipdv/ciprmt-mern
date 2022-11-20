@@ -49,7 +49,9 @@ const Register = () => {
                     {errors?.email && <p className={styles.error}>{errors?.email}</p>}
                     {/* <input type="checkbox" name="emailReceiptOptIn" value={values.emailReceiptOptIn} onChange={handleChange} />
                     <label>Check here to receive your RMT receipts via email</label> */}
-                
+                    <label>Phone Number</label>
+                    <input className={styles.forminput} name="phoneNumber" label="phoneNumber" type="phone" value={values.phoneNumber} onChange={handleChange} />
+                    {errors?.phoneNumber && <p className={styles.error}>{errors?.phoneNumber}</p>}
                     <label>Password</label>
                     <input className={styles.forminput} name="password" label="Password" type="password" value={values.password} onChange={handleChange} />
                     {errors?.password && <p className={styles.error}>{errors?.password}</p>}
