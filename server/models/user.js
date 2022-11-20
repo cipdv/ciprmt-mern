@@ -74,7 +74,7 @@ const userSchema = mongoose.Schema({
     firstName: {type: String, required: [true, 'no first name']},
     lastName: {type: String, required: [true, 'no last name']},
     email: {type: String, required: [true, 'no email']},
-    phoneNumber: {type: String, required: [true, 'no phone']},
+    phoneNumber: {type: String},
     emailReceiptOptIn: {type: Boolean},
     password: {type: String, required: [true, 'no password']},
     userType: {type: String},

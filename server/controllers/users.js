@@ -13,7 +13,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 //REGISTER a user
 export const register = async (req, res) => {
-    const { firstName, lastName, email, phoneNumber, password, confirmPassword, userType } = req.body
+    const { firstName, lastName, email, phoneNumber, password, confirmPassword } = req.body
     const jwtSecret = process.env.jwtSecret
     try {
         //check if user exists
