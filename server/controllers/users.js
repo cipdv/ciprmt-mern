@@ -13,6 +13,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 //REGISTER a user
 export const register = async (req, res) => {
+    console.log(req.body)
     const { firstName, lastName, email, phoneNumber, password, confirmPassword } = req.body
     const jwtSecret = process.env.jwtSecret
     try {
@@ -29,6 +30,8 @@ export const register = async (req, res) => {
         const hashPassword = await bcrypt.hash(password, 12)
         //create user model
         const result = await User.create({firstName, lastName, email, phoneNumber, password: hashPassword, userType: 'patient'})
+
+        console.log(result)
         //assign token
         const token = jwt.sign({email: result.email, id: result._id, userType: result.userType}, jwtSecret, {expiresIn: '1h'})
         //return user with token
