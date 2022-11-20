@@ -13,7 +13,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 //REGISTER a user
 export const register = async (req, res) => {
-    const { firstName, lastName, email, password, confirmPassword, userType } = req.body
+    const { firstName, lastName, email, phoneNumber, password, confirmPassword, userType } = req.body
     const jwtSecret = process.env.jwtSecret
     try {
         //check if user exists
@@ -28,7 +28,7 @@ export const register = async (req, res) => {
         //if passwords match, hash data
         const hashPassword = await bcrypt.hash(password, 12)
         //create user model
-        const result = await User.create({firstName, lastName, email, password: hashPassword, userType: 'patient'})
+        const result = await User.create({firstName, lastName, email, phoneNumber, password: hashPassword, userType: 'patient'})
         //assign token
         const token = jwt.sign({email: result.email, id: result._id, userType: result.userType}, jwtSecret, {expiresIn: '1h'})
         //return user with token
@@ -42,6 +42,7 @@ export const register = async (req, res) => {
             html: `
               <p>${firstName} ${lastName} has registered as a new user.</p>
               <p>Email: ${email}</p>
+              <p>Phone: ${phoneNumber}</p>
               <a href="https://www.ciprmt.com/rmt/auth">Login to see their profile</a>
             `,
           }
@@ -109,6 +110,8 @@ export const sendPasswordResetLink = async (req, res) => {
 
     const user = await User.find({email: email})
 
+    console.log(email)
+
     try {
         if (user?.length === 0) {
             return res.status(404).json({message: `user doesn't exist`})
@@ -136,6 +139,7 @@ export const sendPasswordResetLink = async (req, res) => {
             }) 
 
             return res.status(200).json({message: 'email sent'})
+            
         }
     } catch (error) {
         console.error(error.message)

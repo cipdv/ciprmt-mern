@@ -111,7 +111,7 @@ export const addTreatment = async (req, res) => {
         }
 
         //insert event into google calendar
-        const apptDate = new Date(`${date}T${time}:00-04:00`).toISOString(true)
+        const apptDate = new Date(`${date}T${time}:00-05:00`).toISOString(true)
 
         const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
         const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY
@@ -205,8 +205,6 @@ export const addTreatment = async (req, res) => {
         const newTreatment = new Treatment({...req.body, googleCalendarId: eventId})
         const result = await newTreatment.save()
     
-        console.log('result', result)
-
         return res.status(200).json({result, message: 'treatment added successfully'})
         
     } catch (error) {
