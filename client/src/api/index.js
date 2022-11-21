@@ -1,8 +1,8 @@
 import axios from 'axios'
 //PRODUCTION
-// const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
+const API = axios.create({ baseURL: 'https://cip-mern.herokuapp.com/'})
 //DEVELOPMENT
-const API = axios.create({ baseURL: 'http://localhost:5000/'})
+// const API = axios.create({ baseURL: 'http://localhost:5000/'})
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
